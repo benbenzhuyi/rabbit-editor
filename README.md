@@ -1,6 +1,6 @@
 # 小野兔 Rabbit
 
-轻量化 AI 辅助 Markdown 编辑器，专为写作者设计。
+轻量化 AI 辅助 Markdown 编辑器，专为AI写作者设计。
 
 ![小野兔 Rabbit 截图](rabbit-edit.png)
 
