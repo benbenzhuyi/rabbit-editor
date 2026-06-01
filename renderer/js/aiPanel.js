@@ -8,53 +8,25 @@ import * as App from './app.js';
 
 let messages = [];
 let currentResponse = '';
-let pendingRefs = [];
-let selectedRefIndex = -1;
+let editingMsgId = null;   // id of message being edited
 
 // ── Init ─────────────────────────────────────────────────
 
 export function init() {
-  const panel = document.getElementById('ai-panel');
-  if (!panel) return;
-
   const input = document.getElementById('ai-input');
   const sendBtn = document.getElementById('ai-send-btn');
-  const stopBtn = document.getElementById('ai-stop-btn');
-  const modeSelect = document.getElementById('ai-mode');
-  const tokensInput = document.getElementById('ai-tokens');
   const newChatBtn = document.getElementById('ai-new-chat');
 
-  // Send message
   sendBtn.addEventListener('click', () => sendMessage());
-  stopBtn.addEventListener('click', () => stopStreaming());
+  newChatBtn.addEventListener('click', () => startNewChat());
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
-    // @ autocomplete
-    if (e.key === '@') {
-      setTimeout(() => showAtMenu(input), 50);
-    }
-    if (e.key === 'Escape') {
-      hideAtMenu();
-      hideCtrlKPopup();
-    }
+    if (e.key === 'Escape') { input.blur(); }
   });
-
-  input.addEventListener('input', () => {
-    // Detect @ for autocomplete
-    const cursorPos = input.selectionStart;
-    const textBefore = input.value.substring(0, cursorPos);
-    if (textBefore.endsWith('@')) {
-      showAtMenu(input);
-    }
-  });
-
-  // New chat button
-  newChatBtn.addEventListener('click', () => startNewChat());
-
 }
 
 // ── Load / Save conversation ────────────────────────────
@@ -62,22 +34,18 @@ export function init() {
 export async function loadConversation() {
   const filePath = App.getCurrentFilePath();
   const result = await window.electronAPI.loadConversation(filePath);
-  if (result.success && result.data) {
-    messages = result.data.messages || [];
-  } else {
-    messages = [];
-  }
+  messages = result.success && result.data ? (result.data.messages || []) : [];
+  editingMsgId = null;
   renderMessages();
 }
 
 async function saveConversation() {
-  const filePath = App.getCurrentFilePath();
-  await window.electronAPI.saveConversation(filePath, messages);
+  await window.electronAPI.saveConversation(App.getCurrentFilePath(), messages);
 }
 
 function startNewChat() {
   messages = [];
-  currentResponse = '';
+  editingMsgId = null;
   saveConversation();
   renderMessages();
 }
@@ -87,40 +55,40 @@ function startNewChat() {
 async function sendMessage() {
   const input = document.getElementById('ai-input');
   const text = input.value.trim();
+  if (!text || AiClient.getIsStreaming()) return;
 
-  if (!text) return;
+  input.value = '';
 
-  if (AiClient.getIsStreaming()) {
-    appendErrorMessage('请等待当前 AI 响应完成后再发送');
-    return;
+  // If editing or refreshing: re-submit from this point
+  if (editingMsgId) {
+    const idx = messages.findIndex(m => m.id === editingMsgId);
+    if (idx >= 0) {
+      messages = messages.slice(0, idx + 1);
+      messages[idx].content = text;
+      messages[idx].editing = false;
+    }
+    editingMsgId = null;
+  } else {
+    const userMsg = {
+      id: Date.now().toString(),
+      timestamp: new Date().toISOString(),
+      role: 'user',
+      content: text,
+    };
+    messages.push(userMsg);
   }
 
-  // Build user message
-  const userMsg = {
-    id: Date.now().toString(),
-    timestamp: new Date().toISOString(),
-    role: 'user',
-    content: text,
-  };
-
-  messages.push(userMsg);
-  input.value = '';
   renderMessages();
   scrollToBottom();
   await saveConversation();
 
-  // Build API messages
-  const mode = document.getElementById('ai-mode').value;
-  const maxTokens = parseInt(document.getElementById('ai-tokens').value) || 2048;
-  const apiMessages = AiClient.buildMessages(mode, text, null, null, maxTokens);
+  // Build API messages — use content as-is (no special mode/wordCount injection)
+  const apiMessages = [
+    { role: 'system', content: '你是一位全能的AI写作助手。请根据用户的具体要求来完成任务。直接输出所需内容，不需要解释或说明。' },
+    ...messages.map(m => ({ role: m.role, content: m.content })),
+  ];
 
-  // Add conversation context
-  const contextMessages = messages.slice(-10).map(m => ({
-    role: m.role,
-    content: m.content,
-  }));
-
-  // Show loading indicator
+  // Show loading
   const assistantMsg = {
     id: (Date.now() + 1).toString(),
     timestamp: new Date().toISOString(),
@@ -131,18 +99,12 @@ async function sendMessage() {
   messages.push(assistantMsg);
   renderMessages();
   scrollToBottom();
-  setStreamingState(true);
 
   try {
-    const content = await AiClient.sendMessage([
-      apiMessages[0],
-      ...contextMessages.slice(0, -1),
-      apiMessages[1],
-    ], { maxTokens });
-
+    const content = await AiClient.sendMessage(apiMessages);
     assistantMsg.content = content;
     assistantMsg.streaming = false;
-    saveConversation();
+    await saveConversation();
     renderMessages();
     scrollToBottom();
   } catch (err) {
@@ -150,88 +112,6 @@ async function sendMessage() {
     renderMessages();
     appendErrorMessage(err.message || 'AI 请求失败');
   }
-
-  currentResponse = '';
-  setStreamingState(false);
-}
-
-function stopStreaming() {
-  window.electronAPI.removeAiListeners();
-  if (currentResponse) {
-    finalizeAssistantMessage(currentResponse);
-  } else {
-    // Remove empty assistant placeholder
-    messages = messages.filter(m => !m.streaming);
-  }
-  currentResponse = '';
-  setStreamingState(false);
-}
-
-// ── Message rendering ──────────────────────────────────
-
-function renderMessages() {
-  const container = document.getElementById('ai-messages');
-  if (!container) return;
-
-  container.innerHTML = messages.map((m, i) => {
-    const roleLabel = m.role === 'user' ? '你' : 'AI';
-    const refsHtml = m.references && m.references.length > 0
-      ? `<div class="msg-refs">📎 ${m.references.map(r => r.lines ? r.name + ' ' + r.lines : r.name).join(', ')}</div>`
-      : '';
-    const contentHtml = escapeHtml(m.content);
-    const actionsHtml = m.role === 'assistant' && !m.streaming
-      ? `<div class="msg-actions">
-          <button class="msg-action-btn" data-action="copy" data-idx="${i}">复制</button>
-          <button class="msg-action-btn" data-action="replace" data-idx="${i}">替换选中</button>
-          <button class="msg-action-btn" data-action="insert" data-idx="${i}">插入后方</button>
-          <button class="msg-action-btn delete" data-action="delete" data-idx="${i}">删除</button>
-        </div>`
-      : '';
-    const streamingClass = m.streaming ? 'ai-streaming' : '';
-
-    return `<div class="ai-message ${m.role} ${streamingClass}" data-idx="${i}">
-      <div class="msg-header"><span class="msg-role">${roleLabel}</span><span>${formatTime(m.timestamp)}</span></div>
-      ${refsHtml}
-      <div class="msg-content">${contentHtml}</div>
-      ${actionsHtml}
-    </div>`;
-  }).join('');
-
-  // Wire up action buttons
-  container.querySelectorAll('.msg-action-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = parseInt(btn.dataset.idx, 10);
-      const action = btn.dataset.action;
-      handleMessageAction(action, idx);
-    });
-  });
-
-}
-
-function updateLastAssistantMessage(content, streaming) {
-  const container = document.getElementById('ai-messages');
-  if (!container) return;
-  const msgs = container.querySelectorAll('.ai-message.assistant');
-  const last = msgs[msgs.length - 1];
-  if (last) {
-    const contentEl = last.querySelector('.msg-content');
-    if (contentEl) {
-      contentEl.textContent = content;
-      if (streaming) last.classList.add('ai-streaming');
-      else last.classList.remove('ai-streaming');
-    }
-  }
-}
-
-function finalizeAssistantMessage(content) {
-  const lastMsg = messages.filter(m => m.role === 'assistant').pop();
-  if (lastMsg) {
-    lastMsg.content = content;
-    lastMsg.streaming = false;
-  }
-  saveConversation();
-  renderMessages();
-  scrollToBottom();
 }
 
 function appendErrorMessage(error) {
@@ -239,38 +119,174 @@ function appendErrorMessage(error) {
     id: Date.now().toString(),
     timestamp: new Date().toISOString(),
     role: 'assistant',
-    content: `[错误] ${error}`,
+    content: '[错误] ' + error,
   });
   saveConversation();
   renderMessages();
   scrollToBottom();
 }
 
+// ── Render messages ─────────────────────────────────────
+
+function renderMessages() {
+  const container = document.getElementById('ai-messages');
+  if (!container) return;
+
+  container.innerHTML = messages.map((m, i) => {
+    const roleLabel = m.role === 'user' ? '你' : 'AI';
+    const editingClass = m.editing ? ' editing' : '';
+    const streamingClass = m.streaming ? ' ai-streaming' : '';
+
+    let contentHtml;
+    if (m.editing) {
+      contentHtml = `<textarea class="ai-edit-input" data-id="${m.id}" rows="3">${escapeHtml(m.content)}</textarea>`;
+    } else {
+      contentHtml = escapeHtml(m.content);
+    }
+
+    let actionsHtml = '';
+    if (m.role === 'user' && !m.streaming) {
+      actionsHtml = `
+        <div class="msg-actions">
+          <button class="msg-icon-btn" data-action="copy" data-idx="${i}" title="复制">📋</button>
+          <button class="msg-icon-btn" data-action="edit" data-idx="${i}" title="编辑">✏️</button>
+          <button class="msg-icon-btn delete" data-action="delete" data-idx="${i}" title="删除">🗑️</button>
+          <button class="msg-icon-btn" id="msg-refresh-${i}" data-action="refresh" data-idx="${i}" title="重新提交">🔄</button>
+        </div>`;
+    } else if (m.role === 'assistant' && !m.streaming) {
+      actionsHtml = `
+        <div class="msg-actions">
+          <button class="msg-icon-btn" data-action="copy" data-idx="${i}" title="复制">📋</button>
+          <button class="msg-icon-btn" data-action="replace" data-idx="${i}" title="替换选中">📥</button>
+          <button class="msg-icon-btn" data-action="insert" data-idx="${i}" title="插入后方">📌</button>
+          <button class="msg-icon-btn delete" data-action="delete" data-idx="${i}" title="删除">🗑️</button>
+        </div>`;
+    }
+
+    return `<div class="ai-message ${m.role} ${streamingClass} ${editingClass}" data-idx="${i}">
+      <div class="msg-header"><span class="msg-role">${roleLabel}</span><span>${formatTime(m.timestamp)}</span></div>
+      <div class="msg-content">${contentHtml}</div>
+      ${actionsHtml}
+    </div>`;
+  }).join('');
+
+  // Wire up action buttons
+  container.querySelectorAll('.msg-icon-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.idx, 10);
+      const action = btn.dataset.action;
+      handleMessageAction(action, idx);
+    });
+  });
+
+  // Wire up edit textareas
+  container.querySelectorAll('.ai-edit-input').forEach(textarea => {
+    textarea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const id = textarea.dataset.id;
+        const msg = messages.find(m => m.id === id);
+        if (msg) {
+          // Set the main input with edited content so sendMessage() picks it up
+          document.getElementById('ai-input').value = textarea.value.trim();
+          msg.content = textarea.value.trim();
+          msg.editing = false;
+          editingMsgId = id;
+          renderMessages();
+          sendMessage();
+        }
+      }
+      if (e.key === 'Escape') {
+        const id = textarea.dataset.id;
+        const msg = messages.find(m => m.id === id);
+        if (msg) {
+          msg.editing = false;
+          editingMsgId = null;
+          renderMessages();
+        }
+      }
+    });
+    textarea.focus();
+  });
+}
+
 // ── Message actions ────────────────────────────────────
 
 function handleMessageAction(action, idx) {
   const msg = messages[idx];
-  if (!msg || msg.role !== 'assistant') return;
+  if (!msg) return;
 
   switch (action) {
     case 'copy':
       navigator.clipboard.writeText(msg.content);
       break;
-    case 'replace':
-      Editor.replaceSelection(msg.content);
-      break;
-    case 'insert':
-      Editor.insertAfterSelection(msg.content);
+    case 'edit':
+      // Enter edit mode
+      msg.editing = true;
+      editingMsgId = msg.id;
+      renderMessages();
       break;
     case 'delete':
       messages.splice(idx, 1);
+      if (editingMsgId === msg.id) editingMsgId = null;
       saveConversation();
       renderMessages();
+      break;
+    case 'refresh':
+      // Re-submit from this user message, discard all later messages
+      if (msg.role !== 'user') break;
+      messages = messages.slice(0, idx + 1);
+      editingMsgId = msg.id;
+      msg.editing = false;
+      // Put message content in input so sendMessage() picks it up
+      document.getElementById('ai-input').value = msg.content;
+      saveConversation();
+      renderMessages();
+      sendMessage();
+      break;
+    case 'replace':
+      if (msg.role !== 'assistant') break;
+      Editor.replaceSelection(msg.content);
+      break;
+    case 'insert':
+      if (msg.role !== 'assistant') break;
+      Editor.insertAfterSelection(msg.content);
       break;
   }
 }
 
-// Wrap global action handlers for keyboard shortcuts
+// ── Ctrl+L: Quote to AI ────────────────────────────────
+
+export function quoteToAI() {
+  const sel = Editor.getSelection();
+  const filePath = App.getCurrentFilePath();
+  const fileName = filePath ? filePath.split(/[/\\]/).pop() : '未命名.md';
+  const input = document.getElementById('ai-input');
+  if (!input) return;
+
+  const sidebar = document.getElementById('right-sidebar');
+  if (sidebar?.classList.contains('hidden')) sidebar.classList.remove('hidden');
+
+  if (sel && sel.text && sel.text.length > 0) {
+    const lines = `${sel.fromLine}-${sel.toLine}`;
+    const quote = `@${fileName} ${lines} `;
+    input.value = input.value ? input.value + '\n' + quote : quote;
+  } else {
+    const lineNum = Editor.getCursorPosition().line;
+    const quote = `@${fileName} ${lineNum}-${lineNum} `;
+    input.value = input.value ? input.value + '\n' + quote : quote;
+    Editor.selectLine(lineNum);
+  }
+
+  input.style.transition = 'background-color 0.15s';
+  input.style.backgroundColor = 'rgba(86,156,214,0.2)';
+  setTimeout(() => { input.style.backgroundColor = ''; }, 400);
+  input.focus();
+  input.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── Global action handlers ──────────────────────────────
+
 export function copyLastResponse() {
   const last = [...messages].reverse().find(m => m.role === 'assistant');
   if (last) navigator.clipboard.writeText(last.content);
@@ -286,212 +302,13 @@ export function insertLastResponse() {
   if (last) Editor.insertAfterSelection(last.content);
 }
 
-// ── Ctrl+L: Quote to AI ────────────────────────────────
-
-export function quoteToAI() {
-  const sel = Editor.getSelection();
-  const filePath = App.getCurrentFilePath();
-  const fileName = filePath ? filePath.split(/[/\\]/).pop() : '未命名.md';
-  const input = document.getElementById('ai-input');
-
-  console.log('[quoteToAI] called', { hasSel: !!sel, hasText: sel?.text?.length > 0, fileName, inputExists: !!input });
-
-  if (!input) {
-    alert('quoteToAI: 找不到 AI 输入框元素');
-    return;
-  }
-
-  // Ensure right sidebar is visible
-  const sidebar = document.getElementById('right-sidebar');
-  if (sidebar && sidebar.classList.contains('hidden')) {
-    sidebar.classList.remove('hidden');
-  }
-
-  if (sel && sel.text && sel.text.length > 0) {
-    const lines = `${sel.fromLine}-${sel.toLine}`;
-    const quote = `@${fileName} ${lines} `;
-    input.value = input.value ? input.value + '\n' + quote : quote;
-  } else {
-    const lineNum = Editor.getCursorPosition().line;
-    const quote = `@${fileName} ${lineNum}-${lineNum} `;
-    input.value = input.value ? input.value + '\n' + quote : quote;
-    Editor.selectLine(lineNum);
-  }
-
-  // Visual feedback: briefly flash the input background
-  input.style.transition = 'background-color 0.15s';
-  input.style.backgroundColor = 'rgba(86,156,214,0.2)';
-  setTimeout(() => { input.style.backgroundColor = ''; }, 400);
-
-  input.focus();
-  input.scrollIntoView({ behavior: 'smooth' });
-}
-
-// ── @ File Reference Menu ──────────────────────────────
-
-let atMenuEl = null;
-
-function getAtMenuEl() {
-  if (!atMenuEl) {
-    atMenuEl = document.createElement('div');
-    atMenuEl.className = 'at-menu';
-    atMenuEl.id = 'at-menu';
-    document.body.appendChild(atMenuEl);
-  }
-  return atMenuEl;
-}
-
-async function showAtMenu(input) {
-  const menu = getAtMenuEl();
-  const coords = getCaretCoordinates(input);
-  const inputRect = input.getBoundingClientRect();
-
-  menu.style.left = (inputRect.left + coords.left) + 'px';
-  menu.style.top = (inputRect.bottom - 200) + 'px';
-  menu.style.minWidth = Math.max(220, inputRect.width) + 'px';
-
-  // Get files from current directory
-  const dirPath = getCurrentDir();
-  let entries = [];
-  if (dirPath) {
-    const result = await window.electronAPI.listFiles(dirPath);
-    if (result.success) {
-      entries = result.entries.filter(e => e.type === 'file').slice(0, 20);
-    }
-  }
-
-  menu.innerHTML = entries.map((e, i) =>
-    `<div class="at-menu-item" data-idx="${i}" data-path="${escapeAttr(e.path)}" data-name="${escapeAttr(e.name)}">
-      <span class="at-file-icon">📄</span>
-      <span class="at-file-name">${escapeHtml(e.name)}</span>
-    </div>`
-  ).join('') +
-  `<div class="at-menu-footer" id="at-browse-folder">📁 浏览其他文件夹...</div>`;
-
-  menu.classList.add('visible');
-  selectedRefIndex = -1;
-
-  // Wire up clicks
-  menu.querySelectorAll('.at-menu-item').forEach(item => {
-    item.addEventListener('click', () => {
-      insertAtRef(item.dataset.path, item.dataset.name);
-    });
-  });
-
-  document.getElementById('at-browse-folder').addEventListener('click', async () => {
-    const result = await window.electronAPI.openFolderDialog();
-    if (result.success) {
-      const listResult = await window.electronAPI.listFiles(result.folderPath);
-      if (listResult.success) {
-        menu.querySelectorAll('.at-menu-item').forEach(el => el.remove());
-        listResult.entries.filter(e => e.type === 'file').slice(0, 20).forEach((e, i) => {
-          const item = document.createElement('div');
-          item.className = 'at-menu-item';
-          item.innerHTML = `<span class="at-file-icon">📄</span><span class="at-file-name">${escapeHtml(e.name)}</span>`;
-          item.addEventListener('click', () => insertAtRef(e.path, e.name));
-          menu.insertBefore(item, document.getElementById('at-browse-folder'));
-        });
-      }
-    }
-  });
-
-  // Keyboard navigation
-  input.addEventListener('keydown', handleAtKeyNav, { once: false });
-}
-
-function handleAtKeyNav(e) {
-  const menu = getAtMenuEl();
-  if (!menu.classList.contains('visible')) return;
-  const items = menu.querySelectorAll('.at-menu-item');
-
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    selectedRefIndex = Math.min(selectedRefIndex + 1, items.length - 1);
-    items.forEach((el, i) => el.classList.toggle('selected', i === selectedRefIndex));
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    selectedRefIndex = Math.max(selectedRefIndex - 1, 0);
-    items.forEach((el, i) => el.classList.toggle('selected', i === selectedRefIndex));
-  } else if (e.key === 'Enter' && selectedRefIndex >= 0) {
-    e.preventDefault();
-    const item = items[selectedRefIndex];
-    if (item) insertAtRef(item.dataset.path, item.dataset.name);
-  } else if (e.key === 'Escape') {
-    hideAtMenu();
-  }
-}
-
-function insertAtRef(path, name) {
-  const input = document.getElementById('ai-input');
-  if (!input) return;
-  const cursorPos = input.selectionStart;
-  const textBefore = input.value.substring(0, cursorPos);
-  const textAfter = input.value.substring(cursorPos);
-  const atPos = textBefore.lastIndexOf('@');
-  input.value = textBefore.substring(0, atPos) + '@' + name + ' ' + textAfter;
-  hideAtMenu();
-  input.focus();
-}
-
-function hideAtMenu() {
-  const menu = getAtMenuEl();
-  menu.classList.remove('visible');
-  selectedRefIndex = -1;
-}
-
-// ── Streaming state ────────────────────────────────────
-
-function setStreamingState(streaming) {
-  const sendBtn = document.getElementById('ai-send-btn');
-  const stopBtn = document.getElementById('ai-stop-btn');
-  if (sendBtn) sendBtn.classList.toggle('hidden', streaming);
-  if (stopBtn) stopBtn.classList.toggle('visible', streaming);
-}
-
 // ── Helpers ────────────────────────────────────────────
-
-function parseAtReferences(text) {
-  const refs = [];
-  const atRegex = /@([^\s]+?)(?:\s+(\d+)(?:-(\d+))?)?/g;
-  let match;
-  while ((match = atRegex.exec(text)) !== null) {
-    const name = match[1];
-    const startLine = match[2] ? parseInt(match[2], 10) : null;
-    const endLine = match[3] ? parseInt(match[3], 10) : startLine;
-    const dirPath = getCurrentDir();
-    const fullPath = dirPath ? dirPath.replace(/[/\\]+$/, '') + '/' + name : name;
-    refs.push({
-      name,
-      path: fullPath,
-      lines: startLine ? `${startLine}-${endLine}` : null,
-    });
-  }
-  return refs;
-}
-
-function getCurrentDir() {
-  const fp = App.getCurrentFilePath();
-  if (fp) return fp.replace(/[/\\][^/\\]+$/, '');
-  return null;
-}
-
-function getCaretCoordinates(input) {
-  // Simple estimation based on character position
-  const textBefore = input.value.substring(0, input.selectionStart);
-  const lines = textBefore.split('\n');
-  const lastLine = lines[lines.length - 1];
-  return {
-    left: lastLine.length * 8 + 8,
-    top: (lines.length - 1) * 20 + 8,
-  };
-}
 
 function formatTime(iso) {
   if (!iso) return '';
   const d = new Date(iso);
   return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
-
 function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
 function escapeHtml(str) {
@@ -500,15 +317,7 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-function escapeAttr(str) {
-  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
 function scrollToBottom() {
   const container = document.getElementById('ai-messages');
-  if (container) {
-    setTimeout(() => { container.scrollTop = container.scrollHeight; }, 50);
-  }
+  if (container) setTimeout(() => { container.scrollTop = container.scrollHeight; }, 50);
 }
-
-export { hideAtMenu as hideAtMenu };

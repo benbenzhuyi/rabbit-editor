@@ -138,17 +138,8 @@
         </div>
         <!-- Input area -->
         <div class="ai-input-area">
-          <textarea id="ai-input" class="ai-input" placeholder="输入消息... (@引用文件, Enter发送, Shift+Enter换行)" rows="3"></textarea>
+          <textarea id="ai-input" class="ai-input" placeholder="输入消息 — 可直接描述写作要求 (Enter发送, Shift+Enter换行)" rows="3"></textarea>
           <div class="ai-controls">
-            <select id="ai-mode">
-              <option value="续写">续写</option>
-              <option value="润色">润色</option>
-              <option value="定制">定制</option>
-              <option value="英译中">英译中</option>
-              <option value="中译英">中译英</option>
-            </select>
-            <input id="ai-tokens" class="ai-tokens-input" type="number" value="2048" min="256" max="32768" step="256" title="最大输出 Tokens">
-            <button id="ai-stop-btn" class="ai-stop-btn">停止</button>
             <button id="ai-send-btn" class="ai-send-btn">发送</button>
           </div>
         </div>

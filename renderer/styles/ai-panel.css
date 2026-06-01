@@ -117,36 +117,54 @@
   margin-bottom: 4px;
 }
 
-/* ── Message Action Buttons ──────────────────────── */
+/* ── Message Action Buttons (icon style) ─────────── */
 
 .msg-actions {
   display: flex;
-  gap: 6px;
+  gap: 2px;
   margin-top: 8px;
   padding-top: 6px;
   border-top: 1px solid var(--border-color);
 }
 
-.msg-action-btn {
+.msg-icon-btn {
   background: none;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
+  border: 1px solid transparent;
+  color: var(--text-muted);
   cursor: pointer;
-  font-size: 11px;
-  padding: 3px 8px;
-  border-radius: 3px;
-  transition: background-color 0.1s, color 0.1s;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background-color 0.1s, color 0.1s, border-color 0.1s;
+  line-height: 1;
 }
 
-.msg-action-btn:hover {
+.msg-icon-btn:hover {
   background-color: var(--bg-hover);
   color: var(--text-primary);
+  border-color: var(--border-color);
 }
 
-.msg-action-btn.delete:hover {
+.msg-icon-btn.delete:hover {
   background-color: rgba(244, 71, 71, 0.2);
   border-color: var(--accent-red);
   color: var(--accent-red);
+}
+
+/* ── Inline edit textarea ────────────────────────── */
+
+.ai-edit-input {
+  width: 100%;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 6px 8px;
+  resize: vertical;
+  outline: none;
 }
 
 /* ── Input Area ───────────────────────────────────── */
@@ -185,27 +203,6 @@
   flex-wrap: wrap;
 }
 
-.ai-controls select,
-.ai-controls input {
-  background-color: var(--bg-tertiary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 3px 6px;
-  font-size: 12px;
-  outline: none;
-}
-
-.ai-controls select:focus,
-.ai-controls input:focus {
-  border-color: var(--accent);
-}
-
-.ai-tokens-input {
-  width: 60px;
-  text-align: center;
-}
-
 .ai-send-btn {
   margin-left: auto;
   background-color: var(--accent);
@@ -225,25 +222,6 @@
 .ai-send-btn:disabled {
   opacity: 0.4;
   cursor: default;
-}
-
-.ai-stop-btn {
-  background-color: var(--accent-red);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 10px;
-  font-size: 12px;
-  cursor: pointer;
-  display: none;
-}
-
-.ai-stop-btn.visible {
-  display: inline-block;
-}
-
-.ai-send-btn.hidden {
-  display: none;
 }
 
 /* ── Streaming indicator ──────────────────────────── */
