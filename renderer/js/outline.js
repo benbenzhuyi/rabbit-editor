@@ -103,18 +103,12 @@ function renderHeadingNode(parent, node, depth) {
     arrow.className = 'tree-arrow-spacer';
   }
 
-  // Icon based on heading level
-  const icon = document.createElement('span');
-  icon.className = 'tree-icon';
-  icon.textContent = 'H' + node.level;
-
-  // Name
+  // Name (no icon — use color to distinguish levels)
   const name = document.createElement('span');
   name.className = 'tree-name';
   name.textContent = node.text;
 
   row.appendChild(arrow);
-  row.appendChild(icon);
   row.appendChild(name);
   container.appendChild(row);
 

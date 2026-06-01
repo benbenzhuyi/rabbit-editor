@@ -267,18 +267,20 @@
   margin-right: 8px;
 }
 
-/* ── Heading Level Colors ────────────────────────── */
-
-.tree-node.heading-level-1 > .tree-icon { color: #569cd6; font-weight: 700; }
-.tree-node.heading-level-2 > .tree-icon { color: #4fc1ff; font-weight: 600; }
-.tree-node.heading-level-3 > .tree-icon { color: #4ec9b0; font-weight: 600; }
-.tree-node.heading-level-4 > .tree-icon { color: #dcdcaa; font-weight: 500; }
-.tree-node.heading-level-5 > .tree-icon { color: #ce9178; font-weight: 500; }
-.tree-node.heading-level-6 > .tree-icon { color: var(--text-muted); font-weight: 500; }
+/* ── Outline Heading Level Colors ────────────────── */
 
 .tree-node.heading {
   font-size: 13px;
 }
 
-.tree-node.heading-level-1 > .tree-name { font-weight: 600; }
-.tree-node.heading-level-2 > .tree-name { font-weight: 500; }
+/* Color per heading level */
+.tree-node.heading-level-1 > .tree-name { color: #569cd6; font-weight: 700; }
+.tree-node.heading-level-2 > .tree-name { color: #4fc1ff; font-weight: 600; }
+.tree-node.heading-level-3 > .tree-name { color: #4ec9b0; font-weight: 600; }
+.tree-node.heading-level-4 > .tree-name { color: #dcdcaa; font-weight: 500; }
+.tree-node.heading-level-5 > .tree-name { color: #ce9178; font-weight: 500; }
+.tree-node.heading-level-6 > .tree-name { color: var(--text-muted); font-weight: 500; }
+
+/* Keep color visible when selected */
+#outline-tree .tree-node.heading.selected > .tree-name { color: #fff; }
+#outline-tree .tree-node.heading.active > .tree-name { color: #fff; }
