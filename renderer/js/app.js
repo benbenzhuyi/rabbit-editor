@@ -141,7 +141,9 @@ export async function closeFile() {
 }
 
 export async function openFileByPath(filePath) {
-  if (!filePath.endsWith('.md')) return;
+  const ext = filePath.split('.').pop().toLowerCase();
+  const textExts = ['md', 'txt', 'html', 'htm', 'json', 'js', 'css', 'xml', 'yaml', 'yml', 'csv', 'log', 'rst', 'tex', 'py', 'java', 'c', 'cpp', 'h', 'sh'];
+  if (!textExts.includes(ext)) return;
   if (isModified) {
     const choice = await window.electronAPI.confirmClose();
     if (choice === 0) await saveFile();

@@ -160,8 +160,11 @@ ipcMain.handle('file:rename-entry', async (_event, oldPath, newName) => {
 
 ipcMain.handle('dialog:open', async () => {
   const result = await dialog.showOpenDialog(mainWindow, {
-    title: '打开 Markdown 文件',
-    filters: [{ name: 'Markdown 文件', extensions: ['md'] }],
+    title: '打开文件',
+    filters: [
+      { name: '支持的文件', extensions: ['md', 'txt', 'html', 'htm', 'json', 'js', 'css', 'xml', 'yaml', 'yml', 'csv', 'log', 'rst', 'tex'] },
+      { name: '所有文件', extensions: ['*'] },
+    ],
     properties: ['openFile'],
   });
   if (result.canceled || result.filePaths.length === 0) {

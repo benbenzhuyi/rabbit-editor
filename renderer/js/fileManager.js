@@ -29,8 +29,11 @@ export function initDragDrop(element) {
     if (files.length === 0) return;
 
     const file = files[0];
-    if (!file.name.endsWith('.md')) {
-      alert('仅支持 .md (Markdown) 文件');
+    const ext = file.name.split('.').pop().toLowerCase();
+    const textExts = ['md', 'txt', 'html', 'htm', 'json', 'js', 'css', 'xml', 'yaml', 'yml', 'csv', 'log', 'rst', 'tex', 'py', 'java', 'c', 'cpp', 'h', 'sh'];
+    const isBinary = ['exe', 'dll', 'zip', 'rar', '7z', 'png', 'jpg', 'jpeg', 'gif', 'mp3', 'mp4', 'pdf', 'ico', 'bin'].includes(ext);
+    if (isBinary) {
+      alert('不支持二进制文件');
       return;
     }
 

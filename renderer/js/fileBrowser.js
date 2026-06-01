@@ -96,6 +96,16 @@ export async function refresh(dirPath) {
   }
 }
 
+function fileIcon(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  const map = {
+    md: '📝', txt: '📄', html: '🌐', htm: '🌐', json: '📋',
+    js: '📜', css: '🎨', xml: '📰', yaml: '📋', yml: '📋',
+    csv: '📊', log: '📄', py: '🐍', sh: '💻',
+  };
+  return map[ext] || '📄';
+}
+
 function shortenPath(dirPath) {
   const parts = dirPath.replace(/\\/g, '/').split('/').filter(Boolean);
   if (parts.length <= 3) return dirPath;
@@ -178,7 +188,7 @@ function renderFileNode(parent, entry, depth) {
 
   const icon = document.createElement('span');
   icon.className = 'tree-icon';
-  icon.textContent = entry.name.endsWith('.md') ? '📝' : '📄';
+  icon.textContent = fileIcon(entry.name);
 
   const name = document.createElement('span');
   name.className = 'tree-name';
