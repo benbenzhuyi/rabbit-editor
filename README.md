@@ -15,8 +15,8 @@
 ### 开发运行
 
 ```bash
-git clone https://github.com/你的用户名/small-rabbit-editor.git
-cd small-rabbit-editor
+git clone https://github.com/benbenzhuyi/rabbit-editor.git
+cd rabbit-editor
 npm install
 npm start
 ```
