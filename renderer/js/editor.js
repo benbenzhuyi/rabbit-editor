@@ -96,12 +96,13 @@ const rabbitDarkTheme = EditorView.theme(
       backgroundColor: 'rgba(255, 255, 255, 0.1)',
       outline: '1px solid #888',
     },
-    // Markdown heading styles
+    // Markdown heading styles (matching outline colors)
     '.cm-header-1': { fontSize: '1.5em', fontWeight: '700', color: '#569cd6' },
-    '.cm-header-2': { fontSize: '1.3em', fontWeight: '700', color: '#569cd6' },
-    '.cm-header-3': { fontSize: '1.15em', fontWeight: '600', color: '#569cd6' },
-    '.cm-header-4': { fontSize: '1.05em', fontWeight: '600', color: '#569cd6' },
-    '.cm-header-5, .cm-header-6': { fontWeight: '600', color: '#569cd6' },
+    '.cm-header-2': { fontSize: '1.3em', fontWeight: '700', color: '#4fc1ff' },
+    '.cm-header-3': { fontSize: '1.15em', fontWeight: '600', color: '#4ec9b0' },
+    '.cm-header-4': { fontSize: '1.05em', fontWeight: '600', color: '#dcdcaa' },
+    '.cm-header-5': { fontWeight: '600', color: '#ce9178' },
+    '.cm-header-6': { fontWeight: '600', color: '#999' },
     '.cm-strong': { fontWeight: '800', color: '#dcdcaa' },
     '.cm-emphasis': { fontStyle: 'italic', color: '#ce9178' },
     '.cm-strikethrough': { textDecoration: 'line-through', color: '#888' },

@@ -42,36 +42,13 @@
 
 /* ── Markdown Syntax Highlighting Enhancements ───────── */
 
-/* Headings: larger and bolder in source mode */
-#editor-container .cm-editor .cm-header-1 {
-  font-size: 1.5em;
-  font-weight: 700;
-  color: #569cd6;
-}
-
-#editor-container .cm-editor .cm-header-2 {
-  font-size: 1.3em;
-  font-weight: 700;
-  color: #569cd6;
-}
-
-#editor-container .cm-editor .cm-header-3 {
-  font-size: 1.15em;
-  font-weight: 600;
-  color: #569cd6;
-}
-
-#editor-container .cm-editor .cm-header-4 {
-  font-size: 1.05em;
-  font-weight: 600;
-  color: #569cd6;
-}
-
+/* Headings in source mode — fallback (primary colors set in editor.js theme) */
+#editor-container .cm-editor .cm-header-1 { font-size: 1.5em; font-weight: 700; }
+#editor-container .cm-editor .cm-header-2 { font-size: 1.3em; font-weight: 700; }
+#editor-container .cm-editor .cm-header-3 { font-size: 1.15em; font-weight: 600; }
+#editor-container .cm-editor .cm-header-4 { font-size: 1.05em; font-weight: 600; }
 #editor-container .cm-editor .cm-header-5,
-#editor-container .cm-editor .cm-header-6 {
-  font-weight: 600;
-  color: #569cd6;
-}
+#editor-container .cm-editor .cm-header-6 { font-weight: 600; }
 
 /* Bold: render bold in source (markers visible) */
 #editor-container .cm-editor .cm-strong {
@@ -152,7 +129,6 @@
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
-  color: #569cd6;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
   font-weight: 600;
@@ -161,12 +137,12 @@
   padding-bottom: 0.3em;
 }
 
-.markdown-body h1 { font-size: 2em; }
-.markdown-body h2 { font-size: 1.6em; }
-.markdown-body h3 { font-size: 1.3em; }
-.markdown-body h4 { font-size: 1.1em; }
-.markdown-body h5 { font-size: 1em; }
-.markdown-body h6 { font-size: 0.9em; color: var(--text-secondary); }
+.markdown-body h1 { font-size: 2em; color: #569cd6; }
+.markdown-body h2 { font-size: 1.6em; color: #4fc1ff; }
+.markdown-body h3 { font-size: 1.3em; color: #4ec9b0; }
+.markdown-body h4 { font-size: 1.1em; color: #dcdcaa; }
+.markdown-body h5 { font-size: 1em; color: #ce9178; }
+.markdown-body h6 { font-size: 0.9em; color: var(--text-muted); }
 
 .markdown-body p {
   margin-bottom: 1em;
