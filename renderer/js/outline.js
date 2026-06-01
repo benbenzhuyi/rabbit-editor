@@ -5,13 +5,14 @@
 import * as Editor from './editor.js';
 
 let currentActiveLine = -1;
+let selectedLine = -1;       // clicked by user in outline
+let selectedTimeout = null;  // auto-clear after a few seconds
+const SELECTED_DURATION = 5000; // 5s
 
 // ── Init ─────────────────────────────────────────────────
 
 export function init() {
-  // Listen for editor content changes to rebuild outline
   Editor.onUpdate(() => rebuildOutline());
-  // Listen for cursor changes to highlight current heading
   Editor.onCursorActivity(() => updateActiveHeading());
 }
 
@@ -149,18 +150,43 @@ function expandAllDescendants(childrenEl) {
 // ── Jump to line ────────────────────────────────────────
 
 function jumpToLine(lineNumber) {
+  selectedLine = lineNumber;
+
+  // Clear clicking highlight after a delay
+  if (selectedTimeout) clearTimeout(selectedTimeout);
+  selectedTimeout = setTimeout(() => { selectedLine = -1; updateOutlineHighlights(); }, SELECTED_DURATION);
+
+  updateOutlineHighlights();
+
   if (Editor.isPreviewMode()) {
-    Editor.togglePreview();
-  }
-  // Use CodeMirror's dispatch to set cursor
-  const content = Editor.getView();
-  if (content) {
-    const line = content.state.doc.line(lineNumber);
-    content.dispatch({
-      selection: { anchor: line.from },
-      scrollIntoView: true,
-    });
-    content.focus();
+    // Scroll preview to the heading
+    const previewContent = document.getElementById('preview-content');
+    if (previewContent) {
+      // Headings in preview are rendered as <h1>..<h6>, find by text match
+      const headings = previewContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      for (const h of headings) {
+        // Match by line — nth heading in preview corresponds to nth heading in source
+        // Simple approach: use line number to index
+        const allPreHeadings = [...previewContent.querySelectorAll('h1, h2, h3, h4, h5, h6')];
+        const parsed = parseHeadings();
+        const idx = parsed.findIndex(h => h.line === lineNumber);
+        if (idx >= 0 && idx < allPreHeadings.length) {
+          allPreHeadings[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+          break;
+        }
+      }
+    }
+  } else {
+    // Source mode: scroll editor to line without stealing focus
+    const view = Editor.getView();
+    if (view) {
+      const line = view.state.doc.line(lineNumber);
+      view.dispatch({
+        selection: { anchor: line.from },
+        scrollIntoView: true,
+      });
+      // DO NOT call view.focus() — keep focus in outline
+    }
   }
 }
 
@@ -170,24 +196,33 @@ function updateActiveHeading() {
   const pos = Editor.getCursorPosition();
   const headings = parseHeadings();
 
-  // Find the heading whose line is closest to cursor (before or at cursor)
   let activeHeading = null;
   for (const h of headings) {
-    if (h.line <= pos.line) {
-      activeHeading = h;
-    } else {
-      break;
+    if (h.line <= pos.line) { activeHeading = h; } else break;
+  }
+  currentActiveLine = activeHeading ? activeHeading.line : -1;
+  updateOutlineHighlights();
+}
+
+function updateOutlineHighlights() {
+  // Remove all highlights
+  document.querySelectorAll('#outline-tree .tree-node.active').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('#outline-tree .tree-node.selected').forEach(n => n.classList.remove('selected'));
+
+  // Show cursor-tracked heading (active)
+  if (currentActiveLine > 0) {
+    const activeRow = document.querySelector(`#outline-tree .tree-node[data-line="${currentActiveLine}"]`);
+    if (activeRow && currentActiveLine !== selectedLine) {
+      activeRow.classList.add('active');
     }
   }
 
-  // Remove previous highlights
-  document.querySelectorAll('#outline-tree .tree-node.active').forEach(n => n.classList.remove('active'));
-
-  if (activeHeading) {
-    const row = document.querySelector(`#outline-tree .tree-node[data-line="${activeHeading.line}"]`);
-    if (row) {
-      row.classList.add('active');
-      row.scrollIntoView({ block: 'nearest' });
+  // Show clicked heading (selected) — takes priority
+  if (selectedLine > 0) {
+    const selectedRow = document.querySelector(`#outline-tree .tree-node[data-line="${selectedLine}"]`);
+    if (selectedRow) {
+      selectedRow.classList.add('selected');
+      selectedRow.scrollIntoView({ block: 'nearest' });
     }
   }
 }
