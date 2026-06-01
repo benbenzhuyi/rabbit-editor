@@ -140,7 +140,7 @@ export async function closeFile() {
   setIsModified(false);
 }
 
-export async function openFileByPath(filePath) {
+export async function openFileByPath(filePath, openInPreview) {
   const ext = filePath.split('.').pop().toLowerCase();
   const textExts = ['md', 'txt', 'html', 'htm', 'json', 'js', 'css', 'xml', 'yaml', 'yml', 'csv', 'log', 'rst', 'tex', 'py', 'java', 'c', 'cpp', 'h', 'sh'];
   if (!textExts.includes(ext)) return;
@@ -157,7 +157,13 @@ export async function openFileByPath(filePath) {
   Editor.setContent(result.content);
   setCurrentFilePath(filePath);
   setIsModified(false);
-  Editor.focus();
+
+  // If opening from file browser for .md, switch to preview mode
+  if (openInPreview && !Editor.isPreviewMode()) {
+    Editor.togglePreview();
+  }
+  // Don't steal focus when opened from file browser click
+
   await window.electronAPI.addRecentFile(filePath);
   MenuBar.updateRecentFiles(await window.electronAPI.getRecentFiles());
   // Update file browser to show this file's directory

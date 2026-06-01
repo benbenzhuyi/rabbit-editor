@@ -169,6 +169,11 @@ function renderDirectoryNode(parent, entry, depth, collapsed) {
     await toggleNode(arrow, icon, children, entry.path, depth);
   });
 
+  // Double-click to rename
+  node.addEventListener('dblclick', (e) => {
+    startRename(entry.path, 'directory');
+  });
+
   // Right-click context menu
   node.addEventListener('contextmenu', (e) => {
     e.preventDefault();
@@ -202,10 +207,16 @@ function renderFileNode(parent, entry, depth) {
   node.appendChild(name);
   parent.appendChild(node);
 
-  // Click to open file
-  node.addEventListener('click', async () => {
-    await App.openFileByPath(entry.path);
+  // Click to open file (highlight + load, no focus steal)
+  node.addEventListener('click', async (e) => {
     highlightFile(entry.path);
+    await App.openFileByPath(entry.path, entry.name.endsWith('.md'));
+    // Don't steal focus — keep it in the file browser
+  });
+
+  // Double-click to rename
+  node.addEventListener('dblclick', (e) => {
+    startRename(entry.path, 'file');
   });
 
   // Right-click context menu
