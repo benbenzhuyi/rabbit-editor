@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+  <title>小野兔 Rabbit - 未命名.md</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/editor.css">
+  <link rel="stylesheet" href="styles/sidebar.css">
+  <link rel="stylesheet" href="styles/ai-panel.css">
+  <link rel="stylesheet" href="styles/search.css">
+</head>
+<body>
+  <!-- Menu Bar -->
+  <nav id="menubar">
+    <div class="menu-item" data-menu="file">
+      <span class="menu-label">文件(<u>F</u>)</span>
+      <div class="menu-dropdown" id="menu-file">
+        <div class="menu-dropdown-item" data-action="new">新建 <span class="shortcut">Ctrl+N</span></div>
+        <div class="menu-dropdown-item" data-action="open">打开 <span class="shortcut">Ctrl+O</span></div>
+        <div class="menu-dropdown-item" data-action="save">保存 <span class="shortcut">Ctrl+S</span></div>
+        <div class="menu-dropdown-item" data-action="saveAs">另存为 <span class="shortcut">Ctrl+Shift+S</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item" data-action="openFolder">打开文件夹</div>
+        <div class="menu-dropdown-item menu-has-sub" data-action="recent">
+          最近文件 <span class="arrow">▶</span>
+          <div class="menu-subdropdown" id="menu-recent-files">
+            <div class="menu-dropdown-item disabled">（无最近文件）</div>
+          </div>
+        </div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item" data-action="closeFile">关闭文件 <span class="shortcut">Ctrl+W</span></div>
+        <div class="menu-dropdown-item" data-action="exit">退出</div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="edit">
+      <span class="menu-label">编辑(<u>E</u>)</span>
+      <div class="menu-dropdown" id="menu-edit">
+        <div class="menu-dropdown-item" data-action="undo">撤销 <span class="shortcut">Ctrl+Z</span></div>
+        <div class="menu-dropdown-item" data-action="redo">重做 <span class="shortcut">Ctrl+Y</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item" data-action="cut">剪切 <span class="shortcut">Ctrl+X</span></div>
+        <div class="menu-dropdown-item" data-action="copy">复制 <span class="shortcut">Ctrl+C</span></div>
+        <div class="menu-dropdown-item" data-action="paste">粘贴 <span class="shortcut">Ctrl+V</span></div>
+        <div class="menu-dropdown-item" data-action="selectAll">全选 <span class="shortcut">Ctrl+A</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item" data-action="copyLine">复制行 <span class="shortcut">Ctrl+D</span></div>
+        <div class="menu-dropdown-item" data-action="deleteLine">删除行 <span class="shortcut">Ctrl+Shift+K</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="view">
+      <span class="menu-label">视图(<u>V</u>)</span>
+      <div class="menu-dropdown" id="menu-view">
+        <div class="menu-dropdown-item" data-action="togglePreview">预览切换 <span class="shortcut">Ctrl+Shift+P</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item" data-action="zoomIn">放大 <span class="shortcut">Ctrl+=</span></div>
+        <div class="menu-dropdown-item" data-action="zoomOut">缩小 <span class="shortcut">Ctrl+-</span></div>
+        <div class="menu-dropdown-item" data-action="zoomReset">重置缩放 <span class="shortcut">Ctrl+0</span></div>
+      </div>
+    </div>
+    <!-- Search Bar -->
+    <!-- Search Bar (draggable floating) -->
+    <div id="search-bar" class="search-bar hidden">
+      <div class="search-drag-handle" title="拖拽移动"></div>
+      <div class="search-row">
+        <button id="search-toggle-replace" class="search-toggle-btn" title="展开替换">›</button>
+        <input id="search-input" class="search-input" type="text" placeholder="查找">
+        <span id="search-count" class="search-count"></span>
+        <button id="search-prev" class="search-nav-btn" title="上一个 (Shift+Enter)">↑</button>
+        <button id="search-next" class="search-nav-btn" title="下一个 (Enter)">↓</button>
+        <button id="search-close" class="search-close-btn" title="关闭 (Esc)">×</button>
+      </div>
+      <div id="replace-row" class="replace-row hidden">
+        <input id="replace-input" class="replace-input" type="text" placeholder="替换为">
+        <button id="replace-one" class="search-action-btn" title="替换当前">↩</button>
+        <button id="replace-all" class="search-action-btn" title="全部替换">↯</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Layout -->
+  <div id="main-layout">
+    <!-- Left Sidebar -->
+    <aside id="left-sidebar" class="sidebar">
+      <!-- File Browser -->
+      <div id="file-browser-panel" class="sidebar-panel">
+        <div class="sidebar-header" id="file-browser-header">
+          <span class="sidebar-title">文件浏览器</span>
+          <div class="sidebar-header-actions">
+            <button class="sidebar-btn" id="btn-collapse-all" title="全部折叠">&#171;</button>
+            <button class="sidebar-btn" id="btn-refresh-tree" title="刷新">&#8635;</button>
+          </div>
+        </div>
+        <div id="file-tree" class="tree-view"></div>
+      </div>
+      <!-- Panel Divider -->
+      <div class="panel-divider" id="panel-divider"></div>
+      <!-- Outline Navigator -->
+      <div id="outline-panel" class="sidebar-panel">
+        <div class="sidebar-header">
+          <span class="sidebar-title">大纲导航</span>
+        </div>
+        <div id="outline-tree" class="tree-view">
+          <div class="tree-empty-hint">暂无标题</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Left Resize Handle -->
+    <div class="resize-handle resize-handle-left" id="resize-handle-left"></div>
+
+    <!-- Editor Area -->
+    <main id="editor-area">
+      <div id="editor-container"></div>
+      <div id="preview-container" class="hidden">
+        <div id="preview-content" class="markdown-body"></div>
+      </div>
+    </main>
+
+    <!-- Right Resize Handle -->
+    <div class="resize-handle resize-handle-right" id="resize-handle-right"></div>
+
+    <!-- Right Sidebar — AI Panel -->
+    <aside id="right-sidebar" class="sidebar">
+      <div id="ai-panel">
+        <!-- History bar -->
+        <div class="ai-history-bar">
+          <button class="ai-history-btn" id="ai-new-chat" title="新建对话">+</button>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:4px;">对话</span>
+        </div>
+        <!-- Messages -->
+        <div id="ai-messages" class="ai-messages">
+          <div style="text-align:center;color:var(--text-muted);padding:20px;font-size:12px;">
+            输入消息开始与 AI 对话<br><br>
+            <small>输入 @ 引用文件 | Ctrl+L 引用编辑器内容</small>
+          </div>
+        </div>
+        <!-- Input area -->
+        <div class="ai-input-area">
+          <textarea id="ai-input" class="ai-input" placeholder="输入消息... (@引用文件, Enter发送, Shift+Enter换行)" rows="3"></textarea>
+          <div class="ai-controls">
+            <select id="ai-mode">
+              <option value="续写">续写</option>
+              <option value="润色">润色</option>
+              <option value="定制">定制</option>
+              <option value="英译中">英译中</option>
+              <option value="中译英">中译英</option>
+            </select>
+            <input id="ai-tokens" class="ai-tokens-input" type="number" value="2048" min="256" max="32768" step="256" title="最大输出 Tokens">
+            <button id="ai-stop-btn" class="ai-stop-btn">停止</button>
+            <button id="ai-send-btn" class="ai-send-btn">发送</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Status Bar -->
+  <footer id="statusbar">
+    <span id="status-cursor">行: 1 | 列: 1</span>
+    <span class="status-sep">|</span>
+    <span id="status-words">字数: 0</span>
+    <span id="status-sel-words" class="status-sel-hidden">| 选中: 0</span>
+    <span class="status-sep">|</span>
+    <span id="status-save" class="saved">已保存</span>
+    <span class="status-sep">|</span>
+    <span id="status-ai-loading" class="ai-loading-hidden">AI 正在生成<span class="ai-dots"></span></span>
+    <span id="status-model">当前模型: —</span>
+    <span class="status-sep">|</span>
+    <span id="status-wrap" class="wrap-on" title="自动换行">换行</span>
+    <span class="status-sep">|</span>
+    <span id="status-settings" title="设置">&#9881; 设置</span>
+    <span class="status-sep">|</span>
+    <span id="status-mode" class="source-mode" title="切换源码/预览">源码</span>
+  </footer>
+
+  <!-- Ctrl+K Popup -->
+  <div id="ctrlk-popup">
+    <div class="ctrlk-row">
+      <select id="ctrlk-mode">
+        <option value="润色">润色</option>
+        <option value="续写">续写</option>
+        <option value="定制">定制</option>
+        <option value="英译中">英译中</option>
+        <option value="中译英">中译英</option>
+      </select>
+      <span style="font-size:12px;color:var(--text-secondary);">字数:</span>
+      <input id="ctrlk-words" class="ctrlk-words" type="number" value="800" min="50" max="5000">
+    </div>
+    <div class="ctrlk-row">
+      <textarea id="ctrlk-instruction" class="ctrlk-instruction" rows="4" placeholder="额外指令（可选）"></textarea>
+    </div>
+    <div class="ctrlk-buttons">
+      <button class="ctrlk-btn secondary" id="ctrlk-cancel">取消</button>
+      <button class="ctrlk-btn primary" id="ctrlk-confirm">确定</button>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-overlay" class="settings-overlay hidden">
+    <div id="settings-modal" class="settings-modal">
+      <div class="settings-header">
+        <span class="settings-title">设置</span>
+        <button id="settings-close" class="settings-close-btn">×</button>
+      </div>
+      <div class="settings-tabs">
+        <button class="settings-tab active" data-tab="general">通用</button>
+        <button class="settings-tab" data-tab="ai">AI</button>
+        <button class="settings-tab" data-tab="appearance">外观</button>
+      </div>
+      <div class="settings-body">
+        <!-- General Tab -->
+        <div id="settings-tab-general" class="settings-tab-content">
+          <div class="setting-row"><label>自动保存间隔 (秒)</label><input id="set-auto-save" type="number" min="0" max="300" step="5"> <span class="setting-hint">0=关闭</span></div>
+          <div class="setting-row"><label>字体大小 (px)</label><input id="set-font-size" type="number" min="12" max="32"></div>
+          <div class="setting-row"><label>显示行号</label><input id="set-line-numbers" type="checkbox"></div>
+          <div class="setting-row"><label>自动换行</label><input id="set-word-wrap" type="checkbox"></div>
+        </div>
+        <!-- AI Tab -->
+        <div id="settings-tab-ai" class="settings-tab-content hidden">
+          <div class="setting-row"><label>API 基础地址</label><input id="set-ai-base-url" type="text" placeholder="http://localhost:8080/v1"><span class="setting-hint">本地/在线通用</span></div>
+          <div class="setting-row"><label>API Key</label><input id="set-ai-api-key" type="password" placeholder="sk-..."><span class="setting-hint">在线模型必填</span></div>
+          <div class="setting-row"><label>模型名称</label><input id="set-ai-model" type="text" placeholder="local-model"></div>
+          <div class="setting-row"><label>默认模式</label><select id="set-ai-default-mode"><option value="续写">续写</option><option value="润色">润色</option><option value="定制">定制</option><option value="英译中">英译中</option><option value="中译英">中译英</option></select></div>
+          <div class="setting-row"><label>Ctrl+K 默认字数</label><input id="set-ctrlk-words" type="number" min="50" max="5000" step="50"></div>
+          <div class="setting-row"><label>最大输出 Tokens</label><input id="set-max-tokens" type="number" min="256" max="32768" step="256"><span class="setting-hint">控制AI回复长度</span></div>
+          <div class="setting-row"><label>温度 (0-2)</label><input id="set-temperature" type="number" min="0" max="2" step="0.1"></div>
+          <div class="setting-separator"></div>
+          <div class="setting-section-title">自定义提示词</div>
+          <div class="setting-row"><label>编辑模式</label><select id="set-prompt-mode"><option value="续写">续写</option><option value="润色">润色</option><option value="定制">定制</option><option value="英译中">英译中</option><option value="中译英">中译英</option></select></div>
+          <div class="setting-row"><textarea id="set-prompt-text" class="setting-prompt-textarea" rows="5" placeholder="选择模式后编辑提示词..."></textarea></div>
+          <button id="set-prompt-reset" class="settings-footer-btn secondary" style="font-size:12px;padding:4px 12px;">恢复默认</button>
+        </div>
+        <!-- Appearance Tab -->
+        <div id="settings-tab-appearance" class="settings-tab-content hidden">
+          <div class="setting-row"><label>主题</label><select id="set-theme"><option value="dark">深色</option><option value="light">浅色</option></select></div>
+        </div>
+      </div>
+      <div class="settings-footer">
+        <button id="settings-cancel" class="settings-footer-btn secondary">取消</button>
+        <button id="settings-save" class="settings-footer-btn primary">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load bundled app JavaScript -->
+  <script src="bundle.js"></script>
+</body>
+</html>

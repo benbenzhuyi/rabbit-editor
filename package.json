@@ -1,0 +1,42 @@
+{
+  "name": "small-rabbit-editor",
+  "version": "0.1.0",
+  "description": "小野兔 Rabbit — 轻量化 AI 辅助 Markdown 编辑器",
+  "main": "main.js",
+  "scripts": {
+    "build:renderer": "esbuild renderer/js/app.js --bundle --outfile=renderer/bundle.js --platform=browser --format=iife",
+    "start": "npm run build:renderer && electron .",
+    "pack": "electron-builder --win"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^36.0.0",
+    "electron-builder": "^26.0.0",
+    "esbuild": "^0.25.0"
+  },
+  "dependencies": {
+    "codemirror": "^6.0.1",
+    "@codemirror/lang-markdown": "^6.3.2",
+    "@codemirror/language-data": "^6.5.1",
+    "marked": "^15.0.0",
+    "highlight.js": "^11.11.0"
+  },
+  "build": {
+    "appId": "com.small-rabbit.editor",
+    "productName": "小野兔 Rabbit",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "renderer/assets/icon.ico"
+    }
+  }
+}

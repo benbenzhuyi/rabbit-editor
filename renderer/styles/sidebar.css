@@ -1,0 +1,277 @@
+/* ═══════════════════════════════════════════════════════
+   小野兔 Rabbit — Sidebar Styles
+   ═══════════════════════════════════════════════════════ */
+
+#left-sidebar {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#file-browser-panel {
+  flex: 1 1 50%;
+  transition: flex 0.15s ease;
+}
+
+#outline-panel {
+  flex: 1 1 50%;
+  transition: flex 0.15s ease;
+}
+
+.panel-divider {
+  height: 4px;
+  cursor: row-resize;
+  background-color: var(--border-color);
+  flex-shrink: 0;
+  transition: background-color 0.15s;
+  z-index: 10;
+}
+
+.panel-divider:hover,
+.panel-divider.active {
+  background-color: var(--accent);
+}
+
+/* Panel state: minimized (only header visible) */
+.sidebar-panel.minimized {
+  flex: 0 0 28px !important;
+}
+
+.sidebar-panel.minimized .tree-view {
+  display: none;
+}
+
+.sidebar-panel.maximized {
+  flex: 1 1 90% !important;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  height: 28px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.sidebar-header:hover {
+  background-color: var(--bg-hover);
+}
+
+.sidebar-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.sidebar-path {
+  flex: 1;
+  font-size: 11px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 8px;
+  min-width: 0;
+}
+
+.sidebar-header-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.sidebar-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 4px;
+  border-radius: 3px;
+  line-height: 1;
+}
+
+.sidebar-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ── Tree View ──────────────────────────────────── */
+
+.tree-view {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding: 2px 0;
+  text-align: left;
+}
+
+.tree-empty-hint {
+  padding: 16px;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: left;
+}
+
+.tree-node {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding-right: 8px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+.tree-node:hover {
+  background-color: var(--bg-hover);
+}
+
+.tree-node.selected {
+  background-color: rgba(86, 156, 214, 0.2);
+}
+
+.tree-node.active {
+  background-color: rgba(86, 156, 214, 0.3);
+  color: #fff;
+}
+
+.tree-arrow {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.1s;
+}
+
+.tree-arrow.expanded {
+  transform: rotate(90deg);
+}
+
+.tree-arrow-spacer {
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.tree-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+.tree-name {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tree-node.directory > .tree-name {
+  font-weight: 500;
+}
+
+.tree-children {
+  overflow: hidden;
+}
+
+.tree-children.collapsed {
+  display: none;
+}
+
+/* ── Context Menu ───────────────────────────────── */
+
+.context-menu {
+  display: none;
+  position: fixed;
+  min-width: 180px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 4px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.context-menu.visible {
+  display: block;
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.context-menu-item:hover {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+.context-menu-item .menu-icon {
+  width: 16px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.context-menu-separator {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 4px 8px;
+}
+
+/* ── Rename Input ───────────────────────────────── */
+
+.tree-node .rename-input {
+  flex: 1;
+  height: 20px;
+  font-size: 13px;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--accent);
+  color: var(--text-primary);
+  padding: 0 4px;
+  border-radius: 2px;
+  outline: none;
+  margin-right: 8px;
+}
+
+/* ── Heading Level Colors ────────────────────────── */
+
+.tree-node.heading-level-1 > .tree-icon { color: #569cd6; font-weight: 700; }
+.tree-node.heading-level-2 > .tree-icon { color: #4fc1ff; font-weight: 600; }
+.tree-node.heading-level-3 > .tree-icon { color: #4ec9b0; font-weight: 600; }
+.tree-node.heading-level-4 > .tree-icon { color: #dcdcaa; font-weight: 500; }
+.tree-node.heading-level-5 > .tree-icon { color: #ce9178; font-weight: 500; }
+.tree-node.heading-level-6 > .tree-icon { color: var(--text-muted); font-weight: 500; }
+
+.tree-node.heading {
+  font-size: 13px;
+}
+
+.tree-node.heading-level-1 > .tree-name { font-weight: 600; }
+.tree-node.heading-level-2 > .tree-name { font-weight: 500; }
