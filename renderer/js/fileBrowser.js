@@ -6,6 +6,7 @@ import * as App from './app.js';
 import * as Editor from './editor.js';
 
 let rootDir = null;
+let selectedPath = null;  // persistent selected file
 let contextMenu = null;
 let contextTarget = null;
 let contextParentDir = null;
@@ -94,6 +95,9 @@ export async function refresh(dirPath) {
       renderFileNode(tree, entry, 0);
     }
   }
+
+  // Re-apply selected highlight after DOM rebuild
+  applySelectedHighlight();
 }
 
 function fileIcon(name) {
@@ -398,11 +402,18 @@ async function deleteEntry(targetPath) {
 // ── Highlight ───────────────────────────────────────────
 
 export function highlightFile(filePath) {
+  selectedPath = filePath;
+  applySelectedHighlight();
+}
+
+function applySelectedHighlight() {
   document.querySelectorAll('#file-tree .tree-node.selected').forEach(n => n.classList.remove('selected'));
-  const node = document.querySelector(`#file-tree .tree-node[data-path="${CSS.escape(filePath)}"]`);
-  if (node) {
-    node.classList.add('selected');
-    node.scrollIntoView({ block: 'nearest' });
+  if (selectedPath) {
+    const node = document.querySelector(`#file-tree .tree-node[data-path="${CSS.escape(selectedPath)}"]`);
+    if (node) {
+      node.classList.add('selected');
+      node.scrollIntoView({ block: 'nearest' });
+    }
   }
 }
 
