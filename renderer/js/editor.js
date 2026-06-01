@@ -102,7 +102,7 @@ const rabbitDarkTheme = EditorView.theme(
     '.cm-header-3': { fontSize: '1.15em', fontWeight: '600', color: '#4ec9b0' },
     '.cm-header-4': { fontSize: '1.05em', fontWeight: '600', color: '#dcdcaa' },
     '.cm-header-5': { fontWeight: '600', color: '#ce9178' },
-    '.cm-header-6': { fontWeight: '600', color: '#999' },
+    '.cm-header-6': { fontWeight: '600', color: '#666' },
     '.cm-strong': { fontWeight: '800', color: '#dcdcaa' },
     '.cm-emphasis': { fontStyle: 'italic', color: '#ce9178' },
     '.cm-strikethrough': { textDecoration: 'line-through', color: '#888' },

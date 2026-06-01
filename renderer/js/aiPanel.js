@@ -12,10 +12,30 @@ let editingMsgId = null;   // id of message being edited
 
 // ── Init ─────────────────────────────────────────────────
 
+// ── Model presets ──────────────────────────────────────
+
+const MODEL_PRESETS = [
+  'deepseek-chat',
+  'deepseek-reasoner',
+  'gpt-4o',
+  'gpt-4o-mini',
+  'claude-sonnet-4-20250514',
+  'local-model',
+];
+
 export function init() {
   const input = document.getElementById('ai-input');
   const sendBtn = document.getElementById('ai-send-btn');
   const newChatBtn = document.getElementById('ai-new-chat');
+  const modelSelect = document.getElementById('ai-model-select');
+
+  // Populate model selector
+  const config = AiClient.getConfig();
+  const currentModel = config.model || 'local-model';
+  const models = new Set([currentModel, ...MODEL_PRESETS]);
+  modelSelect.innerHTML = [...models].map(m =>
+    `<option value="${m}" ${m === currentModel ? 'selected' : ''}>${m}</option>`
+  ).join('');
 
   sendBtn.addEventListener('click', () => sendMessage());
   newChatBtn.addEventListener('click', () => startNewChat());
@@ -101,7 +121,8 @@ async function sendMessage() {
   scrollToBottom();
 
   try {
-    const content = await AiClient.sendMessage(apiMessages);
+    const model = document.getElementById('ai-model-select')?.value || AiClient.getConfig().model;
+    const content = await AiClient.sendMessage(apiMessages, { model });
     assistantMsg.content = content;
     assistantMsg.streaming = false;
     await saveConversation();

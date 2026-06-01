@@ -203,8 +203,23 @@
   flex-wrap: wrap;
 }
 
+.ai-model-select {
+  flex: 1;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 12px;
+  outline: none;
+  max-width: 160px;
+}
+
+.ai-model-select:focus {
+  border-color: var(--accent);
+}
+
 .ai-send-btn {
-  margin-left: auto;
   background-color: var(--accent);
   color: #fff;
   border: none;

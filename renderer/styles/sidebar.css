@@ -279,7 +279,7 @@
 .tree-node.heading-level-3 > .tree-name { color: #4ec9b0; font-weight: 600; }
 .tree-node.heading-level-4 > .tree-name { color: #dcdcaa; font-weight: 500; }
 .tree-node.heading-level-5 > .tree-name { color: #ce9178; font-weight: 500; }
-.tree-node.heading-level-6 > .tree-name { color: var(--text-muted); font-weight: 500; }
+.tree-node.heading-level-6 > .tree-name { color: #666; font-weight: 500; }
 
 /* Keep color visible when selected */
 #outline-tree .tree-node.heading.selected > .tree-name { color: #fff; }

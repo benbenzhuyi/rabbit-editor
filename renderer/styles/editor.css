@@ -142,7 +142,7 @@
 .markdown-body h3 { font-size: 1.3em; color: #4ec9b0; }
 .markdown-body h4 { font-size: 1.1em; color: #dcdcaa; }
 .markdown-body h5 { font-size: 1em; color: #ce9178; }
-.markdown-body h6 { font-size: 0.9em; color: var(--text-muted); }
+.markdown-body h6 { font-size: 0.9em; color: #666; }
 
 .markdown-body p {
   margin-bottom: 1em;
