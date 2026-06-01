@@ -12,7 +12,9 @@ const SELECTED_DURATION = 5000; // 5s
 // ── Init ─────────────────────────────────────────────────
 
 export function init() {
-  Editor.onUpdate(() => rebuildOutline());
+  // Only rebuild DOM on content changes
+  Editor.onChange(() => rebuildOutline());
+  // Update highlights on cursor moves
   Editor.onCursorActivity(() => updateActiveHeading());
 }
 
@@ -69,12 +71,18 @@ function rebuildOutline() {
 
   if (tree.length === 0) {
     container.innerHTML = '<div class="tree-empty-hint">暂无标题</div>';
+    selectedLine = -1;
+    currentActiveLine = -1;
     return;
   }
 
   for (const node of tree) {
     renderHeadingNode(container, node, 0);
   }
+
+  // Re-apply highlights after DOM rebuild (this runs after updateActiveHeading
+  // in the same CodeMirror update cycle, so we must re-apply the state)
+  updateOutlineHighlights();
 }
 
 function renderHeadingNode(parent, node, depth) {
