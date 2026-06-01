@@ -133,7 +133,7 @@ function renderMessages() {
   if (!container) return;
 
   container.innerHTML = messages.map((m, i) => {
-    const roleLabel = m.role === 'user' ? '你' : 'AI';
+    const roleLabel = m.role === 'user' ? '用户' : 'AI';
     const editingClass = m.editing ? ' editing' : '';
     const streamingClass = m.streaming ? ' ai-streaming' : '';
 
