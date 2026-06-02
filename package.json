@@ -37,6 +37,11 @@
     "win": {
       "target": "nsis",
       "icon": "renderer/assets/icon.ico"
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "icon": "renderer/assets/icon.png",
+      "category": "Office"
     }
   }
 }
