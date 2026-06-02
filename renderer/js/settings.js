@@ -55,15 +55,19 @@ export async function init() {
   const promptText = document.getElementById('set-prompt-text');
   const promptReset = document.getElementById('set-prompt-reset');
 
-  promptMode.addEventListener('change', () => {
-    const mode = promptMode.value;
-    promptText.value = currentSettings.customPrompts[mode] || AiClient.SYSTEM_PROMPTS[mode] || '';
-  });
+  if (promptMode && promptText) {
+    promptMode.addEventListener('change', () => {
+      const mode = promptMode.value;
+      promptText.value = currentSettings.customPrompts[mode] || AiClient.SYSTEM_PROMPTS[mode] || '';
+    });
+  }
 
-  promptReset.addEventListener('click', () => {
-    const mode = promptMode.value;
-    promptText.value = AiClient.SYSTEM_PROMPTS[mode] || '';
-  });
+  if (promptReset && promptMode && promptText) {
+    promptReset.addEventListener('click', () => {
+      const mode = promptMode.value;
+      promptText.value = AiClient.SYSTEM_PROMPTS[mode] || '';
+    });
+  }
 
 }
 
