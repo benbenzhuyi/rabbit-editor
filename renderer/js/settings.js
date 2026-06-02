@@ -138,10 +138,14 @@ function applySettings() {
     customPrompts: s.customPrompts || {},
   });
 
-  // Update status bar model name
+  // Update status bar model name and temperature
   const modelEl = document.getElementById('status-model');
   if (modelEl) {
     modelEl.textContent = `当前模型: ${s.aiModel}`;
+  }
+  const tempEl = document.getElementById('status-temp');
+  if (tempEl) {
+    tempEl.textContent = s.temperature.toFixed(1);
   }
 
   // Restart auto-save timer (fixed 60s)
@@ -149,4 +153,9 @@ function applySettings() {
   autoSaveTimer = setInterval(() => {
     window.dispatchEvent(new CustomEvent('settings:auto-save'));
   }, 60000);
+}
+
+export async function saveTemperature(val) {
+  currentSettings.temperature = val;
+  await window.electronAPI.saveSettings(currentSettings);
 }

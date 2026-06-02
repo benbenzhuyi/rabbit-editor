@@ -340,6 +340,32 @@ body {
   color: var(--text-muted);
 }
 
+#status-temp {
+  cursor: pointer;
+  padding: 0 3px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  transition: background-color 0.15s;
+}
+
+#status-temp:hover {
+  background-color: var(--bg-hover);
+}
+
+.status-temp-input {
+  width: 34px;
+  height: 16px;
+  font-size: 11px;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--accent);
+  color: var(--text-primary);
+  border-radius: 3px;
+  text-align: center;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
 /* AI loading indicator */
 .ai-loading-hidden { display: none; }
 

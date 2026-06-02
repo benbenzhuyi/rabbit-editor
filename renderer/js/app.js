@@ -259,6 +259,9 @@ async function init() {
     wrapEl.addEventListener('click', () => Editor.toggleWordWrap());
   }
 
+  // Temperature click-to-edit in status bar
+  initStatusTempClick();
+
   // Panel header click behaviors
   initPanelBehaviors();
 
@@ -463,4 +466,50 @@ function initPanelBehaviors() {
   }
 }
 
+// ── Status bar temperature click-to-edit ──────────────────
+
+function statusTempClick(span) {
+  span.addEventListener('click', () => {
+    const current = parseFloat(span.textContent) || 0.7;
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = '0';
+    input.max = '2';
+    input.step = '0.1';
+    input.value = current;
+    input.className = 'status-temp-input';
+    span.replaceWith(input);
+    input.focus();
+    input.select();
+
+    const finish = () => {
+      let val = parseFloat(input.value);
+      if (isNaN(val)) val = current;
+      val = Math.max(0, Math.min(2, Math.round(val * 10) / 10));
+      const newSpan = document.createElement('span');
+      newSpan.id = 'status-temp';
+      newSpan.title = '点击修改温度值';
+      newSpan.textContent = val.toFixed(1);
+      input.replaceWith(newSpan);
+      statusTempClick(newSpan);
+      AiClient.setConfig({ temperature: val });
+      const st = document.getElementById('set-temperature');
+      if (st) st.value = val;
+      Settings.saveTemperature(val);
+    };
+
+    input.addEventListener('blur', finish);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') input.blur();
+      if (e.key === 'Escape') { input.value = current; input.blur(); }
+    });
+  });
+}
+
+function initStatusTempClick() {
+  const el = document.getElementById('status-temp');
+  if (el) statusTempClick(el);
+}
+
+initStatusTempClick();
 init();
