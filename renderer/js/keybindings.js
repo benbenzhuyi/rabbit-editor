@@ -161,10 +161,10 @@ function handleKeydown(e) {
     return;
   }
 
-  // Ctrl+, settings (placeholder)
+  // Ctrl+, settings
   if (ctrl && !shift && (e.key === ',' || e.key === '<')) {
     e.preventDefault();
-    // Settings not implemented in Phase 1
+    Settings.showPanel();
     return;
   }
 
