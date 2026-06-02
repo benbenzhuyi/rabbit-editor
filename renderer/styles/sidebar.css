@@ -151,6 +151,11 @@
   color: #fff;
 }
 
+[data-theme="light"] .tree-node.selected {
+  background-color: rgba(0, 120, 212, 0.2);
+  color: #000;
+}
+
 /* Clicked outline heading */
 #outline-tree .tree-node.selected {
   background-color: rgba(86, 156, 214, 0.4);

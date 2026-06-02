@@ -172,6 +172,10 @@
   color: #dcdcaa;
 }
 
+[data-theme="light"] .markdown-body strong {
+  color: #5a5500;
+}
+
 .markdown-body em {
   font-style: italic;
   color: #ce9178;
