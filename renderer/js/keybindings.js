@@ -16,39 +16,49 @@ import * as MenuBar from './menubar.js';
 export function init() {
   document.addEventListener('keydown', handleKeydown);
 
-  // Capture-phase intercept for Ctrl+L / Ctrl+K on the editor area,
-  // before CodeMirror's contenteditable handler can consume them.
+  // Capture-phase intercept on editor area for CodeMirror-bound shortcuts
   const editorArea = document.getElementById('editor-area');
   if (editorArea) {
     editorArea.addEventListener('keydown', (e) => {
       const ctrl = e.ctrlKey || e.metaKey;
       if (!ctrl || e.shiftKey) return;
 
-      if (e.key === 'l' || e.key === 'L') {
+      const code = e.code;
+      if (code === 'KeyL') {
         e.preventDefault();
         e.stopImmediatePropagation();
         AiPanel.quoteToAI();
-      } else if (e.key === 'k' || e.key === 'K') {
+      } else if (code === 'KeyK') {
         e.preventDefault();
         e.stopImmediatePropagation();
         CtrlKPopup.showCtrlKPopup();
-      } else if (e.key === 'f' || e.key === 'F') {
+      } else if (code === 'KeyF') {
         e.preventDefault();
         e.stopImmediatePropagation();
         const sel = Editor.getSelection();
         SearchReplace.openSearch(sel?.text || '');
-      } else if (e.key === 'h' || e.key === 'H') {
+      } else if (code === 'KeyH') {
         e.preventDefault();
         e.stopImmediatePropagation();
         const sel = Editor.getSelection();
         SearchReplace.openReplace(sel?.text || '');
-      } else if (e.key === ',' || e.key === '<') {
+      } else if (code === 'Comma') {
         e.preventDefault();
         e.stopImmediatePropagation();
         Settings.showPanel();
       }
     }, true); // capture phase
   }
+
+  // Also listen at window capture level as fallback for Ctrl+,
+  // in case the editor-area listener never fires (e.g. <body> focused)
+  window.addEventListener('keydown', (e) => {
+    const ctrl = e.ctrlKey || e.metaKey;
+    if (ctrl && !e.shiftKey && e.code === 'Comma') {
+      e.preventDefault();
+      Settings.showPanel();
+    }
+  }, true);
 }
 
 // ── Global shortcut handler ─────────────────────────────
@@ -162,7 +172,7 @@ function handleKeydown(e) {
   }
 
   // Ctrl+, settings
-  if (ctrl && !shift && (e.key === ',' || e.key === '<')) {
+  if (ctrl && !shift && e.code === 'Comma') {
     e.preventDefault();
     Settings.showPanel();
     return;
