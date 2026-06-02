@@ -250,6 +250,9 @@ async function init() {
     settingsBtn.addEventListener('click', () => Settings.showPanel());
   }
 
+  // Ctrl+, handled at main process level (Chromium intercept)
+  window.electronAPI.onShortcutSettings(() => Settings.showPanel());
+
   // Word wrap toggle button
   const wrapEl = document.getElementById('status-wrap');
   if (wrapEl) {

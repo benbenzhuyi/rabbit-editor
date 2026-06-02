@@ -25,6 +25,38 @@ function createWindow() {
   // Open DevTools for debugging
   mainWindow.webContents.openDevTools({ mode: 'detach' });
 
+  // Intercept Ctrl+, at Chromium level (before DOM sees it)
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if ((input.control || input.meta) && !input.shift && input.code === 'Comma') {
+      event.preventDefault();
+      mainWindow.webContents.send('shortcut:settings');
+    }
+  });
+
+  // Also register Ctrl+, as a native menu accelerator (most reliable)
+  // Hidden menu items still fire their accelerators
+  const appMenu = Menu.buildFromTemplate([
+    {
+      label: 'App',
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        {
+          label: 'Settings',
+          accelerator: 'CmdOrCtrl+,',
+          click: () => {
+            mainWindow.webContents.send('shortcut:settings');
+          },
+        },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    },
+  ]);
+  Menu.setApplicationMenu(appMenu);
+  // Hide native menu bar (we use custom HTML menu), but keep accelerators
+  mainWindow.setMenuBarVisibility(false);
+
   mainWindow.on('close', async (e) => {
     try {
       const hasUnsaved = await mainWindow.webContents.executeJavaScript(

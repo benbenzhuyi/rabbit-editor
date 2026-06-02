@@ -46,6 +46,11 @@ export async function init() {
   saveBtn.addEventListener('click', () => saveAndApply());
   overlay.addEventListener('click', (e) => { if (e.target === overlay) hidePanel(); });
 
+  // ESC to close
+  overlay.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') hidePanel();
+  });
+
   tabs.forEach(tab => {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
   });
@@ -74,6 +79,7 @@ export async function init() {
 export function showPanel() {
   const overlay = document.getElementById('settings-overlay');
   overlay.classList.remove('hidden');
+  overlay.focus();
   populateForm();
 }
 

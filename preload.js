@@ -35,6 +35,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('app:force-save-and-close', () => callback());
   },
 
+  // Main process shortcuts
+  onShortcutSettings: (callback) => {
+    ipcRenderer.on('shortcut:settings', () => callback());
+  },
+
   // AI streaming
   aiRequest: (config) => ipcRenderer.invoke('ai:request', config),
   onAiStreamChunk: (callback) => {
