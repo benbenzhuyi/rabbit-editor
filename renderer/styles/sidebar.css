@@ -281,6 +281,18 @@
 .tree-node.heading-level-5 > .tree-name { color: #ce9178; font-weight: 500; }
 .tree-node.heading-level-6 > .tree-name { color: #666; font-weight: 500; }
 
-/* Keep color visible when selected */
+/* Keep color visible when selected (dark) */
 #outline-tree .tree-node.heading.selected > .tree-name { color: #fff; }
 #outline-tree .tree-node.heading.active > .tree-name { color: #fff; }
+
+/* Light theme: outline heading colors */
+[data-theme="light"] .tree-node.heading-level-1 > .tree-name { color: #0078d4; font-weight: 700; }
+[data-theme="light"] .tree-node.heading-level-2 > .tree-name { color: #106ebe; font-weight: 600; }
+[data-theme="light"] .tree-node.heading-level-3 > .tree-name { color: #267f6e; font-weight: 600; }
+[data-theme="light"] .tree-node.heading-level-4 > .tree-name { color: #7a6e00; font-weight: 500; }
+[data-theme="light"] .tree-node.heading-level-5 > .tree-name { color: #8e562e; font-weight: 500; }
+[data-theme="light"] .tree-node.heading-level-6 > .tree-name { color: #666; font-weight: 500; }
+
+/* Light theme: selected heading keeps darker text, not white */
+[data-theme="light"] #outline-tree .tree-node.heading.selected > .tree-name { color: #000; }
+[data-theme="light"] #outline-tree .tree-node.heading.active > .tree-name { color: #000; }

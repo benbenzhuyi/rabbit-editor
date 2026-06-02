@@ -36,6 +36,7 @@ let cursorCallbacks = [];
 let updateCallbacks = [];
 
 const wrapCompartment = new Compartment();
+const themeCompartment = new Compartment();
 
 // Search highlight decorations
 const setSearchHighlights = StateEffect.define();
@@ -201,7 +202,7 @@ function buildExtensions() {
     markdown({
       codeLanguages: languages,
     }),
-    rabbitDarkTheme,
+    themeCompartment.of(rabbitDarkTheme),
     EditorView.updateListener.of((update) => {
       if (update.docChanged) {
         changeCallbacks.forEach(cb => cb());
@@ -213,6 +214,69 @@ function buildExtensions() {
     }),
   ];
 }
+
+// ── Light theme ─────────────────────────────────────────────
+
+const rabbitLightTheme = EditorView.theme(
+  {
+    '&': {
+      backgroundColor: '#ffffff',
+      color: '#333333',
+    },
+    '.cm-content': {
+      fontFamily: "'Microsoft YaHei', 'Segoe UI', sans-serif",
+      fontSize: '16px',
+      lineHeight: '1.7',
+      caretColor: '#333',
+    },
+    '.cm-cursor': { borderLeftColor: '#333' },
+    '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': {
+      backgroundColor: 'rgba(0, 120, 212, 0.25) !important',
+    },
+    '.cm-activeLine': { backgroundColor: 'rgba(0, 0, 0, 0.04)' },
+    '.cm-gutters': {
+      backgroundColor: '#f3f3f3',
+      color: '#666',
+      border: 'none',
+      borderRight: '1px solid #d4d4d4',
+      fontFamily: "'Consolas', 'Courier New', monospace",
+    },
+    '.cm-activeLineGutter': {
+      backgroundColor: 'rgba(0, 0, 0, 0.03)',
+      color: '#333',
+    },
+    '.cm-foldPlaceholder': {
+      backgroundColor: '#e0e0e0',
+      color: '#666',
+      border: '1px solid #ccc',
+    },
+    '.cm-matchingBracket': {
+      backgroundColor: 'rgba(0, 0, 0, 0.08)',
+      outline: '1px solid #888',
+    },
+    '.cm-header-1': { fontSize: '1.5em', fontWeight: '700', color: '#0078d4' },
+    '.cm-header-2': { fontSize: '1.3em', fontWeight: '700', color: '#106ebe' },
+    '.cm-header-3': { fontSize: '1.15em', fontWeight: '600', color: '#267f6e' },
+    '.cm-header-4': { fontSize: '1.05em', fontWeight: '600', color: '#7a6e00' },
+    '.cm-header-5': { fontWeight: '600', color: '#8e562e' },
+    '.cm-header-6': { fontWeight: '600', color: '#666666' },
+    '.cm-strong': { fontWeight: '800', color: '#7a6e00' },
+    '.cm-emphasis': { fontStyle: 'italic', color: '#8e562e' },
+    '.cm-strikethrough': { textDecoration: 'line-through', color: '#888' },
+    '.cm-link, .cm-url': { color: '#106ebe', textDecoration: 'underline' },
+    '.cm-link-text': { color: '#267f6e' },
+    '.cm-quote': { color: '#498039', fontStyle: 'italic' },
+    '.cm-list': { color: '#8e562e' },
+    '.cm-codeBlock': { fontFamily: "'Consolas', 'Courier New', monospace" },
+    '.cm-hr': { color: '#ccc' },
+    '.cm-tooltip': {
+      backgroundColor: '#f3f3f3',
+      border: '1px solid #ccc',
+      color: '#333',
+    },
+  },
+  { dark: false }
+);
 
 // ── Public API ──────────────────────────────────────────
 
@@ -227,8 +291,19 @@ export function init(container) {
     parent: container,
   });
 
-  // Trigger initial cursor update
   cursorCallbacks.forEach(cb => cb());
+
+  // Apply current theme
+  applyEditorTheme();
+}
+
+export function applyEditorTheme() {
+  if (!editorView) return;
+  const isLight = document.documentElement.hasAttribute('data-theme') &&
+    document.documentElement.getAttribute('data-theme') === 'light';
+  editorView.dispatch({
+    effects: themeCompartment.reconfigure(isLight ? rabbitLightTheme : rabbitDarkTheme),
+  });
 }
 
 export function getContent() {

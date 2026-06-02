@@ -34,8 +34,14 @@ const menuActions = {
   zoomIn: () => Editor.zoomIn(),
   zoomOut: () => Editor.zoomOut(),
   zoomReset: () => Editor.zoomReset(),
-  themeDark: () => { document.documentElement.removeAttribute('data-theme'); },
-  themeLight: () => { document.documentElement.setAttribute('data-theme', 'light'); },
+  themeDark: () => {
+    document.documentElement.removeAttribute('data-theme');
+    Editor.applyEditorTheme();
+  },
+  themeLight: () => {
+    document.documentElement.setAttribute('data-theme', 'light');
+    Editor.applyEditorTheme();
+  },
   wordWrap: () => Editor.toggleWordWrap(),
   fontSizeUp: () => Editor.zoomIn(),
   fontSizeDown: () => Editor.zoomOut(),

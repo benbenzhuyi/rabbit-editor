@@ -144,6 +144,14 @@
 .markdown-body h5 { font-size: 1em; color: #ce9178; }
 .markdown-body h6 { font-size: 0.9em; color: #666; }
 
+/* Light theme: preview headings */
+[data-theme="light"] .markdown-body h1 { color: #0078d4; }
+[data-theme="light"] .markdown-body h2 { color: #106ebe; }
+[data-theme="light"] .markdown-body h3 { color: #267f6e; }
+[data-theme="light"] .markdown-body h4 { color: #7a6e00; }
+[data-theme="light"] .markdown-body h5 { color: #8e562e; }
+[data-theme="light"] .markdown-body h6 { color: #666; }
+
 .markdown-body p {
   margin-bottom: 1em;
 }
