@@ -2,14 +2,9 @@
    小野兔 Rabbit — Settings Module
    ═══════════════════════════════════════════════════════ */
 
-import * as Editor from './editor.js';
 import * as AiClient from './aiClient.js';
 
 const defaults = {
-  autoSaveInterval: 60,
-  fontSize: 16,
-  showLineNumbers: true,
-  wordWrap: true,
   aiBaseUrl: 'http://localhost:8080/v1',
   aiApiKey: '',
   aiModel: 'local-model',
@@ -17,7 +12,6 @@ const defaults = {
   ctrlKWords: 800,
   maxTokens: 2048,
   temperature: 0.7,
-  theme: 'dark',
   customPrompts: {},
 };
 
@@ -94,10 +88,6 @@ function switchTab(tabName) {
 
 function populateForm() {
   const s = currentSettings;
-  document.getElementById('set-auto-save').value = s.autoSaveInterval;
-  document.getElementById('set-font-size').value = s.fontSize;
-  document.getElementById('set-line-numbers').checked = s.showLineNumbers;
-  document.getElementById('set-word-wrap').checked = s.wordWrap;
   document.getElementById('set-ai-base-url').value = s.aiBaseUrl;
   document.getElementById('set-ai-api-key').value = s.aiApiKey;
   document.getElementById('set-ai-model').value = s.aiModel;
@@ -105,9 +95,7 @@ function populateForm() {
   document.getElementById('set-ctrlk-words').value = s.ctrlKWords;
   document.getElementById('set-max-tokens').value = s.maxTokens;
   document.getElementById('set-temperature').value = s.temperature;
-  document.getElementById('set-theme').value = s.theme;
 
-  // Populate prompt editor with first mode
   const promptMode = document.getElementById('set-prompt-mode');
   const promptText = document.getElementById('set-prompt-text');
   const mode = promptMode.value;
@@ -115,10 +103,6 @@ function populateForm() {
 }
 
 async function saveAndApply() {
-  currentSettings.autoSaveInterval = parseInt(document.getElementById('set-auto-save').value) || 60;
-  currentSettings.fontSize = parseInt(document.getElementById('set-font-size').value) || 16;
-  currentSettings.showLineNumbers = document.getElementById('set-line-numbers').checked;
-  currentSettings.wordWrap = document.getElementById('set-word-wrap').checked;
   currentSettings.aiBaseUrl = document.getElementById('set-ai-base-url').value.trim() || defaults.aiBaseUrl;
   currentSettings.aiApiKey = document.getElementById('set-ai-api-key').value.trim();
   currentSettings.aiModel = document.getElementById('set-ai-model').value.trim() || defaults.aiModel;
@@ -126,9 +110,7 @@ async function saveAndApply() {
   currentSettings.ctrlKWords = parseInt(document.getElementById('set-ctrlk-words').value) || 800;
   currentSettings.maxTokens = parseInt(document.getElementById('set-max-tokens').value) || 2048;
   currentSettings.temperature = parseFloat(document.getElementById('set-temperature').value) || 0.7;
-  currentSettings.theme = document.getElementById('set-theme').value;
 
-  // Save current prompt text for the selected mode
   const promptMode = document.getElementById('set-prompt-mode').value;
   const promptText = document.getElementById('set-prompt-text').value.trim();
   if (!currentSettings.customPrompts) currentSettings.customPrompts = {};
@@ -156,40 +138,15 @@ function applySettings() {
     customPrompts: s.customPrompts || {},
   });
 
-  // Apply font size
-  if (s.fontSize && s.fontSize !== Editor.getFontSize()) {
-    Editor.zoomReset();
-    for (let i = 16; i < s.fontSize; i++) Editor.zoomIn();
-    for (let i = 16; i > s.fontSize; i--) Editor.zoomOut();
-  }
-
-  // Apply word wrap
-  // (toggle if current state differs)
-  if (document.getElementById('status-wrap')) {
-    const wrapOn = document.getElementById('status-wrap').classList.contains('wrap-on');
-    if (wrapOn !== s.wordWrap) Editor.toggleWordWrap();
-  }
-
-  // Sync AI panel defaults
-  const aiMode = document.getElementById('ai-mode');
-  if (aiMode) aiMode.value = s.aiDefaultMode;
-  const aiTokens = document.getElementById('ai-tokens');
-  if (aiTokens) aiTokens.value = s.maxTokens;
-
   // Update status bar model name
   const modelEl = document.getElementById('status-model');
   if (modelEl) {
     modelEl.textContent = `当前模型: ${s.aiModel}`;
   }
 
-  // Restart auto-save timer
+  // Restart auto-save timer (fixed 60s)
   if (autoSaveTimer) clearInterval(autoSaveTimer);
-  if (s.autoSaveInterval > 0) {
-    autoSaveTimer = setInterval(() => {
-      // App's saveFile is imported dynamically; use window dispatch
-      window.dispatchEvent(new CustomEvent('settings:auto-save'));
-    }, s.autoSaveInterval * 1000);
-  }
+  autoSaveTimer = setInterval(() => {
+    window.dispatchEvent(new CustomEvent('settings:auto-save'));
+  }, 60000);
 }
-
-export function getAutoSaveInterval() { return currentSettings.autoSaveInterval; }

@@ -47,6 +47,10 @@
         <div class="menu-separator"></div>
         <div class="menu-dropdown-item" data-action="copyLine">复制行 <span class="shortcut">Ctrl+D</span></div>
         <div class="menu-dropdown-item" data-action="deleteLine">删除行 <span class="shortcut">Ctrl+Shift+K</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item" data-action="wordWrap">自动换行 <span class="shortcut"></span></div>
+        <div class="menu-dropdown-item" data-action="fontSizeUp">增大字号 <span class="shortcut">Ctrl+=</span></div>
+        <div class="menu-dropdown-item" data-action="fontSizeDown">减小字号 <span class="shortcut">Ctrl+-</span></div>
       </div>
     </div>
     <div class="menu-item" data-menu="view">
@@ -57,6 +61,9 @@
         <div class="menu-dropdown-item" data-action="zoomIn">放大 <span class="shortcut">Ctrl+=</span></div>
         <div class="menu-dropdown-item" data-action="zoomOut">缩小 <span class="shortcut">Ctrl+-</span></div>
         <div class="menu-dropdown-item" data-action="zoomReset">重置缩放 <span class="shortcut">Ctrl+0</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item" data-action="themeDark">深色主题</div>
+        <div class="menu-dropdown-item" data-action="themeLight">浅色主题</div>
       </div>
     </div>
     <!-- Search Bar -->
@@ -197,20 +204,11 @@
         <button id="settings-close" class="settings-close-btn">×</button>
       </div>
       <div class="settings-tabs">
-        <button class="settings-tab active" data-tab="general">通用</button>
-        <button class="settings-tab" data-tab="ai">AI</button>
-        <button class="settings-tab" data-tab="appearance">外观</button>
+        <button class="settings-tab active" data-tab="ai">AI 设置</button>
       </div>
       <div class="settings-body">
-        <!-- General Tab -->
-        <div id="settings-tab-general" class="settings-tab-content">
-          <div class="setting-row"><label>自动保存间隔 (秒)</label><input id="set-auto-save" type="number" min="0" max="300" step="5"> <span class="setting-hint">0=关闭</span></div>
-          <div class="setting-row"><label>字体大小 (px)</label><input id="set-font-size" type="number" min="12" max="32"></div>
-          <div class="setting-row"><label>显示行号</label><input id="set-line-numbers" type="checkbox"></div>
-          <div class="setting-row"><label>自动换行</label><input id="set-word-wrap" type="checkbox"></div>
-        </div>
         <!-- AI Tab -->
-        <div id="settings-tab-ai" class="settings-tab-content hidden">
+        <div id="settings-tab-ai" class="settings-tab-content">
           <div class="setting-row"><label>API 基础地址</label><input id="set-ai-base-url" type="text" placeholder="http://localhost:8080/v1"><span class="setting-hint">本地/在线通用</span></div>
           <div class="setting-row"><label>API Key</label><input id="set-ai-api-key" type="password" placeholder="sk-..."><span class="setting-hint">在线模型必填</span></div>
           <div class="setting-row"><label>模型名称</label><input id="set-ai-model" type="text" placeholder="local-model"></div>
@@ -223,11 +221,6 @@
           <div class="setting-row"><label>编辑模式</label><select id="set-prompt-mode"><option value="续写">续写</option><option value="润色">润色</option><option value="定制">定制</option><option value="英译中">英译中</option><option value="中译英">中译英</option></select></div>
           <div class="setting-row"><textarea id="set-prompt-text" class="setting-prompt-textarea" rows="5" placeholder="选择模式后编辑提示词..."></textarea></div>
           <button id="set-prompt-reset" class="settings-footer-btn secondary" style="font-size:12px;padding:4px 12px;">恢复默认</button>
-        </div>
-        <!-- Appearance Tab -->
-        <div id="settings-tab-appearance" class="settings-tab-content hidden">
-          <div class="setting-row"><label>主题</label><select id="set-theme"><option value="dark">深色</option><option value="light">浅色</option></select></div>
-        </div>
       </div>
       <div class="settings-footer">
         <button id="settings-cancel" class="settings-footer-btn secondary">取消</button>

@@ -34,6 +34,11 @@ const menuActions = {
   zoomIn: () => Editor.zoomIn(),
   zoomOut: () => Editor.zoomOut(),
   zoomReset: () => Editor.zoomReset(),
+  themeDark: () => document.documentElement.setAttribute('data-theme', 'dark'),
+  themeLight: () => document.documentElement.setAttribute('data-theme', 'light'),
+  wordWrap: () => Editor.toggleWordWrap(),
+  fontSizeUp: () => Editor.zoomIn(),
+  fontSizeDown: () => Editor.zoomOut(),
 };
 
 // ── Init ─────────────────────────────────────────────────
