@@ -20,6 +20,22 @@
   --sidebar-width: 240px;
 }
 
+/* Light theme overrides */
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f3f3;
+  --bg-tertiary: #e8e8e8;
+  --bg-hover: #e0e0e0;
+  --border-color: #d4d4d4;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --accent: #0078d4;
+  --accent-orange: #ca7c10;
+  --accent-green: #267f6e;
+  --accent-red: #c72e2e;
+}
+
 * {
   margin: 0;
   padding: 0;

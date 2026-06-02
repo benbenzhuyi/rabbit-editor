@@ -287,6 +287,13 @@ function handleKeydown(e) {
     return;
   }
 
+  // Ctrl+Shift+W: toggle word wrap
+  if (ctrl && shift && (e.key === 'W' || e.key === 'w')) {
+    e.preventDefault();
+    Editor.toggleWordWrap();
+    return;
+  }
+
   // Ctrl+wheel: handled in initWheelZoom
 }
 
