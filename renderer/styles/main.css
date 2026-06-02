@@ -125,6 +125,18 @@ body {
   position: relative;
 }
 
+.menu-check {
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+  margin-right: 4px;
+  visibility: hidden;
+}
+
+.menu-dropdown-item.checked .menu-check {
+  visibility: visible;
+}
+
 .menu-dropdown-item:hover {
   background-color: var(--accent);
   color: #fff;

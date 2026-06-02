@@ -256,7 +256,10 @@ async function init() {
   // Word wrap toggle button
   const wrapEl = document.getElementById('status-wrap');
   if (wrapEl) {
-    wrapEl.addEventListener('click', () => Editor.toggleWordWrap());
+    wrapEl.addEventListener('click', () => {
+      Editor.toggleWordWrap();
+      MenuBar.refreshMenuChecks();
+    });
   }
 
   // Temperature click-to-edit in status bar
@@ -512,4 +515,6 @@ function initStatusTempClick() {
 }
 
 initStatusTempClick();
+// Set initial menu checkmarks
+MenuBar.refreshMenuChecks();
 init();

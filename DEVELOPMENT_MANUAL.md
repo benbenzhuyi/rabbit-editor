@@ -654,6 +654,7 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 | Ctrl+Shift+2 | 全屏有菜单 |
 | Ctrl+Shift+3 | 极简全屏 |
 | Ctrl+Shift+W | 切换自动换行 |
+| Ctrl+Alt+T | 切换深色/浅色主题 |
 | F11 | 循环窗口模式 |
 | Ctrl+= | 放大字号 |
 | Ctrl+- | 缩小字号 |

@@ -37,12 +37,17 @@ const menuActions = {
   themeDark: () => {
     document.documentElement.removeAttribute('data-theme');
     Editor.applyEditorTheme();
+    refreshMenuChecks();
   },
   themeLight: () => {
     document.documentElement.setAttribute('data-theme', 'light');
     Editor.applyEditorTheme();
+    refreshMenuChecks();
   },
-  wordWrap: () => Editor.toggleWordWrap(),
+  wordWrap: () => {
+    Editor.toggleWordWrap();
+    refreshMenuChecks();
+  },
   fontSizeUp: () => Editor.zoomIn(),
   fontSizeDown: () => Editor.zoomOut(),
 };
@@ -65,6 +70,7 @@ export function init() {
         closeAllMenus();
         item.classList.add('active');
         activeMenu = item;
+        refreshMenuChecks();
       }
     });
 
@@ -113,6 +119,26 @@ function closeAllMenus() {
   activeMenu = null;
 }
 
+// ── Refresh checkmarks based on current state ─────────────
+
+export function refreshMenuChecks() {
+  // Word wrap
+  const wwItem = document.getElementById('menu-item-wordwrap');
+  if (wwItem) {
+    const wrapEl = document.getElementById('status-wrap');
+    const wrapOn = wrapEl && wrapEl.classList.contains('wrap-on');
+    wwItem.classList.toggle('checked', !!wrapOn);
+  }
+
+  // Theme
+  const isLight = document.documentElement.hasAttribute('data-theme') &&
+    document.documentElement.getAttribute('data-theme') === 'light';
+  const darkItem = document.getElementById('menu-item-theme-dark');
+  const lightItem = document.getElementById('menu-item-theme-light');
+  if (darkItem) darkItem.classList.toggle('checked', !isLight);
+  if (lightItem) lightItem.classList.toggle('checked', !!isLight);
+}
+
 export function closeMenus() {
   closeAllMenus();
 }
@@ -155,6 +181,7 @@ export function openMenuByKey(key) {
     closeAllMenus();
     menuItem.classList.add('active');
     activeMenu = menuItem;
+    refreshMenuChecks();
   }
 }
 

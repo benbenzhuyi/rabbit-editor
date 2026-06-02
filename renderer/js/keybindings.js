@@ -287,10 +287,26 @@ function handleKeydown(e) {
     return;
   }
 
+  // Ctrl+Alt+T: toggle theme (dark/light)
+  if (ctrl && alt && !shift && (e.key === 'T' || e.key === 't')) {
+    e.preventDefault();
+    const isLight = document.documentElement.hasAttribute('data-theme') &&
+      document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+    Editor.applyEditorTheme();
+    MenuBar.refreshMenuChecks();
+    return;
+  }
+
   // Ctrl+Shift+W: toggle word wrap
   if (ctrl && shift && (e.key === 'W' || e.key === 'w')) {
     e.preventDefault();
     Editor.toggleWordWrap();
+    MenuBar.refreshMenuChecks();
     return;
   }
 
