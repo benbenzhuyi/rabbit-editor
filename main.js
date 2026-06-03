@@ -22,8 +22,8 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 
-  // Open DevTools for debugging
-  mainWindow.webContents.openDevTools({ mode: 'detach' });
+  // DevTools disabled for release — uncomment for debugging
+  // mainWindow.webContents.openDevTools({ mode: 'detach' });
 
   // Intercept Ctrl+, at Chromium level (before DOM sees it)
   mainWindow.webContents.on('before-input-event', (event, input) => {
