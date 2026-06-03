@@ -21,7 +21,12 @@
 
 ### 下载使用
 
-前往 [Releases](https://github.com/benbenzhuyi/rabbit-editor/releases) 下载 `小野兔Rabbit-vX.X.X-portable.zip`，解压后双击 `小野兔 Rabbit.exe` 运行。
+前往 [Releases](https://github.com/benbenzhuyi/rabbit-editor/releases) 下载对应平台的安装包：
+
+| 平台 | 文件 |
+|------|------|
+| Windows x64 | `rabbit-editor-0.4.0-win-x64.zip`（解压后双击 `小野兔 Rabbit.exe`） |
+| Linux x64 | `rabbit-editor-0.4.0-linux-x64.tar.gz`（解压后运行 `./small-rabbit-editor`） |
 
 ### 开发运行
 
