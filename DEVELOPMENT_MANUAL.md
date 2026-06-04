@@ -1,34 +1,38 @@
-# 小野兔 Rabbit — 功能开发手册
+# 小野兔 Rabbit — 功能开发手册 / Development Manual
 
-> 版本：v0.5.0 | 最后更新：2026-06-02 | 完整功能参考文档
+> 版本 Version：v0.5.0 | 最后更新 / Last Updated：2026-06-02 | 完整功能参考文档 / Complete Feature Reference
 
----
-
-## 目录
-
-1. [项目概述](#1-项目概述)
-2. [技术架构](#2-技术架构)
-3. [界面布局](#3-界面布局)
-4. [基础编辑器](#4-基础编辑器)
-5. [文件操作](#5-文件操作)
-6. [左侧边栏](#6-左侧边栏)
-7. [右侧 AI 辅助面板](#7-右侧-ai-辅助面板)
-8. [Ctrl+K 浮动窗口](#8-ctrlk-浮动窗口)
-9. [Ctrl+L 引用到 AI](#9-ctrll-引用到-ai)
-10. [查找替换](#10-查找替换)
-11. [设置面板](#11-设置面板)
-12. [窗口模式与缩放](#12-窗口模式与缩放)
-13. [快捷键速查表](#13-快捷键速查表)
-14. [IPC 通信协议](#14-ipc-通信协议)
-15. [数据存储结构](#15-数据存储结构)
-16. [AI 模型接入指南](#16-ai-模型接入指南)
-17. [构建与发布](#17-构建与发布)
+*This document is primarily in Chinese with English descriptions for key sections. For a full English README, see [README.md](README.md).*
 
 ---
 
-## 1. 项目概述
+## 目录 / Table of Contents
 
-### 1.1 软件定位
+1. [Project Overview](#1-项目概述-project-overview)
+2. [Technical Architecture](#2-技术架构-technical-architecture)
+3. [UI Layout](#3-界面布局-ui-layout)
+4. [Core Editor](#4-基础编辑器-core-editor)
+5. [File Operations](#5-文件操作-file-operations)
+6. [Left Sidebar](#6-左侧边栏-left-sidebar)
+7. [Right AI Panel](#7-右侧-ai-辅助面板-right-ai-panel)
+8. [Ctrl+K Popup](#8-ctrlk-浮动窗口-ctrlk-popup)
+9. [Ctrl+L Quote to AI](#9-ctrll-引用到-ai-ctrlL-quote-to-ai)
+10. [Find & Replace](#10-查找替换-find--replace)
+11. [Settings Panel](#11-设置面板-settings-panel)
+12. [Window Modes & Zoom](#12-窗口模式与缩放-window-modes--zoom)
+13. [Keyboard Shortcut Reference](#13-快捷键速查表-keyboard-shortcut-reference)
+14. [IPC Protocol](#14-ipc-通信协议-ipc-protocol)
+15. [Data Storage](#15-数据存储结构-data-storage)
+16. [AI Model Integration](#16-ai-模型接入指南-ai-model-integration)
+17. [Build & Release](#17-构建与发布-build--release)
+
+---
+
+## 1. 项目概述 / Project Overview
+
+*Rabbit is a lightweight AI-assisted Markdown desktop editor for writers. No dependency on Word or office suites — it runs standalone, focused on immersive writing.*
+
+### 1.1 软件定位 / Positioning
 
 **小野兔 Rabbit** 是一款面向写作者的**轻量化 AI 辅助 Markdown 桌面编辑器**。不依赖 Word 或其他办公套件，独立运行，专注于提供沉浸式写作体验。
 
@@ -50,9 +54,11 @@
 
 ---
 
-## 2. 技术架构
+## 2. 技术架构 / Technical Architecture
 
-### 2.1 技术栈
+*Electron desktop app with CodeMirror 6, marked, highlight.js. Native HTML/CSS/JS frontend — zero framework dependencies.*
+
+### 2.1 技术栈 / Tech Stack
 
 | 组件 | 选型 | 版本 |
 |------|------|------|
@@ -106,9 +112,11 @@ small-rabbit-editor/
 
 ---
 
-## 3. 界面布局
+## 3. 界面布局 / UI Layout
 
-### 3.1 整体布局
+*Three-column layout: file browser + outline (left), editor (center), AI chat panel (right). Dark theme with light-mode support via Ctrl+Alt+T.*
+
+### 3.1 整体布局 / Overall Layout
 
 ```
 +-----------------------------------------------------------------------+
@@ -158,9 +166,11 @@ small-rabbit-editor/
 
 ---
 
-## 4. 基础编辑器
+## 4. 基础编辑器 / Core Editor
 
-### 4.1 CodeMirror 6 配置
+*CodeMirror 6 with Markdown language package. Source-enhanced mode colors syntax in-editor. Preview mode renders full HTML via marked.*
+
+### 4.1 CodeMirror 6 配置 / Configuration
 
 - **语言包**：`@codemirror/lang-markdown`，自动语法着色
 - **核心插件**：`basicSetup`（包含行号、括号匹配、折叠、自动补全等）
@@ -235,7 +245,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 5. 文件操作
+## 5. 文件操作 / File Operations
+
+*Open/save .md, .txt, .html, .json, .js, .py and 15+ other text formats. Drag-and-drop. Auto-save. Recent files.*
 
 ### 5.1 基础操作
 
@@ -282,7 +294,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 6. 左侧边栏
+## 6. 左侧边栏 / Left Sidebar
+
+*File browser (directory tree, context menu, double-click rename) + Outline navigator (H1-H6 color-coded headings, click-to-jump).*
 
 ### 6.1 文件浏览器
 
@@ -338,7 +352,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 7. 右侧 AI 辅助面板
+## 7. 右侧 AI 辅助面板 / Right AI Panel
+
+*Multi-turn chat: edit/refresh/resubmit messages, icon action buttons, model selector dropdown. Conversation history per-file persisted to disk.*
 
 ### 7.1 面板结构
 
@@ -433,7 +449,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 8. Ctrl+K 浮动窗口
+## 8. Ctrl+K 浮动窗口 / Ctrl+K Popup
+
+*Floating inline edit popup. Polish/continue/translate with word count and optional instructions. Auto-selects current line if nothing selected.*
 
 ### 8.1 触发方式
 
@@ -474,7 +492,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 9. Ctrl+L 引用到 AI
+## 9. Ctrl+L 引用到 AI / Ctrl+L Quote to AI
+
+*Quotes selected text (or current line if nothing selected) into the AI chat input with @filename line-range syntax.*
 
 ### 9.1 触发方式
 
@@ -503,7 +523,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 10. 查找替换
+## 10. 查找替换 / Find & Replace
+
+*Draggable floating search bar (Ctrl+F/Ctrl+H). Match counter (N/total), separate/global replace, orange highlight decorations via CodeMirror StateField.*
 
 ### 10.1 查找框结构
 
@@ -543,9 +565,11 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 11. 设置面板
+## 11. 设置面板 / Settings Panel
 
-### 11.1 打开方式
+*Ctrl+, or ⚙ in status bar. AI configuration: API base URL, API Key, model name, default mode, Ctrl+K word count, max tokens, temperature, custom system prompts per mode.*
+
+### 11.1 打开方式 / Open
 
 - 状态栏 `⚙ 设置` 按钮
 - Ctrl+, 快捷键
@@ -609,7 +633,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 12. 窗口模式与缩放
+## 12. 窗口模式与缩放 / Window Modes & Zoom
+
+*3 modes: normal (Ctrl+Shift+1), fullscreen with menu (Ctrl+Shift+2), immersive fullscreen (Ctrl+Shift+3). F11 cycles. Ctrl+=/-/0 for font zoom, Ctrl+scroll for smooth zoom.*
 
 ### 12.1 窗口模式
 
@@ -632,7 +658,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 13. 快捷键速查表
+## 13. 快捷键速查表 / Keyboard Shortcut Reference
+
+*Complete list of all keyboard shortcuts organized by category.*
 
 ### 13.1 文件操作
 
@@ -714,7 +742,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 14. IPC 通信协议
+## 14. IPC 通信协议 / IPC Protocol
+
+*20+ IPC channels via contextBridge. File I/O, dialogs, AI requests, conversation storage, settings, window mode. All Node.js access is proxied — renderer is sandboxed.*
 
 ### 14.1 频道列表
 
@@ -771,7 +801,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 15. 数据存储结构
+## 15. 数据存储结构 / Data Storage
+
+*All user data stored under %APPDATA%/small-rabbit/: settings.json, recent_files.json, conversations/<md5-hash>.json.*
 
 ### 15.1 存储位置
 
@@ -838,7 +870,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 16. AI 模型接入指南
+## 16. AI 模型接入指南 / AI Model Integration
+
+*Supports llama.cpp, Ollama, DeepSeek, OpenAI, Claude, and any OpenAI-compatible API. Configure in Settings → AI tab.*
 
 ### 16.1 支持的 API 类型
 
@@ -881,7 +915,9 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 
 ---
 
-## 17. 构建与发布
+## 17. 构建与发布 / Build & Release
+
+*esbuild bundles renderer JS, electron-builder packages for Windows (zip/NSIS) and Linux (AppImage/deb/tar.gz).*
 
 ### 17.1 开发运行
 
