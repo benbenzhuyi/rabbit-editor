@@ -74,6 +74,11 @@ export function init() {
 }
 
 export function openSearch(presetQuery) {
+  // Switch to source mode if in preview — highlights only work in editor DOM
+  if (Editor.isPreviewMode()) {
+    Editor.togglePreview();
+  }
+
   const bar = document.getElementById('search-bar');
   const input = document.getElementById('search-input');
   bar.classList.remove('hidden');

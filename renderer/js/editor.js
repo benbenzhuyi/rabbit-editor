@@ -382,12 +382,15 @@ export function togglePreview() {
     statusMode.textContent = '源码';
     statusMode.className = 'source-mode';
     if (lastCursorPos !== null && editorView) {
-      editorView.dispatch({
-        selection: { anchor: lastCursorPos },
-        scrollIntoView: true,
+      // Delay scroll restoration until editor is visible and laid out
+      requestAnimationFrame(() => {
+        editorView.dispatch({
+          selection: { anchor: lastCursorPos },
+          scrollIntoView: true,
+        });
+        editorView.focus();
       });
     }
-    editorView.focus();
   }
 }
 
