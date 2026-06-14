@@ -332,11 +332,22 @@
 
 .markdown-body .hljs-property { color: #9cdcfe; }
 
-/* Search match highlights */
+/* Search match highlights — source mode */
 #editor-container .cm-editor .search-match {
   background-color: rgba(229, 167, 75, 0.3);
 }
 
 #editor-container .cm-editor .search-current {
   background-color: rgba(229, 167, 75, 0.6);
+}
+
+/* Search match highlights — preview mode */
+#preview-content mark.search-match {
+  background-color: rgba(229, 167, 75, 0.3);
+  color: inherit;
+}
+
+#preview-content mark.search-current {
+  background-color: rgba(229, 167, 75, 0.6);
+  color: inherit;
 }

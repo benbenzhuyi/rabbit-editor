@@ -161,21 +161,16 @@ function jumpToLine(lineNumber) {
   updateOutlineHighlights();
 
   if (Editor.isPreviewMode()) {
+    // Sync source cursor so toggle-back lands at correct position
+    Editor.setLastCursorPos(lineNumber);
     // Scroll preview to the heading
     const previewContent = document.getElementById('preview-content');
     if (previewContent) {
-      // Headings in preview are rendered as <h1>..<h6>, find by text match
-      const headings = previewContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
-      for (const h of headings) {
-        // Match by line — nth heading in preview corresponds to nth heading in source
-        // Simple approach: use line number to index
-        const allPreHeadings = [...previewContent.querySelectorAll('h1, h2, h3, h4, h5, h6')];
-        const parsed = parseHeadings();
-        const idx = parsed.findIndex(h => h.line === lineNumber);
-        if (idx >= 0 && idx < allPreHeadings.length) {
-          allPreHeadings[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
-          break;
-        }
+      const allPreHeadings = [...previewContent.querySelectorAll('h1, h2, h3, h4, h5, h6')];
+      const parsed = parseHeadings();
+      const idx = parsed.findIndex(h => h.line === lineNumber);
+      if (idx >= 0 && idx < allPreHeadings.length) {
+        allPreHeadings[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   } else {

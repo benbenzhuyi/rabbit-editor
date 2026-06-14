@@ -25,7 +25,7 @@ marked.setOptions({
 
 let editorView = null;
 let previewMode = false;
-let lastCursorPos = null;
+let lastPreviewScroll = 0;
 let currentFontSize = 16;
 let wordWrapEnabled = true;
 const FONT_MIN = 8;
@@ -68,36 +68,18 @@ const rabbitDarkTheme = EditorView.theme(
       lineHeight: '1.7',
       caretColor: '#aeafad',
     },
-    '.cm-cursor': {
-      borderLeftColor: '#aeafad',
-    },
+    '.cm-cursor': { borderLeftColor: '#aeafad' },
     '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': {
       backgroundColor: 'rgba(86, 156, 214, 0.35) !important',
     },
-    '.cm-activeLine': {
-      backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    },
+    '.cm-activeLine': { backgroundColor: 'rgba(255, 255, 255, 0.04)' },
     '.cm-gutters': {
-      backgroundColor: '#1e1e1e',
-      color: '#858585',
-      border: 'none',
-      borderRight: '1px solid #333',
-      fontFamily: "'Consolas', 'Courier New', monospace",
+      backgroundColor: '#1e1e1e', color: '#858585', border: 'none',
+      borderRight: '1px solid #333', fontFamily: "'Consolas', 'Courier New', monospace",
     },
-    '.cm-activeLineGutter': {
-      backgroundColor: 'rgba(255, 255, 255, 0.03)',
-      color: '#c6c6c6',
-    },
-    '.cm-foldPlaceholder': {
-      backgroundColor: '#333',
-      color: '#999',
-      border: '1px solid #555',
-    },
-    '.cm-matchingBracket': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      outline: '1px solid #888',
-    },
-    // Markdown heading styles (matching outline colors)
+    '.cm-activeLineGutter': { backgroundColor: 'rgba(255, 255, 255, 0.03)', color: '#c6c6c6' },
+    '.cm-foldPlaceholder': { backgroundColor: '#333', color: '#999', border: '1px solid #555' },
+    '.cm-matchingBracket': { backgroundColor: 'rgba(255, 255, 255, 0.1)', outline: '1px solid #888' },
     '.cm-header-1': { fontSize: '1.5em', fontWeight: '700', color: '#569cd6' },
     '.cm-header-2': { fontSize: '1.3em', fontWeight: '700', color: '#4fc1ff' },
     '.cm-header-3': { fontSize: '1.15em', fontWeight: '600', color: '#4ec9b0' },
@@ -113,147 +95,24 @@ const rabbitDarkTheme = EditorView.theme(
     '.cm-list': { color: '#d7ba7d' },
     '.cm-codeBlock': { fontFamily: "'Consolas', 'Courier New', monospace" },
     '.cm-hr': { color: '#555' },
-    '.cm-tooltip': {
-      backgroundColor: '#2d2d2d',
-      border: '1px solid #555',
-      color: '#d4d4d4',
-    },
+    '.cm-tooltip': { backgroundColor: '#2d2d2d', border: '1px solid #555', color: '#d4d4d4' },
   },
   { dark: true }
 );
-
-// ── Custom keybindings ──────────────────────────────────
-
-const customKeymap = keymap.of([
-  // Ctrl+D: duplicate current line
-  {
-    key: 'Ctrl-d',
-    run: (view) => {
-      const { from } = view.state.selection.main;
-      const line = view.state.doc.lineAt(from);
-      const tr = view.state.update({
-        changes: { from: line.to + 1, insert: '\n' + line.text },
-        selection: { anchor: line.to + 1 + line.text.length },
-      });
-      view.dispatch(tr);
-      return true;
-    },
-  },
-  // Ctrl+Shift+K: delete current line
-  {
-    key: 'Ctrl-Shift-k',
-    run: (view) => {
-      const { from } = view.state.selection.main;
-      const line = view.state.doc.lineAt(from);
-      const to = line.number < view.state.doc.lines ? line.to + 1 : line.to;
-      const tr = view.state.update({
-        changes: { from: line.from, to },
-      });
-      view.dispatch(tr);
-      return true;
-    },
-  },
-  // Alt+Up: move line up
-  {
-    key: 'Alt-ArrowUp',
-    run: (view) => {
-      const { from } = view.state.selection.main;
-      const line = view.state.doc.lineAt(from);
-      if (line.number <= 1) return true;
-      const prevLine = view.state.doc.line(line.number - 1);
-      const tr = view.state.update({
-        changes: [
-          { from: prevLine.from, to: line.to },
-          line.text + '\n' + prevLine.text,
-        ],
-      });
-      view.dispatch(tr);
-      return true;
-    },
-  },
-  // Alt+Down: move line down
-  {
-    key: 'Alt-ArrowDown',
-    run: (view) => {
-      const { from } = view.state.selection.main;
-      const line = view.state.doc.lineAt(from);
-      if (line.number >= view.state.doc.lines) return true;
-      const nextLine = view.state.doc.line(line.number + 1);
-      const tr = view.state.update({
-        changes: [
-          { from: line.from, to: nextLine.to },
-          nextLine.text + '\n' + line.text,
-        ],
-      });
-      view.dispatch(tr);
-      return true;
-    },
-  },
-]);
-
-// ── Build extensions ────────────────────────────────────
-
-function buildExtensions() {
-  return [
-    basicSetup,
-    customKeymap,
-    wrapCompartment.of(EditorView.lineWrapping),
-    searchHighlightField,
-    markdown({
-      codeLanguages: languages,
-    }),
-    themeCompartment.of(rabbitDarkTheme),
-    EditorView.updateListener.of((update) => {
-      if (update.docChanged) {
-        changeCallbacks.forEach(cb => cb());
-      }
-      if (update.selectionSet) {
-        cursorCallbacks.forEach(cb => cb());
-      }
-      updateCallbacks.forEach(cb => cb());
-    }),
-  ];
-}
 
 // ── Light theme ─────────────────────────────────────────────
 
 const rabbitLightTheme = EditorView.theme(
   {
-    '&': {
-      backgroundColor: '#ffffff',
-      color: '#333333',
-    },
-    '.cm-content': {
-      fontFamily: "'Microsoft YaHei', 'Segoe UI', sans-serif",
-      fontSize: '16px',
-      lineHeight: '1.7',
-      caretColor: '#333',
-    },
+    '&': { backgroundColor: '#ffffff', color: '#333333' },
+    '.cm-content': { fontFamily: "'Microsoft YaHei', 'Segoe UI', sans-serif", fontSize: '16px', lineHeight: '1.7', caretColor: '#333' },
     '.cm-cursor': { borderLeftColor: '#333' },
-    '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': {
-      backgroundColor: 'rgba(0, 120, 212, 0.25) !important',
-    },
+    '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': { backgroundColor: 'rgba(0, 120, 212, 0.25) !important' },
     '.cm-activeLine': { backgroundColor: 'rgba(0, 0, 0, 0.04)' },
-    '.cm-gutters': {
-      backgroundColor: '#f3f3f3',
-      color: '#666',
-      border: 'none',
-      borderRight: '1px solid #d4d4d4',
-      fontFamily: "'Consolas', 'Courier New', monospace",
-    },
-    '.cm-activeLineGutter': {
-      backgroundColor: 'rgba(0, 0, 0, 0.03)',
-      color: '#333',
-    },
-    '.cm-foldPlaceholder': {
-      backgroundColor: '#e0e0e0',
-      color: '#666',
-      border: '1px solid #ccc',
-    },
-    '.cm-matchingBracket': {
-      backgroundColor: 'rgba(0, 0, 0, 0.08)',
-      outline: '1px solid #888',
-    },
+    '.cm-gutters': { backgroundColor: '#f3f3f3', color: '#666', border: 'none', borderRight: '1px solid #d4d4d4', fontFamily: "'Consolas', 'Courier New', monospace" },
+    '.cm-activeLineGutter': { backgroundColor: 'rgba(0, 0, 0, 0.03)', color: '#333' },
+    '.cm-foldPlaceholder': { backgroundColor: '#e0e0e0', color: '#666', border: '1px solid #ccc' },
+    '.cm-matchingBracket': { backgroundColor: 'rgba(0, 0, 0, 0.08)', outline: '1px solid #888' },
     '.cm-header-1': { fontSize: '1.5em', fontWeight: '700', color: '#0078d4' },
     '.cm-header-2': { fontSize: '1.3em', fontWeight: '700', color: '#106ebe' },
     '.cm-header-3': { fontSize: '1.15em', fontWeight: '600', color: '#267f6e' },
@@ -269,31 +128,88 @@ const rabbitLightTheme = EditorView.theme(
     '.cm-list': { color: '#8e562e' },
     '.cm-codeBlock': { fontFamily: "'Consolas', 'Courier New', monospace" },
     '.cm-hr': { color: '#ccc' },
-    '.cm-tooltip': {
-      backgroundColor: '#f3f3f3',
-      border: '1px solid #ccc',
-      color: '#333',
-    },
+    '.cm-tooltip': { backgroundColor: '#f3f3f3', border: '1px solid #ccc', color: '#333' },
   },
   { dark: false }
 );
 
+// ── Custom keybindings ──────────────────────────────────
+
+const customKeymap = keymap.of([
+  {
+    key: 'Ctrl-d',
+    run: (view) => {
+      const { from } = view.state.selection.main;
+      const line = view.state.doc.lineAt(from);
+      view.dispatch(view.state.update({
+        changes: { from: line.to + 1, insert: '\n' + line.text },
+        selection: { anchor: line.to + 1 + line.text.length },
+      }));
+      return true;
+    },
+  },
+  {
+    key: 'Ctrl-Shift-k',
+    run: (view) => {
+      const { from } = view.state.selection.main;
+      const line = view.state.doc.lineAt(from);
+      const to = line.number < view.state.doc.lines ? line.to + 1 : line.to;
+      view.dispatch(view.state.update({ changes: { from: line.from, to } }));
+      return true;
+    },
+  },
+  {
+    key: 'Alt-ArrowUp',
+    run: (view) => {
+      const { from } = view.state.selection.main;
+      const line = view.state.doc.lineAt(from);
+      if (line.number <= 1) return true;
+      const prevLine = view.state.doc.line(line.number - 1);
+      view.dispatch(view.state.update({
+        changes: [{ from: prevLine.from, to: line.to }, line.text + '\n' + prevLine.text],
+      }));
+      return true;
+    },
+  },
+  {
+    key: 'Alt-ArrowDown',
+    run: (view) => {
+      const { from } = view.state.selection.main;
+      const line = view.state.doc.lineAt(from);
+      if (line.number >= view.state.doc.lines) return true;
+      const nextLine = view.state.doc.line(line.number + 1);
+      view.dispatch(view.state.update({
+        changes: [{ from: line.from, to: nextLine.to }, nextLine.text + '\n' + line.text],
+      }));
+      return true;
+    },
+  },
+]);
+
+// ── Build extensions ────────────────────────────────────
+
+function buildExtensions() {
+  return [
+    basicSetup,
+    customKeymap,
+    wrapCompartment.of(EditorView.lineWrapping),
+    searchHighlightField,
+    markdown({ codeLanguages: languages }),
+    themeCompartment.of(rabbitDarkTheme),
+    EditorView.updateListener.of((update) => {
+      if (update.docChanged) changeCallbacks.forEach(cb => cb());
+      if (update.selectionSet) cursorCallbacks.forEach(cb => cb());
+      updateCallbacks.forEach(cb => cb());
+    }),
+  ];
+}
+
 // ── Public API ──────────────────────────────────────────
 
 export function init(container) {
-  const state = EditorState.create({
-    doc: '',
-    extensions: buildExtensions(),
-  });
-
-  editorView = new EditorView({
-    state,
-    parent: container,
-  });
-
+  const state = EditorState.create({ doc: '', extensions: buildExtensions() });
+  editorView = new EditorView({ state, parent: container });
   cursorCallbacks.forEach(cb => cb());
-
-  // Apply current theme
   applyEditorTheme();
 }
 
@@ -306,17 +222,12 @@ export function applyEditorTheme() {
   });
 }
 
-export function getContent() {
-  return editorView ? editorView.state.doc.toString() : '';
-}
+export function getContent() { return editorView ? editorView.state.doc.toString() : ''; }
 
 export function setContent(text) {
   if (!editorView) return;
   if (previewMode) togglePreview();
-  editorView.dispatch({
-    changes: { from: 0, to: editorView.state.doc.length, insert: text },
-  });
-  // Trigger outline rebuild after content change
+  editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: text } });
   updateCallbacks.forEach(cb => cb());
 }
 
@@ -328,24 +239,14 @@ export function getCursorPosition() {
 }
 
 export function onChange(cb) { changeCallbacks.push(cb); }
-
 export function onCursorActivity(cb) { cursorCallbacks.push(cb); }
-
 export function onUpdate(cb) { updateCallbacks.push(cb); }
 
 // ── Zoom ─────────────────────────────────────────────────
 
-export function zoomIn() {
-  setFontSize(currentFontSize + 1);
-}
-
-export function zoomOut() {
-  setFontSize(currentFontSize - 1);
-}
-
-export function zoomReset() {
-  setFontSize(FONT_DEFAULT);
-}
+export function zoomIn() { setFontSize(currentFontSize + 1); }
+export function zoomOut() { setFontSize(currentFontSize - 1); }
+export function zoomReset() { setFontSize(FONT_DEFAULT); }
 
 function setFontSize(size) {
   currentFontSize = Math.max(FONT_MIN, Math.min(FONT_MAX, size));
@@ -355,9 +256,7 @@ function setFontSize(size) {
   if (content) content.style.fontSize = currentFontSize + 'px';
 }
 
-export function getFontSize() {
-  return currentFontSize;
-}
+export function getFontSize() { return currentFontSize; }
 
 // ── Preview toggle ──────────────────────────────────────
 
@@ -368,43 +267,67 @@ export function togglePreview() {
   const statusMode = document.getElementById('status-mode');
 
   if (!previewMode) {
-    lastCursorPos = editorView.state.selection.main.head;
+    // Compute source scroll ratio
+    const totalLines = editorView.state.doc.lines;
+    const cursorLine = editorView.state.doc.lineAt(editorView.state.selection.main.head).number;
+    const sourceRatio = totalLines > 1 ? (cursorLine - 1) / (totalLines - 1) : 0;
+
     previewContent.innerHTML = marked.parse(editorView.state.doc.toString());
+    previewReady = false;
+
     editorContainer.classList.add('hidden');
     previewContainer.classList.remove('hidden');
     previewMode = true;
     statusMode.textContent = '预览';
     statusMode.className = 'preview-mode';
+
+      // Apply saved ratio or source ratio
+    requestAnimationFrame(() => {
+      const max = previewContainer.scrollHeight - previewContainer.clientHeight;
+      if (max > 0) {
+        previewContainer.scrollTop = lastPreviewRatio > 0 ? lastPreviewRatio * max : sourceRatio * max;
+      }
+      lastSourceLine = cursorLine;
+      previewReady = true;
+    });
+
+    // Track preview scroll in real time
+    if (!previewContainer._scrollListener) {
+      previewContainer._scrollListener = true;
+      previewContainer.addEventListener('scroll', () => {
+        const m = previewContainer.scrollHeight - previewContainer.clientHeight;
+        if (m > 0) lastPreviewRatio = previewContainer.scrollTop / m;
+      });
+    }
   } else {
+    // Save preview scroll ratio before switching
+    const max = previewContainer.scrollHeight - previewContainer.clientHeight;
+    lastPreviewRatio = max > 0 ? previewContainer.scrollTop / max : 0;
+
+    // Map preview ratio to source line
+    const totalLines = editorView.state.doc.lines;
+    lastSourceLine = Math.max(1, Math.min(totalLines,
+      Math.round(1 + lastPreviewRatio * (totalLines - 1))));
+
     previewContainer.classList.add('hidden');
     editorContainer.classList.remove('hidden');
     previewMode = false;
     statusMode.textContent = '源码';
     statusMode.className = 'source-mode';
-    if (lastCursorPos !== null && editorView) {
-      // Delay scroll restoration until editor is visible and laid out
-      requestAnimationFrame(() => {
-        editorView.dispatch({
-          selection: { anchor: lastCursorPos },
-          scrollIntoView: true,
-        });
-        editorView.focus();
-      });
-    }
+
+    const pos = editorView.state.doc.line(lastSourceLine).from;
+    setTimeout(() => {
+      editorView.dispatch({ selection: { anchor: pos }, scrollIntoView: true });
+      editorView.focus();
+    }, 0);
   }
 }
 
-export function isPreviewMode() {
-  return previewMode;
-}
+export function setLastCursorPos(lineNumber) { lastSourceLine = lineNumber; }
 
-export function focus() {
-  if (editorView && !previewMode) editorView.focus();
-}
-
-export function getView() {
-  return editorView;
-}
+export function isPreviewMode() { return previewMode; }
+export function focus() { if (editorView && !previewMode) editorView.focus(); }
+export function getView() { return editorView; }
 
 export function highlightRanges(ranges, activeIdx) {
   if (!editorView) return;
@@ -414,9 +337,7 @@ export function highlightRanges(ranges, activeIdx) {
     const cls = i === activeIdx ? 'search-current' : 'search-match';
     marks.push(Decoration.mark({ class: cls }).range(r.from, r.to));
   }
-  editorView.dispatch({
-    effects: setSearchHighlights.of(Decoration.set(marks)),
-  });
+  editorView.dispatch({ effects: setSearchHighlights.of(Decoration.set(marks)) });
 }
 
 export function clearHighlights() {
@@ -433,10 +354,8 @@ export function getSelection() {
   const toLine = editorView.state.doc.lineAt(sel.to);
   return {
     text: editorView.state.sliceDoc(sel.from, sel.to),
-    fromLine: fromLine.number,
-    toLine: toLine.number,
-    from: sel.from,
-    to: sel.to,
+    fromLine: fromLine.number, toLine: toLine.number,
+    from: sel.from, to: sel.to,
     coords: getSelectionCoords(),
   };
 }
@@ -447,11 +366,7 @@ function getSelectionCoords() {
   const startCoords = editorView.coordsAtPos(sel.from);
   const endCoords = editorView.coordsAtPos(sel.to);
   if (!startCoords || !endCoords) return { top: 0, bottom: 0, left: 0 };
-  return {
-    top: startCoords.top,
-    bottom: endCoords.bottom,
-    left: startCoords.left,
-  };
+  return { top: startCoords.top, bottom: endCoords.bottom, left: startCoords.left };
 }
 
 export function replaceSelection(text) {
@@ -472,7 +387,6 @@ export function insertAfterSelection(text) {
   const insertText = '\n' + text;
   editorView.dispatch({
     changes: { from: insertPos, insert: insertText },
-    // Select the new content (skip leading newline), so user sees what was added
     selection: { anchor: insertPos + 1, head: insertPos + insertText.length },
   });
   editorView.focus();
@@ -481,10 +395,7 @@ export function insertAfterSelection(text) {
 export function selectLine(lineNumber) {
   if (!editorView) return;
   const line = editorView.state.doc.line(lineNumber);
-  editorView.dispatch({
-    selection: { anchor: line.from, head: line.to },
-    scrollIntoView: true,
-  });
+  editorView.dispatch({ selection: { anchor: line.from, head: line.to }, scrollIntoView: true });
 }
 
 export function getCurrentLineText() {
@@ -499,12 +410,8 @@ export function toggleWordWrap() {
   wordWrapEnabled = !wordWrapEnabled;
   const el = document.getElementById('status-wrap');
   editorView.dispatch({
-    effects: wrapCompartment.reconfigure(
-      wordWrapEnabled ? EditorView.lineWrapping : []
-    ),
+    effects: wrapCompartment.reconfigure(wordWrapEnabled ? EditorView.lineWrapping : []),
   });
-  if (el) {
-    el.className = wordWrapEnabled ? 'wrap-on' : 'wrap-off';
-  }
+  if (el) el.className = wordWrapEnabled ? 'wrap-on' : 'wrap-off';
   return wordWrapEnabled;
 }

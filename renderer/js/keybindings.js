@@ -7,6 +7,7 @@ import * as Editor from './editor.js';
 import * as Outline from './outline.js';
 import * as AiPanel from './aiPanel.js';
 import * as CtrlKPopup from './ctrlKPopup.js';
+import * as FileBrowser from './fileBrowser.js';
 import * as SearchReplace from './searchReplace.js';
 import * as Settings from './settings.js';
 import * as MenuBar from './menubar.js';
@@ -117,6 +118,18 @@ function handleKeydown(e) {
   if (ctrl && !shift && (e.key === 'S' || e.key === 's')) {
     e.preventDefault();
     App.saveFile();
+    return;
+  }
+
+  // Ctrl+Shift+O: open folder
+  if (ctrl && shift && (e.key === 'O' || e.key === 'o')) {
+    e.preventDefault();
+    (async () => {
+      const result = await window.electronAPI.openFolderDialog();
+      if (result.success) {
+        FileBrowser.setRootDir(result.folderPath);
+      }
+    })();
     return;
   }
 

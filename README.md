@@ -79,6 +79,7 @@ Configure API base URL, API Key, and model name in the Settings panel (Ctrl+, or
 |----------|--------|
 | Ctrl+N | 新建 / New File |
 | Ctrl+O | 打开 / Open File |
+| Ctrl+Shift+O | 打开文件夹 / Open Folder |
 | Ctrl+S | 保存 / Save |
 | Ctrl+Shift+S | 另存为 / Save As |
 | Ctrl+W | 关闭文件 / Close File |

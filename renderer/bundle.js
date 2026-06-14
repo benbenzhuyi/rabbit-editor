@@ -117097,7 +117097,6 @@ ${text5}</tr>
   });
   var editorView = null;
   var previewMode = false;
-  var lastCursorPos = null;
   var currentFontSize = 16;
   var wordWrapEnabled = true;
   var FONT_MIN = 8;
@@ -117135,15 +117134,11 @@ ${text5}</tr>
         lineHeight: "1.7",
         caretColor: "#aeafad"
       },
-      ".cm-cursor": {
-        borderLeftColor: "#aeafad"
-      },
+      ".cm-cursor": { borderLeftColor: "#aeafad" },
       "&.cm-focused .cm-selectionBackground, .cm-selectionBackground": {
         backgroundColor: "rgba(86, 156, 214, 0.35) !important"
       },
-      ".cm-activeLine": {
-        backgroundColor: "rgba(255, 255, 255, 0.04)"
-      },
+      ".cm-activeLine": { backgroundColor: "rgba(255, 255, 255, 0.04)" },
       ".cm-gutters": {
         backgroundColor: "#1e1e1e",
         color: "#858585",
@@ -117151,20 +117146,9 @@ ${text5}</tr>
         borderRight: "1px solid #333",
         fontFamily: "'Consolas', 'Courier New', monospace"
       },
-      ".cm-activeLineGutter": {
-        backgroundColor: "rgba(255, 255, 255, 0.03)",
-        color: "#c6c6c6"
-      },
-      ".cm-foldPlaceholder": {
-        backgroundColor: "#333",
-        color: "#999",
-        border: "1px solid #555"
-      },
-      ".cm-matchingBracket": {
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
-        outline: "1px solid #888"
-      },
-      // Markdown heading styles (matching outline colors)
+      ".cm-activeLineGutter": { backgroundColor: "rgba(255, 255, 255, 0.03)", color: "#c6c6c6" },
+      ".cm-foldPlaceholder": { backgroundColor: "#333", color: "#999", border: "1px solid #555" },
+      ".cm-matchingBracket": { backgroundColor: "rgba(255, 255, 255, 0.1)", outline: "1px solid #888" },
       ".cm-header-1": { fontSize: "1.5em", fontWeight: "700", color: "#569cd6" },
       ".cm-header-2": { fontSize: "1.3em", fontWeight: "700", color: "#4fc1ff" },
       ".cm-header-3": { fontSize: "1.15em", fontWeight: "600", color: "#4ec9b0" },
@@ -117180,138 +117164,21 @@ ${text5}</tr>
       ".cm-list": { color: "#d7ba7d" },
       ".cm-codeBlock": { fontFamily: "'Consolas', 'Courier New', monospace" },
       ".cm-hr": { color: "#555" },
-      ".cm-tooltip": {
-        backgroundColor: "#2d2d2d",
-        border: "1px solid #555",
-        color: "#d4d4d4"
-      }
+      ".cm-tooltip": { backgroundColor: "#2d2d2d", border: "1px solid #555", color: "#d4d4d4" }
     },
     { dark: true }
   );
-  var customKeymap = keymap.of([
-    // Ctrl+D: duplicate current line
-    {
-      key: "Ctrl-d",
-      run: (view) => {
-        const { from: from3 } = view.state.selection.main;
-        const line = view.state.doc.lineAt(from3);
-        const tr = view.state.update({
-          changes: { from: line.to + 1, insert: "\n" + line.text },
-          selection: { anchor: line.to + 1 + line.text.length }
-        });
-        view.dispatch(tr);
-        return true;
-      }
-    },
-    // Ctrl+Shift+K: delete current line
-    {
-      key: "Ctrl-Shift-k",
-      run: (view) => {
-        const { from: from3 } = view.state.selection.main;
-        const line = view.state.doc.lineAt(from3);
-        const to = line.number < view.state.doc.lines ? line.to + 1 : line.to;
-        const tr = view.state.update({
-          changes: { from: line.from, to }
-        });
-        view.dispatch(tr);
-        return true;
-      }
-    },
-    // Alt+Up: move line up
-    {
-      key: "Alt-ArrowUp",
-      run: (view) => {
-        const { from: from3 } = view.state.selection.main;
-        const line = view.state.doc.lineAt(from3);
-        if (line.number <= 1) return true;
-        const prevLine = view.state.doc.line(line.number - 1);
-        const tr = view.state.update({
-          changes: [
-            { from: prevLine.from, to: line.to },
-            line.text + "\n" + prevLine.text
-          ]
-        });
-        view.dispatch(tr);
-        return true;
-      }
-    },
-    // Alt+Down: move line down
-    {
-      key: "Alt-ArrowDown",
-      run: (view) => {
-        const { from: from3 } = view.state.selection.main;
-        const line = view.state.doc.lineAt(from3);
-        if (line.number >= view.state.doc.lines) return true;
-        const nextLine = view.state.doc.line(line.number + 1);
-        const tr = view.state.update({
-          changes: [
-            { from: line.from, to: nextLine.to },
-            nextLine.text + "\n" + line.text
-          ]
-        });
-        view.dispatch(tr);
-        return true;
-      }
-    }
-  ]);
-  function buildExtensions() {
-    return [
-      basicSetup,
-      customKeymap,
-      wrapCompartment.of(EditorView.lineWrapping),
-      searchHighlightField,
-      markdown({
-        codeLanguages: languages
-      }),
-      themeCompartment.of(rabbitDarkTheme),
-      EditorView.updateListener.of((update) => {
-        if (update.docChanged) {
-          changeCallbacks.forEach((cb) => cb());
-        }
-        if (update.selectionSet) {
-          cursorCallbacks.forEach((cb) => cb());
-        }
-        updateCallbacks.forEach((cb) => cb());
-      })
-    ];
-  }
   var rabbitLightTheme = EditorView.theme(
     {
-      "&": {
-        backgroundColor: "#ffffff",
-        color: "#333333"
-      },
-      ".cm-content": {
-        fontFamily: "'Microsoft YaHei', 'Segoe UI', sans-serif",
-        fontSize: "16px",
-        lineHeight: "1.7",
-        caretColor: "#333"
-      },
+      "&": { backgroundColor: "#ffffff", color: "#333333" },
+      ".cm-content": { fontFamily: "'Microsoft YaHei', 'Segoe UI', sans-serif", fontSize: "16px", lineHeight: "1.7", caretColor: "#333" },
       ".cm-cursor": { borderLeftColor: "#333" },
-      "&.cm-focused .cm-selectionBackground, .cm-selectionBackground": {
-        backgroundColor: "rgba(0, 120, 212, 0.25) !important"
-      },
+      "&.cm-focused .cm-selectionBackground, .cm-selectionBackground": { backgroundColor: "rgba(0, 120, 212, 0.25) !important" },
       ".cm-activeLine": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
-      ".cm-gutters": {
-        backgroundColor: "#f3f3f3",
-        color: "#666",
-        border: "none",
-        borderRight: "1px solid #d4d4d4",
-        fontFamily: "'Consolas', 'Courier New', monospace"
-      },
-      ".cm-activeLineGutter": {
-        backgroundColor: "rgba(0, 0, 0, 0.03)",
-        color: "#333"
-      },
-      ".cm-foldPlaceholder": {
-        backgroundColor: "#e0e0e0",
-        color: "#666",
-        border: "1px solid #ccc"
-      },
-      ".cm-matchingBracket": {
-        backgroundColor: "rgba(0, 0, 0, 0.08)",
-        outline: "1px solid #888"
-      },
+      ".cm-gutters": { backgroundColor: "#f3f3f3", color: "#666", border: "none", borderRight: "1px solid #d4d4d4", fontFamily: "'Consolas', 'Courier New', monospace" },
+      ".cm-activeLineGutter": { backgroundColor: "rgba(0, 0, 0, 0.03)", color: "#333" },
+      ".cm-foldPlaceholder": { backgroundColor: "#e0e0e0", color: "#666", border: "1px solid #ccc" },
+      ".cm-matchingBracket": { backgroundColor: "rgba(0, 0, 0, 0.08)", outline: "1px solid #888" },
       ".cm-header-1": { fontSize: "1.5em", fontWeight: "700", color: "#0078d4" },
       ".cm-header-2": { fontSize: "1.3em", fontWeight: "700", color: "#106ebe" },
       ".cm-header-3": { fontSize: "1.15em", fontWeight: "600", color: "#267f6e" },
@@ -117327,23 +117194,78 @@ ${text5}</tr>
       ".cm-list": { color: "#8e562e" },
       ".cm-codeBlock": { fontFamily: "'Consolas', 'Courier New', monospace" },
       ".cm-hr": { color: "#ccc" },
-      ".cm-tooltip": {
-        backgroundColor: "#f3f3f3",
-        border: "1px solid #ccc",
-        color: "#333"
-      }
+      ".cm-tooltip": { backgroundColor: "#f3f3f3", border: "1px solid #ccc", color: "#333" }
     },
     { dark: false }
   );
+  var customKeymap = keymap.of([
+    {
+      key: "Ctrl-d",
+      run: (view) => {
+        const { from: from3 } = view.state.selection.main;
+        const line = view.state.doc.lineAt(from3);
+        view.dispatch(view.state.update({
+          changes: { from: line.to + 1, insert: "\n" + line.text },
+          selection: { anchor: line.to + 1 + line.text.length }
+        }));
+        return true;
+      }
+    },
+    {
+      key: "Ctrl-Shift-k",
+      run: (view) => {
+        const { from: from3 } = view.state.selection.main;
+        const line = view.state.doc.lineAt(from3);
+        const to = line.number < view.state.doc.lines ? line.to + 1 : line.to;
+        view.dispatch(view.state.update({ changes: { from: line.from, to } }));
+        return true;
+      }
+    },
+    {
+      key: "Alt-ArrowUp",
+      run: (view) => {
+        const { from: from3 } = view.state.selection.main;
+        const line = view.state.doc.lineAt(from3);
+        if (line.number <= 1) return true;
+        const prevLine = view.state.doc.line(line.number - 1);
+        view.dispatch(view.state.update({
+          changes: [{ from: prevLine.from, to: line.to }, line.text + "\n" + prevLine.text]
+        }));
+        return true;
+      }
+    },
+    {
+      key: "Alt-ArrowDown",
+      run: (view) => {
+        const { from: from3 } = view.state.selection.main;
+        const line = view.state.doc.lineAt(from3);
+        if (line.number >= view.state.doc.lines) return true;
+        const nextLine = view.state.doc.line(line.number + 1);
+        view.dispatch(view.state.update({
+          changes: [{ from: line.from, to: nextLine.to }, nextLine.text + "\n" + line.text]
+        }));
+        return true;
+      }
+    }
+  ]);
+  function buildExtensions() {
+    return [
+      basicSetup,
+      customKeymap,
+      wrapCompartment.of(EditorView.lineWrapping),
+      searchHighlightField,
+      markdown({ codeLanguages: languages }),
+      themeCompartment.of(rabbitDarkTheme),
+      EditorView.updateListener.of((update) => {
+        if (update.docChanged) changeCallbacks.forEach((cb) => cb());
+        if (update.selectionSet) cursorCallbacks.forEach((cb) => cb());
+        updateCallbacks.forEach((cb) => cb());
+      })
+    ];
+  }
   function init(container) {
-    const state = EditorState.create({
-      doc: "",
-      extensions: buildExtensions()
-    });
-    editorView = new EditorView({
-      state,
-      parent: container
-    });
+    const state = EditorState.create({ doc: "", extensions: buildExtensions() });
+    editorView = new EditorView({ state, parent: container });
     cursorCallbacks.forEach((cb) => cb());
     applyEditorTheme();
   }
@@ -117360,9 +117282,7 @@ ${text5}</tr>
   function setContent(text5) {
     if (!editorView) return;
     if (previewMode) togglePreview();
-    editorView.dispatch({
-      changes: { from: 0, to: editorView.state.doc.length, insert: text5 }
-    });
+    editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: text5 } });
     updateCallbacks.forEach((cb) => cb());
   }
   function getCursorPosition() {
@@ -117402,29 +117322,53 @@ ${text5}</tr>
     const previewContent = document.getElementById("preview-content");
     const statusMode = document.getElementById("status-mode");
     if (!previewMode) {
-      lastCursorPos = editorView.state.selection.main.head;
+      const totalLines = editorView.state.doc.lines;
+      const cursorLine = editorView.state.doc.lineAt(editorView.state.selection.main.head).number;
+      const sourceRatio = totalLines > 1 ? (cursorLine - 1) / (totalLines - 1) : 0;
       previewContent.innerHTML = marked.parse(editorView.state.doc.toString());
+      previewReady = false;
       editorContainer.classList.add("hidden");
       previewContainer.classList.remove("hidden");
       previewMode = true;
       statusMode.textContent = "\u9884\u89C8";
       statusMode.className = "preview-mode";
+      requestAnimationFrame(() => {
+        const max = previewContainer.scrollHeight - previewContainer.clientHeight;
+        if (max > 0) {
+          previewContainer.scrollTop = lastPreviewRatio > 0 ? lastPreviewRatio * max : sourceRatio * max;
+        }
+        lastSourceLine = cursorLine;
+        previewReady = true;
+      });
+      if (!previewContainer._scrollListener) {
+        previewContainer._scrollListener = true;
+        previewContainer.addEventListener("scroll", () => {
+          const m = previewContainer.scrollHeight - previewContainer.clientHeight;
+          if (m > 0) lastPreviewRatio = previewContainer.scrollTop / m;
+        });
+      }
     } else {
+      const max = previewContainer.scrollHeight - previewContainer.clientHeight;
+      lastPreviewRatio = max > 0 ? previewContainer.scrollTop / max : 0;
+      const totalLines = editorView.state.doc.lines;
+      lastSourceLine = Math.max(1, Math.min(
+        totalLines,
+        Math.round(1 + lastPreviewRatio * (totalLines - 1))
+      ));
       previewContainer.classList.add("hidden");
       editorContainer.classList.remove("hidden");
       previewMode = false;
       statusMode.textContent = "\u6E90\u7801";
       statusMode.className = "source-mode";
-      if (lastCursorPos !== null && editorView) {
-        requestAnimationFrame(() => {
-          editorView.dispatch({
-            selection: { anchor: lastCursorPos },
-            scrollIntoView: true
-          });
-          editorView.focus();
-        });
-      }
+      const pos = editorView.state.doc.line(lastSourceLine).from;
+      setTimeout(() => {
+        editorView.dispatch({ selection: { anchor: pos }, scrollIntoView: true });
+        editorView.focus();
+      }, 0);
     }
+  }
+  function setLastCursorPos(lineNumber) {
+    lastSourceLine = lineNumber;
   }
   function isPreviewMode() {
     return previewMode;
@@ -117443,9 +117387,7 @@ ${text5}</tr>
       const cls = i === activeIdx ? "search-current" : "search-match";
       marks2.push(Decoration.mark({ class: cls }).range(r2.from, r2.to));
     }
-    editorView.dispatch({
-      effects: setSearchHighlights.of(Decoration.set(marks2))
-    });
+    editorView.dispatch({ effects: setSearchHighlights.of(Decoration.set(marks2)) });
   }
   function clearHighlights() {
     if (!editorView) return;
@@ -117471,11 +117413,7 @@ ${text5}</tr>
     const startCoords = editorView.coordsAtPos(sel.from);
     const endCoords = editorView.coordsAtPos(sel.to);
     if (!startCoords || !endCoords) return { top: 0, bottom: 0, left: 0 };
-    return {
-      top: startCoords.top,
-      bottom: endCoords.bottom,
-      left: startCoords.left
-    };
+    return { top: startCoords.top, bottom: endCoords.bottom, left: startCoords.left };
   }
   function replaceSelection(text5) {
     if (!editorView) return;
@@ -117494,7 +117432,6 @@ ${text5}</tr>
     const insertText = "\n" + text5;
     editorView.dispatch({
       changes: { from: insertPos, insert: insertText },
-      // Select the new content (skip leading newline), so user sees what was added
       selection: { anchor: insertPos + 1, head: insertPos + insertText.length }
     });
     editorView.focus();
@@ -117502,23 +117439,16 @@ ${text5}</tr>
   function selectLine2(lineNumber) {
     if (!editorView) return;
     const line = editorView.state.doc.line(lineNumber);
-    editorView.dispatch({
-      selection: { anchor: line.from, head: line.to },
-      scrollIntoView: true
-    });
+    editorView.dispatch({ selection: { anchor: line.from, head: line.to }, scrollIntoView: true });
   }
   function toggleWordWrap() {
     if (!editorView) return;
     wordWrapEnabled = !wordWrapEnabled;
     const el = document.getElementById("status-wrap");
     editorView.dispatch({
-      effects: wrapCompartment.reconfigure(
-        wordWrapEnabled ? EditorView.lineWrapping : []
-      )
+      effects: wrapCompartment.reconfigure(wordWrapEnabled ? EditorView.lineWrapping : [])
     });
-    if (el) {
-      el.className = wordWrapEnabled ? "wrap-on" : "wrap-off";
-    }
+    if (el) el.className = wordWrapEnabled ? "wrap-on" : "wrap-off";
     return wordWrapEnabled;
   }
 
@@ -118032,17 +117962,14 @@ ${text5}</tr>
     }, SELECTED_DURATION);
     updateOutlineHighlights();
     if (isPreviewMode()) {
+      setLastCursorPos(lineNumber);
       const previewContent = document.getElementById("preview-content");
       if (previewContent) {
-        const headings = previewContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
-        for (const h of headings) {
-          const allPreHeadings = [...previewContent.querySelectorAll("h1, h2, h3, h4, h5, h6")];
-          const parsed = parseHeadings();
-          const idx = parsed.findIndex((h2) => h2.line === lineNumber);
-          if (idx >= 0 && idx < allPreHeadings.length) {
-            allPreHeadings[idx].scrollIntoView({ behavior: "smooth", block: "start" });
-            break;
-          }
+        const allPreHeadings = [...previewContent.querySelectorAll("h1, h2, h3, h4, h5, h6")];
+        const parsed = parseHeadings();
+        const idx = parsed.findIndex((h) => h.line === lineNumber);
+        if (idx >= 0 && idx < allPreHeadings.length) {
+          allPreHeadings[idx].scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
     } else {
@@ -118738,6 +118665,7 @@ ${sel.text}`;
   var currentIndex = -1;
   var searchVisible = false;
   var replaceVisible = false;
+  var previewOriginalHTML = "";
   function init8() {
     const searchInput = document.getElementById("search-input");
     const toggleBtn = document.getElementById("search-toggle-replace");
@@ -118762,10 +118690,8 @@ ${sel.text}`;
       });
       document.addEventListener("mousemove", (e) => {
         if (!searchBar.classList.contains("dragging")) return;
-        const dx = e.clientX - dragStartX;
-        const dy = e.clientY - dragStartY;
-        searchBar.style.left = barStartX + dx + "px";
-        searchBar.style.top = barStartY + dy + "px";
+        searchBar.style.left = barStartX + e.clientX - dragStartX + "px";
+        searchBar.style.top = barStartY + e.clientY - dragStartY + "px";
         searchBar.style.right = "auto";
       });
       document.addEventListener("mouseup", () => {
@@ -118796,9 +118722,6 @@ ${sel.text}`;
     });
   }
   function openSearch(presetQuery) {
-    if (isPreviewMode()) {
-      togglePreview();
-    }
     const bar = document.getElementById("search-bar");
     const input = document.getElementById("search-input");
     bar.classList.remove("hidden");
@@ -118819,7 +118742,12 @@ ${sel.text}`;
     searchVisible = false;
     matches = [];
     currentIndex = -1;
-    clearHighlights();
+    clearAllHighlights();
+    if (previewOriginalHTML) {
+      const container = document.getElementById("preview-content");
+      if (container) container.innerHTML = previewOriginalHTML;
+      previewOriginalHTML = "";
+    }
   }
   function toggleReplace() {
     const row = document.getElementById("replace-row");
@@ -118835,43 +118763,78 @@ ${sel.text}`;
     if (!query) {
       matches = [];
       currentIndex = -1;
-      clearHighlights();
+      clearAllHighlights();
       countEl.textContent = "";
       return;
     }
-    const view = getView();
-    if (!view) return;
-    matches = [];
-    const cursor = new SearchCursor(view.state.doc, query);
-    while (!cursor.next().done) {
-      matches.push({ from: cursor.value.from, to: cursor.value.to });
-    }
-    currentIndex = matches.length > 0 ? 0 : -1;
-    if (matches.length > 0) {
-      countEl.textContent = `${currentIndex + 1} / ${matches.length}`;
-      countEl.className = "search-count";
+    if (isPreviewMode()) {
+      performPreviewSearch(query);
     } else {
+      performSourceSearch(query);
+    }
+    if (matches.length > 0) {
+      currentIndex = 0;
+      countEl.textContent = `1 / ${matches.length}`;
+      countEl.className = "search-count";
+      selectMatch(0);
+    } else {
+      currentIndex = -1;
       countEl.textContent = "\u65E0\u7ED3\u679C";
       countEl.className = "search-count no-results";
     }
+  }
+  function performSourceSearch(query) {
+    const view = getView();
+    if (!view) {
+      matches = [];
+      return;
+    }
+    matches = [];
+    const cursor = new SearchCursor(view.state.doc, query);
+    while (!cursor.next().done) {
+      matches.push({ from: cursor.value.from, to: cursor.value.to, type: "source" });
+    }
     highlightRanges(matches, currentIndex);
-    if (currentIndex >= 0) selectMatch(currentIndex);
+  }
+  function performPreviewSearch(query) {
+    const container = document.getElementById("preview-content");
+    if (!container) {
+      matches = [];
+      return;
+    }
+    if (!previewOriginalHTML) {
+      previewOriginalHTML = container.innerHTML;
+    } else {
+      container.innerHTML = previewOriginalHTML;
+    }
+    const escaped = escapeRegex(query);
+    const regex = new RegExp(`(${escaped})`, "gi");
+    container.innerHTML = container.innerHTML.replace(regex, '<mark class="search-match">$1</mark>');
+    matches = [];
+    const marks2 = container.querySelectorAll("mark.search-match");
+    marks2.forEach((mark, i) => {
+      matches.push({ el: mark, idx: i, type: "preview" });
+    });
+  }
+  function selectMatch(index) {
+    if (matches.length === 0 || index < 0) return;
+    const m = matches[index];
+    if (m.type === "source") {
+      highlightRanges(matches, index);
+      const view = getView();
+      if (view) view.dispatch({ selection: { anchor: m.from, head: m.to }, scrollIntoView: true });
+    } else {
+      const container = document.getElementById("preview-content");
+      container.querySelectorAll("mark.search-current").forEach((el) => el.className = "search-match");
+      m.el.className = "search-current";
+      m.el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   }
   function navigateMatch(direction) {
     if (matches.length === 0) return;
     currentIndex = (currentIndex + direction + matches.length) % matches.length;
     selectMatch(currentIndex);
-    highlightRanges(matches, currentIndex);
     updateCountDisplay();
-  }
-  function selectMatch(index) {
-    const view = getView();
-    if (!view) return;
-    const m = matches[index];
-    view.dispatch({
-      selection: { anchor: m.from, head: m.to },
-      scrollIntoView: true
-    });
   }
   function updateCountDisplay() {
     const el = document.getElementById("search-count");
@@ -118879,9 +118842,18 @@ ${sel.text}`;
       el.textContent = `${currentIndex + 1} / ${matches.length}`;
     }
   }
+  function clearAllHighlights() {
+    clearHighlights();
+    if (previewOriginalHTML) {
+      const container = document.getElementById("preview-content");
+      if (container) container.innerHTML = previewOriginalHTML;
+      previewOriginalHTML = "";
+    }
+  }
   function replaceCurrent() {
     if (matches.length === 0 || currentIndex < 0) return;
     const view = getView();
+    if (!view) return;
     const replaceText = document.getElementById("replace-input").value;
     const m = matches[currentIndex];
     view.dispatch({ changes: { from: m.from, to: m.to, insert: replaceText } });
@@ -118890,13 +118862,17 @@ ${sel.text}`;
   function replaceAll2() {
     if (matches.length === 0) return;
     const view = getView();
+    if (!view) return;
     const replaceText = document.getElementById("replace-input").value;
     const changes = [...matches].reverse().map((m) => ({ from: m.from, to: m.to, insert: replaceText }));
     view.dispatch({ changes });
     matches = [];
     currentIndex = -1;
     document.getElementById("search-count").textContent = "";
-    clearHighlights();
+    clearAllHighlights();
+  }
+  function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
   function isSearchVisible() {
     return searchVisible;
@@ -119111,6 +119087,16 @@ ${sel.text}`;
     if (ctrl && !shift2 && (e.key === "S" || e.key === "s")) {
       e.preventDefault();
       saveFile();
+      return;
+    }
+    if (ctrl && shift2 && (e.key === "O" || e.key === "o")) {
+      e.preventDefault();
+      (async () => {
+        const result = await window.electronAPI.openFolderDialog();
+        if (result.success) {
+          setRootDir(result.folderPath);
+        }
+      })();
       return;
     }
     if (ctrl && shift2 && (e.key === "S" || e.key === "s")) {
