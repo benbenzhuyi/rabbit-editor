@@ -117258,6 +117258,10 @@ ${text5}</tr>
   function setContent(text5) {
     if (!editorView) return;
     if (previewMode) togglePreview();
+    if (text5 === "" && editorView.state.doc.length > 0) {
+      console.error("Refusing to clear existing document contents \u2014 possible bug");
+      return;
+    }
     editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: text5 } });
     updateCallbacks.forEach((cb) => cb());
   }
@@ -117298,34 +117302,22 @@ ${text5}</tr>
     const pContent = document.getElementById("preview-content");
     const sm = document.getElementById("status-mode");
     if (!previewMode) {
-      const targetLine = getSourceVisibleLine();
-      const targetId = `src-L${targetLine}`;
-      pContent.innerHTML = marked.parse(editorView.state.doc.toString());
-      injectSourceLineIds(pContent);
+      const anchorLine = getSourceFirstVisibleLine();
+      lastSourceLine = anchorLine;
+      pContent.innerHTML = renderWithLineIds(editorView.state.doc.toString());
       ec.classList.add("hidden");
       pc.classList.remove("hidden");
       previewMode = true;
       sm.textContent = "\u9884\u89C8";
       sm.className = "preview-mode";
-      lastSourceLine = targetLine;
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          const el = document.getElementById(targetId);
-          if (el) {
-            el.scrollIntoView({ behavior: "instant", block: "start" });
-          } else {
-            pc.scrollTop = 0;
-          }
+          scrollPreviewToLine(pc, anchorLine);
         });
       });
     } else {
-      const capturedScroll = pc.scrollTop;
-      const capturedMax = pc.scrollHeight - pc.clientHeight;
-      const capturedRatio = capturedMax > 0 ? capturedScroll / capturedMax : 0;
-      const total = editorView.state.doc.lines;
-      const targetLine = Math.max(1, Math.min(total, Math.round(1 + capturedRatio * (total - 1))));
-      const pos = editorView.state.doc.line(targetLine).from;
-      lastSourceLine = targetLine;
+      const anchorLine = getPreviewFirstVisibleLine(pc);
+      lastSourceLine = anchorLine;
       pc.classList.add("hidden");
       ec.classList.remove("hidden");
       previewMode = false;
@@ -117334,38 +117326,131 @@ ${text5}</tr>
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            const emax = editorView.scrollDOM.scrollHeight - editorView.scrollDOM.clientHeight;
-            editorView.scrollDOM.scrollTop = capturedRatio * emax;
-            editorView.dispatch({ selection: { anchor: pos } });
-            editorView.focus();
+            scrollEditorToLine(anchorLine);
           });
         });
       });
     }
   }
-  function getSourceVisibleLine() {
+  function getSourceFirstVisibleLine() {
     if (!editorView) return 1;
-    const topPos = editorView.viewport.from;
-    if (topPos <= 0) return 1;
-    return editorView.state.doc.lineAt(topPos).number;
-  }
-  function injectSourceLineIds(container) {
-    const srcLines = editorView.state.doc.toString().split("\n");
-    const srcMap = [];
-    for (let i = 0; i < srcLines.length; i++) {
-      const m = srcLines[i].match(/^(#{1,6})\s+(.+)/);
-      if (m) srcMap.push({ line: i + 1, text: m[2].trim() });
-    }
-    const hEls = container.querySelectorAll("h1,h2,h3,h4,h5,h6");
-    let mi = 0;
-    for (const h of hEls) {
-      const t2 = h.textContent.trim();
-      while (mi < srcMap.length && srcMap[mi].text !== t2) mi++;
-      if (mi < srcMap.length) {
-        h.id = `src-L${srcMap[mi].line}`;
-        mi++;
+    const topOffset = Math.max(0, editorView.viewport.from);
+    const scrollTop = editorView.scrollDOM.scrollTop;
+    if (scrollTop <= 0) return 1;
+    const lineAtTop = editorView.state.doc.lineAt(topOffset);
+    for (let n = lineAtTop.number; n <= editorView.state.doc.lines; n++) {
+      const lineObj = editorView.state.doc.line(n);
+      const coords = editorView.coordsAtPos(lineObj.from);
+      if (coords && coords.top >= editorView.scrollDOM.getBoundingClientRect().top) {
+        return n;
       }
     }
+    return lineAtTop.number;
+  }
+  function getPreviewFirstVisibleLine(pc) {
+    if (!pc) return lastSourceLine;
+    const containerTop = pc.getBoundingClientRect().top;
+    const els = pc.querySelectorAll("[data-src-line]");
+    for (const el of els) {
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom > containerTop) {
+        return parseInt(el.dataset.srcLine, 10);
+      }
+    }
+    return lastSourceLine;
+  }
+  function scrollEditorToLine(lineNumber) {
+    if (!editorView) return;
+    const total = editorView.state.doc.lines;
+    const n = Math.max(1, Math.min(total, lineNumber));
+    const lineObj = editorView.state.doc.line(n);
+    editorView.dispatch({ selection: { anchor: lineObj.from }, scrollIntoView: false });
+    const coords = editorView.coordsAtPos(lineObj.from);
+    const editorRect = editorView.scrollDOM.getBoundingClientRect();
+    if (coords) {
+      const offset = coords.top - editorRect.top;
+      editorView.scrollDOM.scrollTop = editorView.scrollDOM.scrollTop + offset;
+    }
+    editorView.focus();
+  }
+  function scrollPreviewToLine(pc, lineNumber) {
+    const els = Array.from(pc.querySelectorAll("[data-src-line]"));
+    if (els.length === 0) {
+      pc.scrollTop = 0;
+      return;
+    }
+    let best = els[0];
+    for (const el of els) {
+      const ln = parseInt(el.dataset.srcLine, 10);
+      if (ln <= lineNumber) best = el;
+      else break;
+    }
+    const containerTop = pc.getBoundingClientRect().top;
+    const elTop = best.getBoundingClientRect().top;
+    pc.scrollTop = pc.scrollTop + (elTop - containerTop);
+  }
+  function renderWithLineIds(src) {
+    const lines = src.split("\n");
+    const totalLines = lines.length;
+    const blockStartLines = [];
+    let inFence = false;
+    for (let i = 0; i < totalLines; i++) {
+      const line = lines[i];
+      if (/^(`{3,}|~{3,})/.test(line)) {
+        if (!inFence) {
+          blockStartLines.push(i + 1);
+          inFence = true;
+        } else {
+          inFence = false;
+        }
+        continue;
+      }
+      if (inFence) continue;
+      const trimmed = line.trim();
+      if (trimmed === "") continue;
+      if (/^#{1,6}\s/.test(trimmed)) {
+        blockStartLines.push(i + 1);
+        continue;
+      }
+      if (/^(-{3,}|\*{3,}|_{3,})$/.test(trimmed)) {
+        blockStartLines.push(i + 1);
+        continue;
+      }
+      if (/^(\*|-|\+|\d+[.)]) /.test(trimmed)) {
+        blockStartLines.push(i + 1);
+        continue;
+      }
+      if (/^>/.test(trimmed)) {
+        blockStartLines.push(i + 1);
+        continue;
+      }
+      const prevTrimmed = i > 0 ? lines[i - 1].trim() : "";
+      if (prevTrimmed === "") {
+        blockStartLines.push(i + 1);
+        continue;
+      }
+    }
+    if (blockStartLines.length === 0) blockStartLines.push(1);
+    const markedLines = [...lines];
+    for (let k = blockStartLines.length - 1; k >= 0; k--) {
+      const lineIdx = blockStartLines[k] - 1;
+      markedLines.splice(lineIdx, 0, `<!--src-L${blockStartLines[k]}-->`);
+    }
+    const html3 = marked.parse(markedLines.join("\n"));
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = html3;
+    let lastLine = 1;
+    const childNodes = Array.from(wrapper.childNodes);
+    for (let i = 0; i < childNodes.length; i++) {
+      const node = childNodes[i];
+      if (node.nodeType === Node.COMMENT_NODE) {
+        const m = node.nodeValue.match(/^src-L(\d+)$/);
+        if (m) lastLine = parseInt(m[1], 10);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        node.dataset.srcLine = lastLine;
+      }
+    }
+    return wrapper.innerHTML;
   }
   function setLastCursorPos(lineNumber) {
     lastSourceLine = lineNumber;

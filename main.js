@@ -102,6 +102,19 @@ ipcMain.handle('file:read', async (_event, filePath) => {
 
 ipcMain.handle('file:write', async (_event, filePath, content) => {
   try {
+    // Safety: refuse to save empty content to an existing file
+    if (content.trim() === '' && fs.existsSync(filePath)) {
+      const existing = fs.readFileSync(filePath, 'utf-8');
+      if (existing.trim() !== '') {
+        console.error('Refusing to overwrite non-empty file with empty content:', filePath);
+        return { success: false, error: 'Refusing to overwrite existing file with empty content (data-loss prevention)' };
+      }
+    }
+    // Auto-backup: create .bak copy before overwriting
+    if (fs.existsSync(filePath)) {
+      const bakPath = filePath.replace(/\.md$/, '') + '.bak.md';
+      try { fs.copyFileSync(filePath, bakPath); } catch (_) {}
+    }
     fs.writeFileSync(filePath, content, 'utf-8');
     return { success: true };
   } catch (err) {

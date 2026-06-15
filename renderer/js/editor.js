@@ -189,6 +189,11 @@ export function getContent() { return editorView ? editorView.state.doc.toString
 export function setContent(text) {
   if (!editorView) return;
   if (previewMode) togglePreview();
+  // Safety: refuse to replace non-empty document with empty text (data-loss prevention)
+  if (text === '' && editorView.state.doc.length > 0) {
+    console.error('Refusing to clear existing document contents — possible bug');
+    return;
+  }
   editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: text } });
   updateCallbacks.forEach(cb => cb());
 }
@@ -227,104 +232,229 @@ export function togglePreview() {
   const sm = document.getElementById('status-mode');
 
   if (!previewMode) {
-    // Source → Preview
-    const targetLine = getSourceVisibleLine();
-    const targetId   = `src-L${targetLine}`;
+    // ── Source → Preview ──────────────────────────────
+    // Step 1: record which source line is at the top of the viewport RIGHT NOW
+    const anchorLine = getSourceFirstVisibleLine();
+    lastSourceLine = anchorLine;
 
-    pContent.innerHTML = marked.parse(editorView.state.doc.toString());
-    // Inject id attributes on headings for anchor-based scroll sync
-    injectSourceLineIds(pContent);
+    // Step 2: render markdown, injecting data-src-line on EVERY block element
+    pContent.innerHTML = renderWithLineIds(editorView.state.doc.toString());
 
+    // Step 3: show preview, hide editor
     ec.classList.add('hidden');
     pc.classList.remove('hidden');
     previewMode = true;
     sm.textContent = '预览';
     sm.className = 'preview-mode';
 
-    lastSourceLine = targetLine;
-
+    // Step 4: after layout, scroll preview so that anchorLine is at the top
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const el = document.getElementById(targetId);
-        if (el) {
-          el.scrollIntoView({ behavior: 'instant', block: 'start' });
-        } else {
-          pc.scrollTop = 0;
-        }
+        scrollPreviewToLine(pc, anchorLine);
       });
     });
-  } else {
-    // Capture ALL values before hiding — hidden resets scrollTop to 0
-    const capturedScroll = pc.scrollTop;
-    const capturedMax    = pc.scrollHeight - pc.clientHeight;
-    const capturedRatio  = capturedMax > 0 ? capturedScroll / capturedMax : 0;
-    const total          = editorView.state.doc.lines;
-    const targetLine     = Math.max(1, Math.min(total, Math.round(1 + capturedRatio * (total - 1))));
-    const pos            = editorView.state.doc.line(targetLine).from;
-    lastSourceLine       = targetLine;
 
+  } else {
+    // ── Preview → Source ──────────────────────────────
+    // Step 1: find which source line is at the top of the preview RIGHT NOW
+    // Must be done before hiding (hidden collapses layout)
+    const anchorLine = getPreviewFirstVisibleLine(pc);
+    lastSourceLine = anchorLine;
+
+    // Step 2: show editor, hide preview
     pc.classList.add('hidden');
     ec.classList.remove('hidden');
     previewMode = false;
     sm.textContent = '源码';
     sm.className = 'source-mode';
 
-    // Triple-RAF ensures editor is fully laid out after hidden→visible
+    // Step 3: after editor is fully laid out, scroll so anchorLine is at the top
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          const emax = editorView.scrollDOM.scrollHeight - editorView.scrollDOM.clientHeight;
-          editorView.scrollDOM.scrollTop = capturedRatio * emax;
-          editorView.dispatch({ selection: { anchor: pos } });
-          editorView.focus();
+          scrollEditorToLine(anchorLine);
         });
       });
     });
   }
 }
 
-function getSourceVisibleLine() {
+// ── Helpers: get the first visible line ─────────────────
+
+/**
+ * Returns the 1-based line number of the first line currently visible
+ * in the CodeMirror editor viewport.
+ */
+function getSourceFirstVisibleLine() {
   if (!editorView) return 1;
-  const topPos = editorView.viewport.from;
-  if (topPos <= 0) return 1;
-  return editorView.state.doc.lineAt(topPos).number;
-}
-
-// ── Anchor-based preview ↔ source sync ────────────────
-
-function injectSourceLineIds(container) {
-  // Parse source headings: [ { line, text }, ... ]
-  const srcLines = editorView.state.doc.toString().split('\n');
-  const srcMap = [];
-  for (let i = 0; i < srcLines.length; i++) {
-    const m = srcLines[i].match(/^(#{1,6})\s+(.+)/);
-    if (m) srcMap.push({ line: i + 1, text: m[2].trim() });
-  }
-
-  // Walk preview headings, assign id="src-L{line}"
-  const hEls = container.querySelectorAll('h1,h2,h3,h4,h5,h6');
-  let mi = 0;
-  for (const h of hEls) {
-    const t = h.textContent.trim();
-    while (mi < srcMap.length && srcMap[mi].text !== t) mi++;
-    if (mi < srcMap.length) {
-      h.id = `src-L${srcMap[mi].line}`;
-      mi++;
+  // editorView.viewport.from is the document offset of the first rendered char.
+  // We clamp to 0 so lineAt never throws.
+  const topOffset = Math.max(0, editorView.viewport.from);
+  // scrollTop of the scroll DOM gives us a more accurate "first visible" line
+  // because viewport.from lags slightly when the editor hasn't re-measured yet.
+  const scrollTop = editorView.scrollDOM.scrollTop;
+  if (scrollTop <= 0) return 1;
+  // Walk line by line from viewport.from upward to find the actual first visible line.
+  const lineAtTop = editorView.state.doc.lineAt(topOffset);
+  // Use coordsAtPos to find which line's top edge is at or just below scrollTop.
+  for (let n = lineAtTop.number; n <= editorView.state.doc.lines; n++) {
+    const lineObj = editorView.state.doc.line(n);
+    const coords = editorView.coordsAtPos(lineObj.from);
+    if (coords && coords.top >= editorView.scrollDOM.getBoundingClientRect().top) {
+      return n;
     }
   }
+  return lineAtTop.number;
 }
 
-function getPreviewVisibleLine(pc) {
+/**
+ * Returns the 1-based source line number of the topmost visible block
+ * element in the preview container.
+ */
+function getPreviewFirstVisibleLine(pc) {
   if (!pc) return lastSourceLine;
-  const pcTop = pc.getBoundingClientRect().top;
-  const headings = pc.querySelectorAll('[id^="src-L"]');
-  for (const h of headings) {
-    const rect = h.getBoundingClientRect();
-    if (rect.bottom > pcTop) {
-      return parseInt(h.id.replace('src-L', ''), 10);
+  const containerTop = pc.getBoundingClientRect().top;
+  const els = pc.querySelectorAll('[data-src-line]');
+  for (const el of els) {
+    const rect = el.getBoundingClientRect();
+    // The first element whose bottom edge is below the container top is "visible"
+    if (rect.bottom > containerTop) {
+      return parseInt(el.dataset.srcLine, 10);
     }
   }
   return lastSourceLine;
+}
+
+// ── Helpers: scroll to a given source line ───────────────
+
+/**
+ * Scrolls the CodeMirror editor so that `lineNumber` appears at the top.
+ * Uses pure scrollDOM arithmetic — no dispatch, no requestMeasure.
+ */
+function scrollEditorToLine(lineNumber) {
+  if (!editorView) return;
+  const total = editorView.state.doc.lines;
+  const n = Math.max(1, Math.min(total, lineNumber));
+  const lineObj = editorView.state.doc.line(n);
+  // Move cursor to that line (no scrollIntoView — we handle scroll ourselves)
+  editorView.dispatch({ selection: { anchor: lineObj.from }, scrollIntoView: false });
+  // Now scroll so the line is flush at the top
+  const coords = editorView.coordsAtPos(lineObj.from);
+  const editorRect = editorView.scrollDOM.getBoundingClientRect();
+  if (coords) {
+    const offset = coords.top - editorRect.top;
+    editorView.scrollDOM.scrollTop = editorView.scrollDOM.scrollTop + offset;
+  }
+  editorView.focus();
+}
+
+/**
+ * Scrolls the preview container so that the element with
+ * data-src-line closest to `lineNumber` appears at the top.
+ */
+function scrollPreviewToLine(pc, lineNumber) {
+  const els = Array.from(pc.querySelectorAll('[data-src-line]'));
+  if (els.length === 0) { pc.scrollTop = 0; return; }
+
+  // Find the element whose data-src-line is the largest value ≤ lineNumber.
+  // That is the block that "contains" or immediately precedes the anchor line.
+  let best = els[0];
+  for (const el of els) {
+    const ln = parseInt(el.dataset.srcLine, 10);
+    if (ln <= lineNumber) best = el;
+    else break;
+  }
+
+  // Scroll so best's top edge aligns with the container's top.
+  const containerTop = pc.getBoundingClientRect().top;
+  const elTop = best.getBoundingClientRect().top;
+  pc.scrollTop = pc.scrollTop + (elTop - containerTop);
+}
+
+// ── Markdown renderer: inject data-src-line on every block ──
+
+/**
+ * Parses the markdown source line-by-line and produces HTML where every
+ * top-level block element carries a data-src-line attribute pointing back
+ * to the source line it originated from.  This covers headings, paragraphs,
+ * list items, blockquotes, code fences, and horizontal rules — so the sync
+ * logic always has a nearby anchor regardless of content type.
+ */
+function renderWithLineIds(src) {
+  const lines = src.split('\n');
+  const totalLines = lines.length;
+
+  // ── Pass 1: tag each source line with its 1-based number ──────────────
+  // We emit one <div data-src-line="N"> sentinel per logical block start,
+  // then let marked render the whole document.  Because we can't easily
+  // hook into marked's AST here, we use a two-step approach:
+  //   a) Render full HTML with marked (correct output).
+  //   b) Build a line→element mapping by inserting unique markers BEFORE
+  //      rendering, then replace them with data attributes after.
+
+  // Build a map: for each line index, is it a "block start"?
+  const blockStartLines = [];
+  let inFence = false;
+  for (let i = 0; i < totalLines; i++) {
+    const line = lines[i];
+    // Track fenced code blocks (``` or ~~~)
+    if (/^(`{3,}|~{3,})/.test(line)) {
+      if (!inFence) {
+        blockStartLines.push(i + 1); // code fence start → new block
+        inFence = true;
+      } else {
+        inFence = false; // closing fence — not a new block start
+      }
+      continue;
+    }
+    if (inFence) continue; // inside a code block — skip
+
+    const trimmed = line.trim();
+    if (trimmed === '') continue; // blank line — not a block
+
+    // Headings, thematic breaks, setext underlines are always block starts
+    if (/^#{1,6}\s/.test(trimmed)) { blockStartLines.push(i + 1); continue; }
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(trimmed)) { blockStartLines.push(i + 1); continue; }
+    // List items
+    if (/^(\*|-|\+|\d+[.)]) /.test(trimmed)) { blockStartLines.push(i + 1); continue; }
+    // Blockquotes
+    if (/^>/.test(trimmed)) { blockStartLines.push(i + 1); continue; }
+    // Paragraph: first non-empty line after a blank line (or start of doc)
+    const prevTrimmed = i > 0 ? lines[i - 1].trim() : '';
+    if (prevTrimmed === '') { blockStartLines.push(i + 1); continue; }
+  }
+  if (blockStartLines.length === 0) blockStartLines.push(1);
+
+  // ── Pass 2: inject sentinel comments into source, render, then annotate ─
+  // We insert <!--src-L{n}--> before each block-start line, render with
+  // marked, then find the first real element after each comment and set
+  // data-src-line on it.
+  const markedLines = [...lines];
+  // Insert sentinels from bottom to top so indices stay stable.
+  for (let k = blockStartLines.length - 1; k >= 0; k--) {
+    const lineIdx = blockStartLines[k] - 1; // 0-based
+    markedLines.splice(lineIdx, 0, `<!--src-L${blockStartLines[k]}-->`);
+  }
+
+  const html = marked.parse(markedLines.join('\n'));
+
+  // ── Pass 3: parse the rendered HTML, find sentinels, tag next sibling ──
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = html;
+
+  let lastLine = 1;
+  const childNodes = Array.from(wrapper.childNodes);
+  for (let i = 0; i < childNodes.length; i++) {
+    const node = childNodes[i];
+    if (node.nodeType === Node.COMMENT_NODE) {
+      const m = node.nodeValue.match(/^src-L(\d+)$/);
+      if (m) lastLine = parseInt(m[1], 10);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      node.dataset.srcLine = lastLine;
+    }
+  }
+
+  return wrapper.innerHTML;
 }
 
 export function setLastCursorPos(lineNumber) { lastSourceLine = lineNumber; }
