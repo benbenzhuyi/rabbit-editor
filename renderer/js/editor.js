@@ -220,64 +220,56 @@ export function getFontSize() { return currentFontSize; }
 
 // ── Preview toggle ──────────────────────────────────────
 
-// Track source visible viewport line on every cursor/scroll activity
-let sourceViewportLine = 1;
-export function updateSourceViewportLine() {
-  if (!editorView || previewMode) return;
-  sourceViewportLine = getSourceVisibleLine();
-}
-
 export function togglePreview() {
-  const editorContainer = document.getElementById('editor-container');
-  const previewContainer = document.getElementById('preview-container');
-  const previewContent = document.getElementById('preview-content');
-  const statusMode = document.getElementById('status-mode');
+  const ec = document.getElementById('editor-container');
+  const pc = document.getElementById('preview-container');
+  const pContent = document.getElementById('preview-content');
+  const sm = document.getElementById('status-mode');
 
   if (!previewMode) {
     // Source → Preview
-    lastSourceLine = getSourceVisibleLine();
-    const totalLines = editorView.state.doc.lines;
-    const ratio = totalLines > 1 ? (lastSourceLine - 1) / (totalLines - 1) : 0;
+    const firstVisible = getSourceVisibleLine();
+    const total = editorView.state.doc.lines;
+    const ratio = total > 1 ? (firstVisible - 1) / (total - 1) : 0;
 
-    previewContent.innerHTML = marked.parse(editorView.state.doc.toString());
-    editorContainer.classList.add('hidden');
-    previewContainer.classList.remove('hidden');
+    pContent.innerHTML = marked.parse(editorView.state.doc.toString());
+    ec.classList.add('hidden');
+    pc.classList.remove('hidden');
     previewMode = true;
-    statusMode.textContent = '预览';
-    statusMode.className = 'preview-mode';
+    sm.textContent = '预览';
+    sm.className = 'preview-mode';
 
+    // Double-RAF: 1st for display change, 2nd for innerHTML layout
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-        previewContainer.scrollTop = ratio * max;
+        const max = pc.scrollHeight - pc.clientHeight;
+        pc.scrollTop = ratio * max;
       });
     });
   } else {
-    // Preview → Source — read scrollTop BEFORE hiding (hide resets it to 0!)
-    const capturedScroll = previewContainer.scrollTop;
-    const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-    const ratio = max > 0 ? capturedScroll / max : 0;
-    const totalLines = editorView.state.doc.lines;
-    lastSourceLine = Math.max(1, Math.min(totalLines, Math.round(1 + ratio * (totalLines - 1))));
-    const pos = editorView.state.doc.line(lastSourceLine).from;
+    // Preview → Source — capture ALL values BEFORE HIDDEN
+    const keepScroll = pc.scrollTop;                          // <— save first
+    const keepMax   = pc.scrollHeight - pc.clientHeight;      // <— save first
 
-    previewContainer.classList.add('hidden');
-    editorContainer.classList.remove('hidden');
+    pc.classList.add('hidden');
+    ec.classList.remove('hidden');
     previewMode = false;
-    statusMode.textContent = '源码';
-    statusMode.className = 'source-mode';
+    sm.textContent = '源码';
+    sm.className = 'source-mode';
 
-    // RAF ensures browser layout completes before CodeMirror measures
+    const ratio     = keepMax > 0 ? keepScroll / keepMax : 0;
+    const total     = editorView.state.doc.lines;
+    const targetLine = Math.max(1, Math.min(total, Math.round(1 + ratio * (total - 1))));
+    const pos       = editorView.state.doc.line(targetLine).from;
+    lastSourceLine  = targetLine;
+
+    // Double RAF to ensure editor is visible and laid out before scrolling
     requestAnimationFrame(() => {
-      editorView.requestMeasure({
-        read(view) {
-          return { lineBlock: view.lineBlockAt(pos) };
-        },
-        write({ lineBlock }, view) {
-          view.scrollDOM.scrollTop = Math.max(0, lineBlock.top - view.scrollDOM.clientHeight * 0.35);
-          view.dispatch({ selection: { anchor: pos } });
-          view.focus();
-        },
+      requestAnimationFrame(() => {
+        const block = editorView.lineBlockAt(pos);
+        editorView.scrollDOM.scrollTop = Math.max(0, block.top - 40);
+        editorView.dispatch({ selection: { anchor: pos } });
+        editorView.focus();
       });
     });
   }

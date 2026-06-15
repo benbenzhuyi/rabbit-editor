@@ -117293,48 +117293,45 @@ ${text5}</tr>
     if (content3) content3.style.fontSize = currentFontSize + "px";
   }
   function togglePreview() {
-    const editorContainer = document.getElementById("editor-container");
-    const previewContainer = document.getElementById("preview-container");
-    const previewContent = document.getElementById("preview-content");
-    const statusMode = document.getElementById("status-mode");
+    const ec = document.getElementById("editor-container");
+    const pc = document.getElementById("preview-container");
+    const pContent = document.getElementById("preview-content");
+    const sm = document.getElementById("status-mode");
     if (!previewMode) {
-      lastSourceLine = getSourceVisibleLine();
-      const totalLines = editorView.state.doc.lines;
-      const ratio = totalLines > 1 ? (lastSourceLine - 1) / (totalLines - 1) : 0;
-      previewContent.innerHTML = marked.parse(editorView.state.doc.toString());
-      editorContainer.classList.add("hidden");
-      previewContainer.classList.remove("hidden");
+      const firstVisible = getSourceVisibleLine();
+      const total = editorView.state.doc.lines;
+      const ratio = total > 1 ? (firstVisible - 1) / (total - 1) : 0;
+      pContent.innerHTML = marked.parse(editorView.state.doc.toString());
+      ec.classList.add("hidden");
+      pc.classList.remove("hidden");
       previewMode = true;
-      statusMode.textContent = "\u9884\u89C8";
-      statusMode.className = "preview-mode";
+      sm.textContent = "\u9884\u89C8";
+      sm.className = "preview-mode";
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-          previewContainer.scrollTop = ratio * max;
+          const max = pc.scrollHeight - pc.clientHeight;
+          pc.scrollTop = ratio * max;
         });
       });
     } else {
-      const capturedScroll = previewContainer.scrollTop;
-      const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-      const ratio = max > 0 ? capturedScroll / max : 0;
-      const totalLines = editorView.state.doc.lines;
-      lastSourceLine = Math.max(1, Math.min(totalLines, Math.round(1 + ratio * (totalLines - 1))));
-      const pos = editorView.state.doc.line(lastSourceLine).from;
-      previewContainer.classList.add("hidden");
-      editorContainer.classList.remove("hidden");
+      const keepScroll = pc.scrollTop;
+      const keepMax = pc.scrollHeight - pc.clientHeight;
+      pc.classList.add("hidden");
+      ec.classList.remove("hidden");
       previewMode = false;
-      statusMode.textContent = "\u6E90\u7801";
-      statusMode.className = "source-mode";
+      sm.textContent = "\u6E90\u7801";
+      sm.className = "source-mode";
+      const ratio = keepMax > 0 ? keepScroll / keepMax : 0;
+      const total = editorView.state.doc.lines;
+      const targetLine = Math.max(1, Math.min(total, Math.round(1 + ratio * (total - 1))));
+      const pos = editorView.state.doc.line(targetLine).from;
+      lastSourceLine = targetLine;
       requestAnimationFrame(() => {
-        editorView.requestMeasure({
-          read(view) {
-            return { lineBlock: view.lineBlockAt(pos) };
-          },
-          write({ lineBlock }, view) {
-            view.scrollDOM.scrollTop = Math.max(0, lineBlock.top - view.scrollDOM.clientHeight * 0.35);
-            view.dispatch({ selection: { anchor: pos } });
-            view.focus();
-          }
+        requestAnimationFrame(() => {
+          const block4 = editorView.lineBlockAt(pos);
+          editorView.scrollDOM.scrollTop = Math.max(0, block4.top - 40);
+          editorView.dispatch({ selection: { anchor: pos } });
+          editorView.focus();
         });
       });
     }
