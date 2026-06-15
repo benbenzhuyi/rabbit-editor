@@ -117097,9 +117097,7 @@ ${text5}</tr>
   });
   var editorView = null;
   var previewMode = false;
-  var lastPreviewRatio = 0;
   var lastSourceLine = 1;
-  var ignoreScroll = false;
   var currentFontSize = 16;
   var wordWrapEnabled = true;
   var FONT_MIN = 8;
@@ -117127,28 +117125,12 @@ ${text5}</tr>
   });
   var rabbitDarkTheme = EditorView.theme(
     {
-      "&": {
-        backgroundColor: "#1e1e1e",
-        color: "#d4d4d4"
-      },
-      ".cm-content": {
-        fontFamily: "'Microsoft YaHei', 'Segoe UI', sans-serif",
-        fontSize: "16px",
-        lineHeight: "1.7",
-        caretColor: "#aeafad"
-      },
+      "&": { backgroundColor: "#1e1e1e", color: "#d4d4d4" },
+      ".cm-content": { fontFamily: "'Microsoft YaHei', 'Segoe UI', sans-serif", fontSize: "16px", lineHeight: "1.7", caretColor: "#aeafad" },
       ".cm-cursor": { borderLeftColor: "#aeafad" },
-      "&.cm-focused .cm-selectionBackground, .cm-selectionBackground": {
-        backgroundColor: "rgba(86, 156, 214, 0.35) !important"
-      },
+      "&.cm-focused .cm-selectionBackground, .cm-selectionBackground": { backgroundColor: "rgba(86, 156, 214, 0.35) !important" },
       ".cm-activeLine": { backgroundColor: "rgba(255, 255, 255, 0.04)" },
-      ".cm-gutters": {
-        backgroundColor: "#1e1e1e",
-        color: "#858585",
-        border: "none",
-        borderRight: "1px solid #333",
-        fontFamily: "'Consolas', 'Courier New', monospace"
-      },
+      ".cm-gutters": { backgroundColor: "#1e1e1e", color: "#858585", border: "none", borderRight: "1px solid #333", fontFamily: "'Consolas', 'Courier New', monospace" },
       ".cm-activeLineGutter": { backgroundColor: "rgba(255, 255, 255, 0.03)", color: "#c6c6c6" },
       ".cm-foldPlaceholder": { backgroundColor: "#333", color: "#999", border: "1px solid #555" },
       ".cm-matchingBracket": { backgroundColor: "rgba(255, 255, 255, 0.1)", outline: "1px solid #888" },
@@ -117207,10 +117189,7 @@ ${text5}</tr>
       run: (view) => {
         const { from: from3 } = view.state.selection.main;
         const line = view.state.doc.lineAt(from3);
-        view.dispatch(view.state.update({
-          changes: { from: line.to + 1, insert: "\n" + line.text },
-          selection: { anchor: line.to + 1 + line.text.length }
-        }));
+        view.dispatch(view.state.update({ changes: { from: line.to + 1, insert: "\n" + line.text }, selection: { anchor: line.to + 1 + line.text.length } }));
         return true;
       }
     },
@@ -117231,9 +117210,7 @@ ${text5}</tr>
         const line = view.state.doc.lineAt(from3);
         if (line.number <= 1) return true;
         const prevLine = view.state.doc.line(line.number - 1);
-        view.dispatch(view.state.update({
-          changes: [{ from: prevLine.from, to: line.to }, line.text + "\n" + prevLine.text]
-        }));
+        view.dispatch(view.state.update({ changes: [{ from: prevLine.from, to: line.to }, line.text + "\n" + prevLine.text] }));
         return true;
       }
     },
@@ -117244,9 +117221,7 @@ ${text5}</tr>
         const line = view.state.doc.lineAt(from3);
         if (line.number >= view.state.doc.lines) return true;
         const nextLine = view.state.doc.line(line.number + 1);
-        view.dispatch(view.state.update({
-          changes: [{ from: line.from, to: nextLine.to }, nextLine.text + "\n" + line.text]
-        }));
+        view.dispatch(view.state.update({ changes: [{ from: line.from, to: nextLine.to }, nextLine.text + "\n" + line.text] }));
         return true;
       }
     }
@@ -117275,9 +117250,7 @@ ${text5}</tr>
   function applyEditorTheme() {
     if (!editorView) return;
     const isLight = document.documentElement.hasAttribute("data-theme") && document.documentElement.getAttribute("data-theme") === "light";
-    editorView.dispatch({
-      effects: themeCompartment.reconfigure(isLight ? rabbitLightTheme : rabbitDarkTheme)
-    });
+    editorView.dispatch({ effects: themeCompartment.reconfigure(isLight ? rabbitLightTheme : rabbitDarkTheme) });
   }
   function getContent() {
     return editorView ? editorView.state.doc.toString() : "";
@@ -117325,9 +117298,9 @@ ${text5}</tr>
     const previewContent = document.getElementById("preview-content");
     const statusMode = document.getElementById("status-mode");
     if (!previewMode) {
+      lastSourceLine = getSourceVisibleLine();
       const totalLines = editorView.state.doc.lines;
-      const visibleLine = getSourceVisibleLine();
-      const sourceRatio = totalLines > 1 ? (visibleLine - 1) / (totalLines - 1) : 0;
+      const ratio = totalLines > 1 ? (lastSourceLine - 1) / (totalLines - 1) : 0;
       previewContent.innerHTML = marked.parse(editorView.state.doc.toString());
       editorContainer.classList.add("hidden");
       previewContainer.classList.remove("hidden");
@@ -117337,58 +117310,43 @@ ${text5}</tr>
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-          const targetScroll = sourceRatio * max;
-          console.log("[Src\u2192Prev] viewportLine=", visibleLine, "ratio=", sourceRatio.toFixed(3), "max=", max, "scrollTo=", Math.round(targetScroll));
-          ignoreScroll = true;
-          previewContainer.scrollTop = targetScroll;
-          requestAnimationFrame(() => {
-            ignoreScroll = false;
-          });
-          lastPreviewRatio = sourceRatio;
-          lastSourceLine = visibleLine;
+          previewContainer.scrollTop = ratio * max;
         });
       });
     } else {
+      const capturedScroll = previewContainer.scrollTop;
       const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-      lastPreviewRatio = max > 0 ? previewContainer.scrollTop / max : 0;
+      const ratio = max > 0 ? capturedScroll / max : 0;
       const totalLines = editorView.state.doc.lines;
-      const targetLine = Math.max(1, Math.min(
-        totalLines,
-        Math.round(1 + lastPreviewRatio * (totalLines - 1))
-      ));
+      lastSourceLine = Math.max(1, Math.min(totalLines, Math.round(1 + ratio * (totalLines - 1))));
+      const pos = editorView.state.doc.line(lastSourceLine).from;
       previewContainer.classList.add("hidden");
       editorContainer.classList.remove("hidden");
       previewMode = false;
       statusMode.textContent = "\u6E90\u7801";
       statusMode.className = "source-mode";
-      const pos = editorView.state.doc.line(targetLine).from;
-      lastSourceLine = targetLine;
       requestAnimationFrame(() => {
-        setTimeout(() => {
-          editorView.dispatch({
-            selection: { anchor: pos },
-            scrollIntoView: true
-          });
-          editorView.focus();
-        }, 0);
+        editorView.requestMeasure({
+          read(view) {
+            return { lineBlock: view.lineBlockAt(pos) };
+          },
+          write({ lineBlock }, view) {
+            view.scrollDOM.scrollTop = Math.max(0, lineBlock.top - view.scrollDOM.clientHeight * 0.35);
+            view.dispatch({ selection: { anchor: pos } });
+            view.focus();
+          }
+        });
       });
     }
-    if (!previewContainer._scrollListener) {
-      previewContainer._scrollListener = true;
-      previewContainer.addEventListener("scroll", () => {
-        const m = previewContainer.scrollHeight - previewContainer.clientHeight;
-        if (m > 0 && !ignoreScroll) lastPreviewRatio = previewContainer.scrollTop / m;
-      });
-    }
-  }
-  function setLastCursorPos(lineNumber) {
-    lastSourceLine = lineNumber;
   }
   function getSourceVisibleLine() {
     if (!editorView) return 1;
     const topPos = editorView.viewport.from;
     if (topPos <= 0) return 1;
     return editorView.state.doc.lineAt(topPos).number;
+  }
+  function setLastCursorPos(lineNumber) {
+    lastSourceLine = lineNumber;
   }
   function isPreviewMode() {
     return previewMode;
@@ -117439,10 +117397,7 @@ ${text5}</tr>
     if (!editorView) return;
     const sel = editorView.state.selection.main;
     const from3 = sel.from;
-    editorView.dispatch({
-      changes: { from: sel.from, to: sel.to, insert: text5 },
-      selection: { anchor: from3, head: from3 + text5.length }
-    });
+    editorView.dispatch({ changes: { from: sel.from, to: sel.to, insert: text5 }, selection: { anchor: from3, head: from3 + text5.length } });
     editorView.focus();
   }
   function insertAfterSelection(text5) {
@@ -117450,10 +117405,7 @@ ${text5}</tr>
     const sel = editorView.state.selection.main;
     const insertPos = sel.to;
     const insertText = "\n" + text5;
-    editorView.dispatch({
-      changes: { from: insertPos, insert: insertText },
-      selection: { anchor: insertPos + 1, head: insertPos + insertText.length }
-    });
+    editorView.dispatch({ changes: { from: insertPos, insert: insertText }, selection: { anchor: insertPos + 1, head: insertPos + insertText.length } });
     editorView.focus();
   }
   function selectLine2(lineNumber) {
@@ -117465,9 +117417,7 @@ ${text5}</tr>
     if (!editorView) return;
     wordWrapEnabled = !wordWrapEnabled;
     const el = document.getElementById("status-wrap");
-    editorView.dispatch({
-      effects: wrapCompartment.reconfigure(wordWrapEnabled ? EditorView.lineWrapping : [])
-    });
+    editorView.dispatch({ effects: wrapCompartment.reconfigure(wordWrapEnabled ? EditorView.lineWrapping : []) });
     if (el) el.className = wordWrapEnabled ? "wrap-on" : "wrap-off";
     return wordWrapEnabled;
   }

@@ -10,8 +10,6 @@ import { languages } from '@codemirror/language-data';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
 
-// ── marked setup ────────────────────────────────────────
-
 marked.setOptions({
   highlight: (code, lang) => {
     if (lang && hljs.getLanguage(lang)) {
@@ -21,13 +19,9 @@ marked.setOptions({
   },
 });
 
-// ── State ────────────────────────────────────────────────
-
 let editorView = null;
 let previewMode = false;
-let lastPreviewRatio = 0;
 let lastSourceLine = 1;
-let ignoreScroll = false;
 let currentFontSize = 16;
 let wordWrapEnabled = true;
 const FONT_MIN = 8;
@@ -40,7 +34,6 @@ let updateCallbacks = [];
 const wrapCompartment = new Compartment();
 const themeCompartment = new Compartment();
 
-// Search highlight decorations
 const setSearchHighlights = StateEffect.define();
 const clearSearchHighlights = StateEffect.define();
 
@@ -56,29 +49,14 @@ const searchHighlightField = StateField.define({
   provide: f => EditorView.decorations.from(f),
 });
 
-// ── Custom dark theme ───────────────────────────────────
-
 const rabbitDarkTheme = EditorView.theme(
   {
-    '&': {
-      backgroundColor: '#1e1e1e',
-      color: '#d4d4d4',
-    },
-    '.cm-content': {
-      fontFamily: "'Microsoft YaHei', 'Segoe UI', sans-serif",
-      fontSize: '16px',
-      lineHeight: '1.7',
-      caretColor: '#aeafad',
-    },
+    '&': { backgroundColor: '#1e1e1e', color: '#d4d4d4' },
+    '.cm-content': { fontFamily: "'Microsoft YaHei', 'Segoe UI', sans-serif", fontSize: '16px', lineHeight: '1.7', caretColor: '#aeafad' },
     '.cm-cursor': { borderLeftColor: '#aeafad' },
-    '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': {
-      backgroundColor: 'rgba(86, 156, 214, 0.35) !important',
-    },
+    '&.cm-focused .cm-selectionBackground, .cm-selectionBackground': { backgroundColor: 'rgba(86, 156, 214, 0.35) !important' },
     '.cm-activeLine': { backgroundColor: 'rgba(255, 255, 255, 0.04)' },
-    '.cm-gutters': {
-      backgroundColor: '#1e1e1e', color: '#858585', border: 'none',
-      borderRight: '1px solid #333', fontFamily: "'Consolas', 'Courier New', monospace",
-    },
+    '.cm-gutters': { backgroundColor: '#1e1e1e', color: '#858585', border: 'none', borderRight: '1px solid #333', fontFamily: "'Consolas', 'Courier New', monospace" },
     '.cm-activeLineGutter': { backgroundColor: 'rgba(255, 255, 255, 0.03)', color: '#c6c6c6' },
     '.cm-foldPlaceholder': { backgroundColor: '#333', color: '#999', border: '1px solid #555' },
     '.cm-matchingBracket': { backgroundColor: 'rgba(255, 255, 255, 0.1)', outline: '1px solid #888' },
@@ -101,8 +79,6 @@ const rabbitDarkTheme = EditorView.theme(
   },
   { dark: true }
 );
-
-// ── Light theme ─────────────────────────────────────────────
 
 const rabbitLightTheme = EditorView.theme(
   {
@@ -135,18 +111,13 @@ const rabbitLightTheme = EditorView.theme(
   { dark: false }
 );
 
-// ── Custom keybindings ──────────────────────────────────
-
 const customKeymap = keymap.of([
   {
     key: 'Ctrl-d',
     run: (view) => {
       const { from } = view.state.selection.main;
       const line = view.state.doc.lineAt(from);
-      view.dispatch(view.state.update({
-        changes: { from: line.to + 1, insert: '\n' + line.text },
-        selection: { anchor: line.to + 1 + line.text.length },
-      }));
+      view.dispatch(view.state.update({ changes: { from: line.to + 1, insert: '\n' + line.text }, selection: { anchor: line.to + 1 + line.text.length } }));
       return true;
     },
   },
@@ -167,9 +138,7 @@ const customKeymap = keymap.of([
       const line = view.state.doc.lineAt(from);
       if (line.number <= 1) return true;
       const prevLine = view.state.doc.line(line.number - 1);
-      view.dispatch(view.state.update({
-        changes: [{ from: prevLine.from, to: line.to }, line.text + '\n' + prevLine.text],
-      }));
+      view.dispatch(view.state.update({ changes: [{ from: prevLine.from, to: line.to }, line.text + '\n' + prevLine.text] }));
       return true;
     },
   },
@@ -180,15 +149,11 @@ const customKeymap = keymap.of([
       const line = view.state.doc.lineAt(from);
       if (line.number >= view.state.doc.lines) return true;
       const nextLine = view.state.doc.line(line.number + 1);
-      view.dispatch(view.state.update({
-        changes: [{ from: line.from, to: nextLine.to }, nextLine.text + '\n' + line.text],
-      }));
+      view.dispatch(view.state.update({ changes: [{ from: line.from, to: nextLine.to }, nextLine.text + '\n' + line.text] }));
       return true;
     },
   },
 ]);
-
-// ── Build extensions ────────────────────────────────────
 
 function buildExtensions() {
   return [
@@ -206,8 +171,6 @@ function buildExtensions() {
   ];
 }
 
-// ── Public API ──────────────────────────────────────────
-
 export function init(container) {
   const state = EditorState.create({ doc: '', extensions: buildExtensions() });
   editorView = new EditorView({ state, parent: container });
@@ -217,11 +180,8 @@ export function init(container) {
 
 export function applyEditorTheme() {
   if (!editorView) return;
-  const isLight = document.documentElement.hasAttribute('data-theme') &&
-    document.documentElement.getAttribute('data-theme') === 'light';
-  editorView.dispatch({
-    effects: themeCompartment.reconfigure(isLight ? rabbitLightTheme : rabbitDarkTheme),
-  });
+  const isLight = document.documentElement.hasAttribute('data-theme') && document.documentElement.getAttribute('data-theme') === 'light';
+  editorView.dispatch({ effects: themeCompartment.reconfigure(isLight ? rabbitLightTheme : rabbitDarkTheme) });
 }
 
 export function getContent() { return editorView ? editorView.state.doc.toString() : ''; }
@@ -244,8 +204,6 @@ export function onChange(cb) { changeCallbacks.push(cb); }
 export function onCursorActivity(cb) { cursorCallbacks.push(cb); }
 export function onUpdate(cb) { updateCallbacks.push(cb); }
 
-// ── Zoom ─────────────────────────────────────────────────
-
 export function zoomIn() { setFontSize(currentFontSize + 1); }
 export function zoomOut() { setFontSize(currentFontSize - 1); }
 export function zoomReset() { setFontSize(FONT_DEFAULT); }
@@ -262,6 +220,13 @@ export function getFontSize() { return currentFontSize; }
 
 // ── Preview toggle ──────────────────────────────────────
 
+// Track source visible viewport line on every cursor/scroll activity
+let sourceViewportLine = 1;
+export function updateSourceViewportLine() {
+  if (!editorView || previewMode) return;
+  sourceViewportLine = getSourceVisibleLine();
+}
+
 export function togglePreview() {
   const editorContainer = document.getElementById('editor-container');
   const previewContainer = document.getElementById('preview-container');
@@ -270,10 +235,9 @@ export function togglePreview() {
 
   if (!previewMode) {
     // Source → Preview
-    // Use the top VISIBLE line, not cursor position (user may have scrolled without clicking)
+    lastSourceLine = getSourceVisibleLine();
     const totalLines = editorView.state.doc.lines;
-    const visibleLine = getSourceVisibleLine();
-    const sourceRatio = totalLines > 1 ? (visibleLine - 1) / (totalLines - 1) : 0;
+    const ratio = totalLines > 1 ? (lastSourceLine - 1) / (totalLines - 1) : 0;
 
     previewContent.innerHTML = marked.parse(editorView.state.doc.toString());
     editorContainer.classList.add('hidden');
@@ -282,26 +246,20 @@ export function togglePreview() {
     statusMode.textContent = '预览';
     statusMode.className = 'preview-mode';
 
-    // Need double RAF: 1st for display change layout, 2nd for innerHTML layout
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-        const targetScroll = sourceRatio * max;
-        ignoreScroll = true;
-        previewContainer.scrollTop = targetScroll;
-        requestAnimationFrame(() => { ignoreScroll = false; });
-        lastPreviewRatio = sourceRatio;
-        lastSourceLine = visibleLine;
+        previewContainer.scrollTop = ratio * max;
       });
     });
   } else {
-    // Preview → Source
+    // Preview → Source — read scrollTop BEFORE hiding (hide resets it to 0!)
+    const capturedScroll = previewContainer.scrollTop;
     const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-    lastPreviewRatio = max > 0 ? previewContainer.scrollTop / max : 0;
-
+    const ratio = max > 0 ? capturedScroll / max : 0;
     const totalLines = editorView.state.doc.lines;
-    const targetLine = Math.max(1, Math.min(totalLines,
-      Math.round(1 + lastPreviewRatio * (totalLines - 1))));
+    lastSourceLine = Math.max(1, Math.min(totalLines, Math.round(1 + ratio * (totalLines - 1))));
+    const pos = editorView.state.doc.line(lastSourceLine).from;
 
     previewContainer.classList.add('hidden');
     editorContainer.classList.remove('hidden');
@@ -309,40 +267,30 @@ export function togglePreview() {
     statusMode.textContent = '源码';
     statusMode.className = 'source-mode';
 
-    const pos = editorView.state.doc.line(targetLine).from;
-    lastSourceLine = targetLine;
-
-    // RAF + timeout for editor to become visible and laid out
+    // RAF ensures browser layout completes before CodeMirror measures
     requestAnimationFrame(() => {
-      setTimeout(() => {
-        editorView.dispatch({
-          selection: { anchor: pos },
-          scrollIntoView: true,
-        });
-        editorView.focus();
-      }, 0);
-    });
-  }
-
-  // Setup scroll tracking once
-  if (!previewContainer._scrollListener) {
-    previewContainer._scrollListener = true;
-    previewContainer.addEventListener('scroll', () => {
-      const m = previewContainer.scrollHeight - previewContainer.clientHeight;
-      if (m > 0 && !ignoreScroll) lastPreviewRatio = previewContainer.scrollTop / m;
+      editorView.requestMeasure({
+        read(view) {
+          return { lineBlock: view.lineBlockAt(pos) };
+        },
+        write({ lineBlock }, view) {
+          view.scrollDOM.scrollTop = Math.max(0, lineBlock.top - view.scrollDOM.clientHeight * 0.35);
+          view.dispatch({ selection: { anchor: pos } });
+          view.focus();
+        },
+      });
     });
   }
 }
 
-export function setLastCursorPos(lineNumber) { lastSourceLine = lineNumber; }
-
 function getSourceVisibleLine() {
   if (!editorView) return 1;
-  // Get the line at the top of the editor viewport
   const topPos = editorView.viewport.from;
   if (topPos <= 0) return 1;
   return editorView.state.doc.lineAt(topPos).number;
 }
+
+export function setLastCursorPos(lineNumber) { lastSourceLine = lineNumber; }
 
 export function isPreviewMode() { return previewMode; }
 export function focus() { if (editorView && !previewMode) editorView.focus(); }
@@ -363,8 +311,6 @@ export function clearHighlights() {
   if (!editorView) return;
   editorView.dispatch({ effects: clearSearchHighlights.of(null) });
 }
-
-// ── Selection helpers ─────────────────────────────────────
 
 export function getSelection() {
   if (!editorView) return null;
@@ -392,10 +338,7 @@ export function replaceSelection(text) {
   if (!editorView) return;
   const sel = editorView.state.selection.main;
   const from = sel.from;
-  editorView.dispatch({
-    changes: { from: sel.from, to: sel.to, insert: text },
-    selection: { anchor: from, head: from + text.length },
-  });
+  editorView.dispatch({ changes: { from: sel.from, to: sel.to, insert: text }, selection: { anchor: from, head: from + text.length } });
   editorView.focus();
 }
 
@@ -404,10 +347,7 @@ export function insertAfterSelection(text) {
   const sel = editorView.state.selection.main;
   const insertPos = sel.to;
   const insertText = '\n' + text;
-  editorView.dispatch({
-    changes: { from: insertPos, insert: insertText },
-    selection: { anchor: insertPos + 1, head: insertPos + insertText.length },
-  });
+  editorView.dispatch({ changes: { from: insertPos, insert: insertText }, selection: { anchor: insertPos + 1, head: insertPos + insertText.length } });
   editorView.focus();
 }
 
@@ -428,9 +368,7 @@ export function toggleWordWrap() {
   if (!editorView) return;
   wordWrapEnabled = !wordWrapEnabled;
   const el = document.getElementById('status-wrap');
-  editorView.dispatch({
-    effects: wrapCompartment.reconfigure(wordWrapEnabled ? EditorView.lineWrapping : []),
-  });
+  editorView.dispatch({ effects: wrapCompartment.reconfigure(wordWrapEnabled ? EditorView.lineWrapping : []) });
   if (el) el.className = wordWrapEnabled ? 'wrap-on' : 'wrap-off';
   return wordWrapEnabled;
 }
