@@ -668,6 +668,7 @@ Editor.getView()                // 获取 CodeMirror EditorView 实例
 |--------|------|
 | Ctrl+N | 新建文件 |
 | Ctrl+O | 打开文件 |
+| Ctrl+Shift+O | 打开文件夹 |
 | Ctrl+S | 保存 |
 | Ctrl+Shift+S | 另存为 |
 | Ctrl+W | 关闭文件 |
