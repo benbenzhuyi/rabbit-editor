@@ -228,28 +228,40 @@ export function togglePreview() {
 
   if (!previewMode) {
     // Source → Preview
-    const firstVisible = getSourceVisibleLine();
-    const total = editorView.state.doc.lines;
-    const ratio = total > 1 ? (firstVisible - 1) / (total - 1) : 0;
+    const targetLine = getSourceVisibleLine();
+    const targetId   = `src-L${targetLine}`;
 
     pContent.innerHTML = marked.parse(editorView.state.doc.toString());
+    // Inject id attributes on headings for anchor-based scroll sync
+    injectSourceLineIds(pContent);
+
     ec.classList.add('hidden');
     pc.classList.remove('hidden');
     previewMode = true;
     sm.textContent = '预览';
     sm.className = 'preview-mode';
 
-    // Double-RAF: 1st for display change, 2nd for innerHTML layout
+    lastSourceLine = targetLine;
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const max = pc.scrollHeight - pc.clientHeight;
-        pc.scrollTop = ratio * max;
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'instant', block: 'start' });
+        } else {
+          pc.scrollTop = 0;
+        }
       });
     });
   } else {
-    // Preview → Source — capture ALL values BEFORE HIDDEN
-    const keepScroll = pc.scrollTop;                          // <— save first
-    const keepMax   = pc.scrollHeight - pc.clientHeight;      // <— save first
+    // Capture ALL values before hiding — hidden resets scrollTop to 0
+    const capturedScroll = pc.scrollTop;
+    const capturedMax    = pc.scrollHeight - pc.clientHeight;
+    const capturedRatio  = capturedMax > 0 ? capturedScroll / capturedMax : 0;
+    const total          = editorView.state.doc.lines;
+    const targetLine     = Math.max(1, Math.min(total, Math.round(1 + capturedRatio * (total - 1))));
+    const pos            = editorView.state.doc.line(targetLine).from;
+    lastSourceLine       = targetLine;
 
     pc.classList.add('hidden');
     ec.classList.remove('hidden');
@@ -257,19 +269,15 @@ export function togglePreview() {
     sm.textContent = '源码';
     sm.className = 'source-mode';
 
-    const ratio     = keepMax > 0 ? keepScroll / keepMax : 0;
-    const total     = editorView.state.doc.lines;
-    const targetLine = Math.max(1, Math.min(total, Math.round(1 + ratio * (total - 1))));
-    const pos       = editorView.state.doc.line(targetLine).from;
-    lastSourceLine  = targetLine;
-
-    // Double RAF to ensure editor is visible and laid out before scrolling
+    // Triple-RAF ensures editor is fully laid out after hidden→visible
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const block = editorView.lineBlockAt(pos);
-        editorView.scrollDOM.scrollTop = Math.max(0, block.top - 40);
-        editorView.dispatch({ selection: { anchor: pos } });
-        editorView.focus();
+        requestAnimationFrame(() => {
+          const emax = editorView.scrollDOM.scrollHeight - editorView.scrollDOM.clientHeight;
+          editorView.scrollDOM.scrollTop = capturedRatio * emax;
+          editorView.dispatch({ selection: { anchor: pos } });
+          editorView.focus();
+        });
       });
     });
   }
@@ -280,6 +288,43 @@ function getSourceVisibleLine() {
   const topPos = editorView.viewport.from;
   if (topPos <= 0) return 1;
   return editorView.state.doc.lineAt(topPos).number;
+}
+
+// ── Anchor-based preview ↔ source sync ────────────────
+
+function injectSourceLineIds(container) {
+  // Parse source headings: [ { line, text }, ... ]
+  const srcLines = editorView.state.doc.toString().split('\n');
+  const srcMap = [];
+  for (let i = 0; i < srcLines.length; i++) {
+    const m = srcLines[i].match(/^(#{1,6})\s+(.+)/);
+    if (m) srcMap.push({ line: i + 1, text: m[2].trim() });
+  }
+
+  // Walk preview headings, assign id="src-L{line}"
+  const hEls = container.querySelectorAll('h1,h2,h3,h4,h5,h6');
+  let mi = 0;
+  for (const h of hEls) {
+    const t = h.textContent.trim();
+    while (mi < srcMap.length && srcMap[mi].text !== t) mi++;
+    if (mi < srcMap.length) {
+      h.id = `src-L${srcMap[mi].line}`;
+      mi++;
+    }
+  }
+}
+
+function getPreviewVisibleLine(pc) {
+  if (!pc) return lastSourceLine;
+  const pcTop = pc.getBoundingClientRect().top;
+  const headings = pc.querySelectorAll('[id^="src-L"]');
+  for (const h of headings) {
+    const rect = h.getBoundingClientRect();
+    if (rect.bottom > pcTop) {
+      return parseInt(h.id.replace('src-L', ''), 10);
+    }
+  }
+  return lastSourceLine;
 }
 
 export function setLastCursorPos(lineNumber) { lastSourceLine = lineNumber; }

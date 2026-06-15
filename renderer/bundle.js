@@ -117298,40 +117298,47 @@ ${text5}</tr>
     const pContent = document.getElementById("preview-content");
     const sm = document.getElementById("status-mode");
     if (!previewMode) {
-      const firstVisible = getSourceVisibleLine();
-      const total = editorView.state.doc.lines;
-      const ratio = total > 1 ? (firstVisible - 1) / (total - 1) : 0;
+      const targetLine = getSourceVisibleLine();
+      const targetId = `src-L${targetLine}`;
       pContent.innerHTML = marked.parse(editorView.state.doc.toString());
+      injectSourceLineIds(pContent);
       ec.classList.add("hidden");
       pc.classList.remove("hidden");
       previewMode = true;
       sm.textContent = "\u9884\u89C8";
       sm.className = "preview-mode";
+      lastSourceLine = targetLine;
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          const max = pc.scrollHeight - pc.clientHeight;
-          pc.scrollTop = ratio * max;
+          const el = document.getElementById(targetId);
+          if (el) {
+            el.scrollIntoView({ behavior: "instant", block: "start" });
+          } else {
+            pc.scrollTop = 0;
+          }
         });
       });
     } else {
-      const keepScroll = pc.scrollTop;
-      const keepMax = pc.scrollHeight - pc.clientHeight;
+      const capturedScroll = pc.scrollTop;
+      const capturedMax = pc.scrollHeight - pc.clientHeight;
+      const capturedRatio = capturedMax > 0 ? capturedScroll / capturedMax : 0;
+      const total = editorView.state.doc.lines;
+      const targetLine = Math.max(1, Math.min(total, Math.round(1 + capturedRatio * (total - 1))));
+      const pos = editorView.state.doc.line(targetLine).from;
+      lastSourceLine = targetLine;
       pc.classList.add("hidden");
       ec.classList.remove("hidden");
       previewMode = false;
       sm.textContent = "\u6E90\u7801";
       sm.className = "source-mode";
-      const ratio = keepMax > 0 ? keepScroll / keepMax : 0;
-      const total = editorView.state.doc.lines;
-      const targetLine = Math.max(1, Math.min(total, Math.round(1 + ratio * (total - 1))));
-      const pos = editorView.state.doc.line(targetLine).from;
-      lastSourceLine = targetLine;
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          const block4 = editorView.lineBlockAt(pos);
-          editorView.scrollDOM.scrollTop = Math.max(0, block4.top - 40);
-          editorView.dispatch({ selection: { anchor: pos } });
-          editorView.focus();
+          requestAnimationFrame(() => {
+            const emax = editorView.scrollDOM.scrollHeight - editorView.scrollDOM.clientHeight;
+            editorView.scrollDOM.scrollTop = capturedRatio * emax;
+            editorView.dispatch({ selection: { anchor: pos } });
+            editorView.focus();
+          });
         });
       });
     }
@@ -117341,6 +117348,24 @@ ${text5}</tr>
     const topPos = editorView.viewport.from;
     if (topPos <= 0) return 1;
     return editorView.state.doc.lineAt(topPos).number;
+  }
+  function injectSourceLineIds(container) {
+    const srcLines = editorView.state.doc.toString().split("\n");
+    const srcMap = [];
+    for (let i = 0; i < srcLines.length; i++) {
+      const m = srcLines[i].match(/^(#{1,6})\s+(.+)/);
+      if (m) srcMap.push({ line: i + 1, text: m[2].trim() });
+    }
+    const hEls = container.querySelectorAll("h1,h2,h3,h4,h5,h6");
+    let mi = 0;
+    for (const h of hEls) {
+      const t2 = h.textContent.trim();
+      while (mi < srcMap.length && srcMap[mi].text !== t2) mi++;
+      if (mi < srcMap.length) {
+        h.id = `src-L${srcMap[mi].line}`;
+        mi++;
+      }
+    }
   }
   function setLastCursorPos(lineNumber) {
     lastSourceLine = lineNumber;
