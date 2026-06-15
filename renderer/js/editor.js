@@ -270,9 +270,10 @@ export function togglePreview() {
 
   if (!previewMode) {
     // Source → Preview
+    // Use the top VISIBLE line, not cursor position (user may have scrolled without clicking)
     const totalLines = editorView.state.doc.lines;
-    const cursorLine = editorView.state.doc.lineAt(editorView.state.selection.main.head).number;
-    const sourceRatio = totalLines > 1 ? (cursorLine - 1) / (totalLines - 1) : 0;
+    const visibleLine = getSourceVisibleLine();
+    const sourceRatio = totalLines > 1 ? (visibleLine - 1) / (totalLines - 1) : 0;
 
     previewContent.innerHTML = marked.parse(editorView.state.doc.toString());
     editorContainer.classList.add('hidden');
@@ -286,12 +287,11 @@ export function togglePreview() {
       requestAnimationFrame(() => {
         const max = previewContainer.scrollHeight - previewContainer.clientHeight;
         const targetScroll = sourceRatio * max;
-        // Prevent the ensuing scroll event from overwriting calculated ratio
         ignoreScroll = true;
         previewContainer.scrollTop = targetScroll;
         requestAnimationFrame(() => { ignoreScroll = false; });
         lastPreviewRatio = sourceRatio;
-        lastSourceLine = cursorLine;
+        lastSourceLine = visibleLine;
       });
     });
   } else {
@@ -335,6 +335,14 @@ export function togglePreview() {
 }
 
 export function setLastCursorPos(lineNumber) { lastSourceLine = lineNumber; }
+
+function getSourceVisibleLine() {
+  if (!editorView) return 1;
+  // Get the line at the top of the editor viewport
+  const topPos = editorView.viewport.from;
+  if (topPos <= 0) return 1;
+  return editorView.state.doc.lineAt(topPos).number;
+}
 
 export function isPreviewMode() { return previewMode; }
 export function focus() { if (editorView && !previewMode) editorView.focus(); }
