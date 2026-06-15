@@ -4,7 +4,7 @@
 
 A lightweight AI-assisted Markdown editor built for writers.
 
-> 版本 Version：v0.5.0 | License: MIT
+> 版本 Version：v0.5.2 | License: MIT
 
 ![小野兔 Rabbit 截图](rabbit-edit.png)
 
@@ -42,8 +42,8 @@ Download the package for your platform from [Releases](https://github.com/benben
 
 | Platform | File |
 |----------|------|
-| Windows x64 | `rabbit-editor-0.5.0-win-x64.zip`（解压后双击 `小野兔 Rabbit.exe` / Extract and run `小野兔 Rabbit.exe`） |
-| Linux x64 | `rabbit-editor-0.5.0-linux-x64.tar.gz`（解压后运行 `./small-rabbit-editor` / Extract and run `./small-rabbit-editor`） |
+| Windows x64 | `rabbit-editor-0.5.2-win-x64.zip`（解压后双击 `小野兔 Rabbit.exe` / Extract and run `小野兔 Rabbit.exe`） |
+| Linux x64 | `rabbit-editor-0.5.2-linux-x64.tar.gz`（解压后运行 `./small-rabbit-editor` / Extract and run `./small-rabbit-editor`） |
 
 ### 开发运行 / Development
 
