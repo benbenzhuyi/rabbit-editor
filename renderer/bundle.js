@@ -117097,6 +117097,9 @@ ${text5}</tr>
   });
   var editorView = null;
   var previewMode = false;
+  var lastPreviewRatio = 0;
+  var lastSourceLine = 1;
+  var ignoreScroll = false;
   var currentFontSize = 16;
   var wordWrapEnabled = true;
   var FONT_MIN = 8;
@@ -117326,32 +117329,29 @@ ${text5}</tr>
       const cursorLine = editorView.state.doc.lineAt(editorView.state.selection.main.head).number;
       const sourceRatio = totalLines > 1 ? (cursorLine - 1) / (totalLines - 1) : 0;
       previewContent.innerHTML = marked.parse(editorView.state.doc.toString());
-      previewReady = false;
       editorContainer.classList.add("hidden");
       previewContainer.classList.remove("hidden");
       previewMode = true;
       statusMode.textContent = "\u9884\u89C8";
       statusMode.className = "preview-mode";
       requestAnimationFrame(() => {
-        const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-        if (max > 0) {
-          previewContainer.scrollTop = lastPreviewRatio > 0 ? lastPreviewRatio * max : sourceRatio * max;
-        }
-        lastSourceLine = cursorLine;
-        previewReady = true;
-      });
-      if (!previewContainer._scrollListener) {
-        previewContainer._scrollListener = true;
-        previewContainer.addEventListener("scroll", () => {
-          const m = previewContainer.scrollHeight - previewContainer.clientHeight;
-          if (m > 0) lastPreviewRatio = previewContainer.scrollTop / m;
+        requestAnimationFrame(() => {
+          const max = previewContainer.scrollHeight - previewContainer.clientHeight;
+          const targetScroll = sourceRatio * max;
+          ignoreScroll = true;
+          previewContainer.scrollTop = targetScroll;
+          requestAnimationFrame(() => {
+            ignoreScroll = false;
+          });
+          lastPreviewRatio = sourceRatio;
+          lastSourceLine = cursorLine;
         });
-      }
+      });
     } else {
       const max = previewContainer.scrollHeight - previewContainer.clientHeight;
       lastPreviewRatio = max > 0 ? previewContainer.scrollTop / max : 0;
       const totalLines = editorView.state.doc.lines;
-      lastSourceLine = Math.max(1, Math.min(
+      const targetLine = Math.max(1, Math.min(
         totalLines,
         Math.round(1 + lastPreviewRatio * (totalLines - 1))
       ));
@@ -117360,11 +117360,24 @@ ${text5}</tr>
       previewMode = false;
       statusMode.textContent = "\u6E90\u7801";
       statusMode.className = "source-mode";
-      const pos = editorView.state.doc.line(lastSourceLine).from;
-      setTimeout(() => {
-        editorView.dispatch({ selection: { anchor: pos }, scrollIntoView: true });
-        editorView.focus();
-      }, 0);
+      const pos = editorView.state.doc.line(targetLine).from;
+      lastSourceLine = targetLine;
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          editorView.dispatch({
+            selection: { anchor: pos },
+            scrollIntoView: true
+          });
+          editorView.focus();
+        }, 0);
+      });
+    }
+    if (!previewContainer._scrollListener) {
+      previewContainer._scrollListener = true;
+      previewContainer.addEventListener("scroll", () => {
+        const m = previewContainer.scrollHeight - previewContainer.clientHeight;
+        if (m > 0 && !ignoreScroll) lastPreviewRatio = previewContainer.scrollTop / m;
+      });
     }
   }
   function setLastCursorPos(lineNumber) {

@@ -25,7 +25,9 @@ marked.setOptions({
 
 let editorView = null;
 let previewMode = false;
-let lastPreviewScroll = 0;
+let lastPreviewRatio = 0;
+let lastSourceLine = 1;
+let ignoreScroll = false;    // prevent programmatic scrollTop from overwriting ratio
 let currentFontSize = 16;
 let wordWrapEnabled = true;
 const FONT_MIN = 8;
@@ -267,46 +269,38 @@ export function togglePreview() {
   const statusMode = document.getElementById('status-mode');
 
   if (!previewMode) {
-    // Compute source scroll ratio
+    // Source → Preview
     const totalLines = editorView.state.doc.lines;
     const cursorLine = editorView.state.doc.lineAt(editorView.state.selection.main.head).number;
     const sourceRatio = totalLines > 1 ? (cursorLine - 1) / (totalLines - 1) : 0;
 
     previewContent.innerHTML = marked.parse(editorView.state.doc.toString());
-    previewReady = false;
-
     editorContainer.classList.add('hidden');
     previewContainer.classList.remove('hidden');
     previewMode = true;
     statusMode.textContent = '预览';
     statusMode.className = 'preview-mode';
 
-      // Apply saved ratio or source ratio
+    // Need double RAF: 1st for display change layout, 2nd for innerHTML layout
     requestAnimationFrame(() => {
-      const max = previewContainer.scrollHeight - previewContainer.clientHeight;
-      if (max > 0) {
-        previewContainer.scrollTop = lastPreviewRatio > 0 ? lastPreviewRatio * max : sourceRatio * max;
-      }
-      lastSourceLine = cursorLine;
-      previewReady = true;
-    });
-
-    // Track preview scroll in real time
-    if (!previewContainer._scrollListener) {
-      previewContainer._scrollListener = true;
-      previewContainer.addEventListener('scroll', () => {
-        const m = previewContainer.scrollHeight - previewContainer.clientHeight;
-        if (m > 0) lastPreviewRatio = previewContainer.scrollTop / m;
+      requestAnimationFrame(() => {
+        const max = previewContainer.scrollHeight - previewContainer.clientHeight;
+        const targetScroll = sourceRatio * max;
+        // Prevent the ensuing scroll event from overwriting calculated ratio
+        ignoreScroll = true;
+        previewContainer.scrollTop = targetScroll;
+        requestAnimationFrame(() => { ignoreScroll = false; });
+        lastPreviewRatio = sourceRatio;
+        lastSourceLine = cursorLine;
       });
-    }
+    });
   } else {
-    // Save preview scroll ratio before switching
+    // Preview → Source
     const max = previewContainer.scrollHeight - previewContainer.clientHeight;
     lastPreviewRatio = max > 0 ? previewContainer.scrollTop / max : 0;
 
-    // Map preview ratio to source line
     const totalLines = editorView.state.doc.lines;
-    lastSourceLine = Math.max(1, Math.min(totalLines,
+    const targetLine = Math.max(1, Math.min(totalLines,
       Math.round(1 + lastPreviewRatio * (totalLines - 1))));
 
     previewContainer.classList.add('hidden');
@@ -315,11 +309,28 @@ export function togglePreview() {
     statusMode.textContent = '源码';
     statusMode.className = 'source-mode';
 
-    const pos = editorView.state.doc.line(lastSourceLine).from;
-    setTimeout(() => {
-      editorView.dispatch({ selection: { anchor: pos }, scrollIntoView: true });
-      editorView.focus();
-    }, 0);
+    const pos = editorView.state.doc.line(targetLine).from;
+    lastSourceLine = targetLine;
+
+    // RAF + timeout for editor to become visible and laid out
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        editorView.dispatch({
+          selection: { anchor: pos },
+          scrollIntoView: true,
+        });
+        editorView.focus();
+      }, 0);
+    });
+  }
+
+  // Setup scroll tracking once
+  if (!previewContainer._scrollListener) {
+    previewContainer._scrollListener = true;
+    previewContainer.addEventListener('scroll', () => {
+      const m = previewContainer.scrollHeight - previewContainer.clientHeight;
+      if (m > 0 && !ignoreScroll) lastPreviewRatio = previewContainer.scrollTop / m;
+    });
   }
 }
 
