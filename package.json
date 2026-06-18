@@ -36,7 +36,8 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "renderer/assets/icon.ico"
+      "icon": "renderer/assets/icon.ico",
+      "signAndEditExecutable": false
     },
     "linux": {
       "target": ["AppImage", "deb"],
