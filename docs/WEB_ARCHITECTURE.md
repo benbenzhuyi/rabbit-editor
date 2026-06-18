@@ -1,6 +1,6 @@
 # 小野兔 Rabbit — Web 版架构设计
 
-> 版本：v0.2-draft | 方案：纯静态站点 | 零后端依赖 | 经 Claude 评审修正
+> 版本：v0.3-draft | 方案：纯静态站点 | 零后端依赖 | 经 Claude 评审修正
 
 ---
 
@@ -106,16 +106,20 @@ const key = await hashFileName(fileHandle.name) + '_' + lastModified;
 **正确方案：UUID 映射表**：
 ```javascript
 // 在 IndexedDB 中建立 fileHandle → UUID 映射
-// 首次打开文件时生成 UUID，持久化到 IndexedDB
-const fileBindingStore = 'fileBindings';  // IndexedDB object store
+// File System Access API 的 handle 对象没有原生的稳定 ID，
+// 需要用 FileSystemHandle.isSameEntry() 做匹配查找
 
 async function getFileUUID(fileHandle) {
-  // 尝试从 IndexedDB 恢复已有的绑定
-  const existing = await db.get('fileBindings', await getHandleKey(fileHandle));
-  if (existing) return existing.uuid;
-  // 首次打开：生成新 UUID 并存储绑定
+  // 遍历所有已存 handle，用 isSameEntry() 做比对
+  const allBindings = await db.getAll('fileBindings');
+  for (const binding of allBindings) {
+    if (await binding.handle.isSameEntry(fileHandle)) {
+      return binding.uuid;
+    }
+  }
+  // 未找到：生成新 UUID 并存储 handle + 绑定
   const uuid = crypto.randomUUID();
-  await db.put('fileBindings', { id: await getHandleKey(fileHandle), uuid, name: fileHandle.name });
+  await db.put('fileBindings', { handle: fileHandle, uuid, name: fileHandle.name });
   return uuid;
 }
 
@@ -151,8 +155,6 @@ if (savedHandle) {
 
 ### 3.4 存储容量
 
-### 3.3 存储容量
-
 | 存储方式 | 容量限制 |
 |----------|---------|
 | IndexedDB | ~ 浏览器总磁盘的 50-60%（通常 >10GB）|
@@ -171,7 +173,7 @@ if (savedHandle) {
 用户点击 "打开文件夹" 或 Ctrl+Shift+O
          │
          ▼
-showDirectoryPicker() ──→ 获取目录 handle (保存在 OPFS)
+showDirectoryPicker() ──→ 获取目录 handle (保存在 IndexedDB)
          │
          ▼
 遍历目录下的 .md / .txt / .html 等文件
@@ -295,20 +297,7 @@ async function sendMessage(messages, config) {
 
 **🔴 关键问题：主要用户在中国大陆，OpenAI 域名本身不通。** 即使 CORS 没问题，也访问不到。
 
-**解决方案：设置中提供"代理地址"字段**——用户可填写自己的 Clash/mihomo 代理地址（如 `http://127.0.0.1:7890`），所有 AI fetch 请求通过代理发出：
-
-```javascript
-// aiClient.js 中的代理支持
-function createFetchOptions(config) {
-  const options = { /* standard headers */ };
-  if (config.proxyUrl) {
-    // 方案：如果代理支持 CORS 转发
-    const proxyBase = config.proxyUrl.replace(/\/+$/, '');
-    options.baseUrl = proxyBase + '/proxy/' + encodeURIComponent(config.baseUrl);
-  }
-  return options;
-}
-```
+**解决方案：用户直接填写自定义 baseUrl**——这其实就是设置面板中已有的 `API 基础地址` 字段。大陆用户可以填自己的中转 API 地址（如 `https://my-proxy.example.com/v1`），aiClient.js 将该地址拼上 `/chat/completions` 发请求。不需要应用层做任何代理转发逻辑——纯静态站点也没有后端路由来实现 `/proxy/` 转发。不需要额外的 `proxyUrl` 字段。
 
 ### 5.3 API Key 安全（诚实说明）
 
@@ -574,7 +563,7 @@ Web 版完全可行，且改动量远小于直觉——渲染层 80%+ 代码可�
 
 ---
 
-*文档版本：v0.2-draft | 状态：架构设计（经 Claude 评审修正）*
+*文档版本：v0.3-draft | 状态：架构设计（经 Claude 二审修正）*
 
 ---
 
@@ -590,3 +579,12 @@ Web 版完全可行，且改动量远小于直觉——渲染层 80%+ 代码可�
 | 6 | 窗口模式映射 | "Fullscreen API + CSS" | 修正为纯 CSS 布局切换 |
 | 7 | 构建流程 | 缺失 | 新增第十一章：esbuild 构建方案 |
 | 8 | 局限表 | 6 项 | 扩展为 9 项，新增权限摩擦、大陆网络、密钥安全诚实说明等 |
+
+### v0.3 修正清单
+
+| # | 问题 | 修正 |
+|---|------|------|
+| 1 | 3.3/3.4 标题编号重复 | 合并为一个 3.4 |
+| 2 | 4.1 流程图 OPFS 注释 | 改为 IndexedDB |
+| 3 | 5.2 伪代理代码 | 删除，改为"用户填自定义 baseUrl 即可" |
+| 4 | `getHandleKey()` 未定义 | 改为 `FileSystemHandle.isSameEntry()` 遍历匹配，补充完整实现 |
