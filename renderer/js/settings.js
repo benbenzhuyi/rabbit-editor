@@ -1,8 +1,10 @@
 /* ═══════════════════════════════════════════════════════
-   小野兔 Rabbit — Settings Module
+   小野兔 Rabbit Web — Settings Module (localStorage)
    ═══════════════════════════════════════════════════════ */
 
 import * as AiClient from './aiClient.js';
+
+const STORAGE_KEY = 'rabbit-settings';
 
 const defaults = {
   aiBaseUrl: 'http://localhost:8080/v1',
@@ -13,6 +15,8 @@ const defaults = {
   maxTokens: 2048,
   temperature: 0.7,
   customPrompts: {},
+  autoSaveInterval: 60,
+  proxyUrl: '',
 };
 
 let currentSettings = { ...defaults };
@@ -20,70 +24,62 @@ let autoSaveTimer = null;
 
 export function getSettings() { return { ...currentSettings }; }
 
-export async function init() {
-  // Load from disk
-  const result = await window.electronAPI.loadSettings();
-  if (result) currentSettings = { ...defaults, ...result };
-
-  // Apply loaded settings
+export function init() {
+  loadFromLocalStorage();
   applySettings();
+  wireUI();
+}
 
-  // Wire up settings UI
+function loadFromLocalStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) currentSettings = { ...defaults, ...JSON.parse(raw) };
+  } catch (_) {
+    currentSettings = { ...defaults };
+  }
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(currentSettings));
+}
+
+function wireUI() {
   const overlay = document.getElementById('settings-overlay');
   const closeBtn = document.getElementById('settings-close');
   const cancelBtn = document.getElementById('settings-cancel');
   const saveBtn = document.getElementById('settings-save');
-  const tabs = document.querySelectorAll('.settings-tab');
 
-  closeBtn.addEventListener('click', () => hidePanel());
-  cancelBtn.addEventListener('click', () => hidePanel());
-  saveBtn.addEventListener('click', () => saveAndApply());
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) hidePanel(); });
+  if (closeBtn) closeBtn.addEventListener('click', () => hidePanel());
+  if (cancelBtn) cancelBtn.addEventListener('click', () => hidePanel());
+  if (saveBtn) saveBtn.addEventListener('click', () => saveAndApply());
+  if (overlay) {
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) hidePanel(); });
+    overlay.addEventListener('keydown', (e) => { if (e.key === 'Escape') hidePanel(); });
+  }
 
-  // ESC to close
-  overlay.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') hidePanel();
-  });
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
-  });
-
-  // Prompt editor mode selector
   const promptMode = document.getElementById('set-prompt-mode');
   const promptText = document.getElementById('set-prompt-text');
   const promptReset = document.getElementById('set-prompt-reset');
-
   if (promptMode && promptText) {
     promptMode.addEventListener('change', () => {
-      const mode = promptMode.value;
-      promptText.value = currentSettings.customPrompts[mode] || AiClient.SYSTEM_PROMPTS[mode] || '';
+      promptText.value = currentSettings.customPrompts[promptMode.value] || AiClient.SYSTEM_PROMPTS[promptMode.value] || '';
     });
   }
-
   if (promptReset && promptMode && promptText) {
     promptReset.addEventListener('click', () => {
-      const mode = promptMode.value;
-      promptText.value = AiClient.SYSTEM_PROMPTS[mode] || '';
+      promptText.value = AiClient.SYSTEM_PROMPTS[promptMode.value] || '';
     });
   }
-
 }
 
 export function showPanel() {
   const overlay = document.getElementById('settings-overlay');
-  overlay.classList.remove('hidden');
-  overlay.focus();
+  if (overlay) { overlay.classList.remove('hidden'); overlay.focus(); }
   populateForm();
 }
 
 function hidePanel() {
   document.getElementById('settings-overlay').classList.add('hidden');
-}
-
-function switchTab(tabName) {
-  document.querySelectorAll('.settings-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
-  document.querySelectorAll('.settings-tab-content').forEach(c => c.classList.toggle('hidden', c.id !== `settings-tab-${tabName}`));
 }
 
 function populateForm() {
@@ -95,11 +91,9 @@ function populateForm() {
   document.getElementById('set-ctrlk-words').value = s.ctrlKWords;
   document.getElementById('set-max-tokens').value = s.maxTokens;
   document.getElementById('set-temperature').value = s.temperature;
-
-  const promptMode = document.getElementById('set-prompt-mode');
-  const promptText = document.getElementById('set-prompt-text');
-  const mode = promptMode.value;
-  promptText.value = s.customPrompts[mode] || AiClient.SYSTEM_PROMPTS[mode] || '';
+  const pm = document.getElementById('set-prompt-mode');
+  const pt = document.getElementById('set-prompt-text');
+  if (pm && pt) pt.value = currentSettings.customPrompts[pm.value] || AiClient.SYSTEM_PROMPTS[pm.value] || '';
 }
 
 async function saveAndApply() {
@@ -111,24 +105,22 @@ async function saveAndApply() {
   currentSettings.maxTokens = parseInt(document.getElementById('set-max-tokens').value) || 2048;
   currentSettings.temperature = parseFloat(document.getElementById('set-temperature').value) || 0.7;
 
-  const promptMode = document.getElementById('set-prompt-mode').value;
-  const promptText = document.getElementById('set-prompt-text').value.trim();
+  const pm = document.getElementById('set-prompt-mode').value;
+  const pt = document.getElementById('set-prompt-text').value.trim();
   if (!currentSettings.customPrompts) currentSettings.customPrompts = {};
-  if (promptText && promptText !== AiClient.SYSTEM_PROMPTS[promptMode]) {
-    currentSettings.customPrompts[promptMode] = promptText;
+  if (pt && pt !== AiClient.SYSTEM_PROMPTS[pm]) {
+    currentSettings.customPrompts[pm] = pt;
   } else {
-    delete currentSettings.customPrompts[promptMode];
+    delete currentSettings.customPrompts[pm];
   }
 
-  await window.electronAPI.saveSettings(currentSettings);
+  saveToLocalStorage();
   applySettings();
   hidePanel();
 }
 
 function applySettings() {
   const s = currentSettings;
-
-  // Apply AI config
   AiClient.setConfig({
     baseUrl: s.aiBaseUrl,
     apiKey: s.aiApiKey,
@@ -138,24 +130,18 @@ function applySettings() {
     customPrompts: s.customPrompts || {},
   });
 
-  // Update status bar model name and temperature
   const modelEl = document.getElementById('status-model');
-  if (modelEl) {
-    modelEl.textContent = `当前模型: ${s.aiModel}`;
-  }
-  const tempEl = document.getElementById('status-temp');
-  if (tempEl) {
-    tempEl.textContent = s.temperature.toFixed(1);
-  }
+  if (modelEl) modelEl.textContent = `当前模型: ${s.aiModel}`;
 
-  // Restart auto-save timer (fixed 60s)
   if (autoSaveTimer) clearInterval(autoSaveTimer);
-  autoSaveTimer = setInterval(() => {
-    window.dispatchEvent(new CustomEvent('settings:auto-save'));
-  }, 60000);
+  if (s.autoSaveInterval > 0) {
+    autoSaveTimer = setInterval(() => {
+      window.dispatchEvent(new CustomEvent('settings:auto-save'));
+    }, s.autoSaveInterval * 1000);
+  }
 }
 
 export async function saveTemperature(val) {
   currentSettings.temperature = val;
-  await window.electronAPI.saveSettings(currentSettings);
+  saveToLocalStorage();
 }

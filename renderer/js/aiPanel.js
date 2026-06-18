@@ -51,16 +51,16 @@ export function init() {
 
 // ── Load / Save conversation ────────────────────────────
 
-export async function loadConversation() {
-  const filePath = App.getCurrentFilePath();
-  const result = await window.electronAPI.loadConversation(filePath);
-  messages = result.success && result.data ? (result.data.messages || []) : [];
+export function loadConversation(msgs) {
+  messages = msgs || [];
   editingMsgId = null;
   renderMessages();
 }
 
 async function saveConversation() {
-  await window.electronAPI.saveConversation(App.getCurrentFilePath(), messages);
+  // Delegated to app.js which calls storage.js
+  const { saveConversationUI } = await import('./app.js');
+  await saveConversationUI(messages);
 }
 
 function startNewChat() {

@@ -1,9 +1,11 @@
 /* ═══════════════════════════════════════════════════════
-   小野兔 Rabbit — App Entry Point
+   小野兔 Rabbit Web — App Entry Point
    ═══════════════════════════════════════════════════════ */
 
+import * as AiClient from './aiClient.js';
 import * as Editor from './editor.js';
 import * as FileManager from './fileManager.js';
+import * as FileAdapter from './fileAdapter.js';
 import * as FileBrowser from './fileBrowser.js';
 import * as Outline from './outline.js';
 import * as MenuBar from './menubar.js';
@@ -13,13 +15,17 @@ import * as AiPanel from './aiPanel.js';
 import * as CtrlKPopup from './ctrlKPopup.js';
 import * as Settings from './settings.js';
 import * as SearchReplace from './searchReplace.js';
+import { loadConversation, saveConversation } from './storage.js';
 
 let currentFilePath = null;
+let currentFileHandle = null;
+let currentFileUUID = null;
 let isModified = false;
 
 // ── Public state accessors ──────────────────────────────
 
 export function getCurrentFilePath() { return currentFilePath; }
+export function getCurrentFileUUID() { return currentFileUUID; }
 
 export function setCurrentFilePath(filePath) {
   currentFilePath = filePath;
@@ -36,11 +42,9 @@ export function setIsModified(val) {
 }
 
 function updateTitle() {
-  const base = currentFilePath
-    ? currentFilePath.split(/[/\\]/).pop()
-    : '未命名.md';
+  const base = currentFilePath || '未命名.md';
   const prefix = isModified ? '• ' : '';
-  document.title = `${prefix}小野兔 Rabbit - ${base}`;
+  document.title = `${prefix}小野兔 Rabbit Web - ${base}`;
 }
 
 // ── Word count ──────────────────────────────────────────
@@ -49,151 +53,116 @@ export function countWords(text) {
   if (!text || text.trim().length === 0) return 0;
   const cjk = text.match(/[一-鿿㐀-䶿豈-﫿]/g);
   let count = cjk ? cjk.length : 0;
-  const nonCjk = text
-    .replace(/[一-鿿㐀-䶿豈-﫿]/g, ' ')
-    .replace(/[^\w]+/g, ' ')
-    .trim();
+  const nonCjk = text.replace(/[一-鿿㐀-䶿豈-﫿]/g, ' ').replace(/[^\w]+/g, ' ').trim();
   if (nonCjk.length > 0) count += nonCjk.split(/\s+/).length;
   return count;
-}
-
-// ── Window mode cycling ─────────────────────────────────
-
-export async function cycleWindowMode() {
-  let mode = await window.electronAPI.getWindowMode();
-  mode = mode >= 3 ? 1 : mode + 1;
-  await window.electronAPI.setWindowMode(mode);
 }
 
 // ── File operations ─────────────────────────────────────
 
 export async function newFile() {
   if (isModified) {
-    const choice = await window.electronAPI.confirmClose();
+    const choice = await showConfirmDialog();
     if (choice === 0) await saveFile();
     else if (choice === 2) return;
   }
   Editor.setContent('');
   setCurrentFilePath(null);
+  currentFileHandle = null;
+  currentFileUUID = null;
   setIsModified(false);
   Editor.focus();
-  AiPanel.loadConversation();
+  loadConversationUI();
 }
 
 export async function openFile() {
   if (isModified) {
-    const choice = await window.electronAPI.confirmClose();
+    const choice = await showConfirmDialog();
     if (choice === 0) await saveFile();
     else if (choice === 2) return;
   }
-  const result = await window.electronAPI.openDialog();
-  if (!result.success) return;
-  const readResult = await window.electronAPI.readFile(result.filePath);
-  if (!readResult.success) {
-    alert(`无法打开文件：${readResult.error}`);
-    return;
+  const result = await FileAdapter.openFile();
+  if (result.success) {
+    Editor.setContent(result.content);
+    setCurrentFilePath(result.filePath);
+    currentFileHandle = result.handle;
+    currentFileUUID = result.uuid || FileAdapter.getCurrentFileUUID();
+    setIsModified(false);
+    await loadConversationUI();
   }
-  Editor.setContent(readResult.content);
-  setCurrentFilePath(result.filePath);
-  setIsModified(false);
-  Editor.focus();
-  await window.electronAPI.addRecentFile(result.filePath);
-  MenuBar.updateRecentFiles(await window.electronAPI.getRecentFiles());
-  const dir = result.filePath.replace(/[/\\][^/\\]+$/, '');
-  FileBrowser.setRootDir(dir);
-  FileBrowser.highlightFile(result.filePath);
-  AiPanel.loadConversation();
+}
+
+export async function openFileByPath(filePath, openInPreview) {
+  // Web: attempt to match a known virtual file or prompt user
+  // For FileSystemAccess handles, this is handled by openFile()
+  return openFile();
 }
 
 export async function saveFile() {
-  if (currentFilePath) {
-    const result = await window.electronAPI.writeFile(currentFilePath, Editor.getContent());
-    if (result.success) setIsModified(false);
-    else alert(`保存失败：${result.error}`);
-  } else {
-    await saveFileAs();
+  if (!currentFileHandle) {
+    return saveFileAs();
   }
+  const content = Editor.getContent();
+  const result = await FileAdapter.saveFile(content, currentFileHandle);
+  if (result.success) setIsModified(false);
+  else alert(`保存失败：${result.error}`);
 }
 
 export async function saveFileAs() {
-  const result = await window.electronAPI.saveDialog();
-  if (!result.success) return;
-  const writeResult = await window.electronAPI.writeFile(result.filePath, Editor.getContent());
-  if (writeResult.success) {
-    setCurrentFilePath(result.filePath);
+  const content = Editor.getContent();
+  const result = await FileAdapter.saveFile(content, currentFileHandle);
+  if (result.success) {
+    if (result.handle) currentFileHandle = result.handle;
     setIsModified(false);
-    await window.electronAPI.addRecentFile(result.filePath);
-    MenuBar.updateRecentFiles(await window.electronAPI.getRecentFiles());
-  } else {
-    alert(`保存失败：${writeResult.error}`);
   }
 }
 
 export async function closeFile() {
   if (isModified) {
-    const choice = await window.electronAPI.confirmClose();
+    const choice = await showConfirmDialog();
     if (choice === 0) { await saveFile(); if (isModified) return; }
     else if (choice === 2) return;
   }
   Editor.setContent('');
   setCurrentFilePath(null);
+  currentFileHandle = null;
+  currentFileUUID = null;
   setIsModified(false);
 }
 
-export async function openFileByPath(filePath, openInPreview) {
-  const ext = filePath.split('.').pop().toLowerCase();
-  const textExts = ['md', 'txt', 'html', 'htm', 'json', 'js', 'css', 'xml', 'yaml', 'yml', 'csv', 'log', 'rst', 'tex', 'py', 'java', 'c', 'cpp', 'h', 'sh'];
-  if (!textExts.includes(ext)) return;
-  if (isModified) {
-    const choice = await window.electronAPI.confirmClose();
-    if (choice === 0) await saveFile();
-    else if (choice === 2) return;
+export async function openFolder() {
+  const result = await FileAdapter.openFolder();
+  if (result.success) {
+    FileBrowser.setRootDirFromEntries(result.entries, result.folderPath);
   }
-  const result = await window.electronAPI.readFile(filePath);
-  if (!result.success) {
-    alert(`无法打开文件：${result.error}`);
-    return;
-  }
-  Editor.setContent(result.content);
-  setCurrentFilePath(filePath);
-  setIsModified(false);
-
-  // If opening from file browser for .md, switch to preview mode
-  if (openInPreview && !Editor.isPreviewMode()) {
-    Editor.togglePreview();
-  }
-  // Don't steal focus when opened from file browser click
-
-  await window.electronAPI.addRecentFile(filePath);
-  MenuBar.updateRecentFiles(await window.electronAPI.getRecentFiles());
-  // Update file browser to show this file's directory
-  const dir = filePath.replace(/[/\\][^/\\]+$/, '');
-  FileBrowser.setRootDir(dir);
-  FileBrowser.highlightFile(filePath);
-  AiPanel.loadConversation();
 }
 
-export async function openRecentFile(filePath) {
-  if (isModified) {
-    const choice = await window.electronAPI.confirmClose();
-    if (choice === 0) await saveFile();
-    else if (choice === 2) return;
+async function showConfirmDialog() {
+  const msg = '文件尚未保存，是否保存后再关闭？\n[0] 保存  [1] 不保存  [2] 取消';
+  const choice = confirm(msg);
+  if (choice) {
+    // confirm = true = "确定" = save
+    return 0;
   }
-  const result = await window.electronAPI.readFile(filePath);
-  if (!result.success) {
-    alert(`无法打开文件：${result.error}`);
-    MenuBar.updateRecentFiles(
-      (await window.electronAPI.getRecentFiles()).filter(f => f !== filePath)
-    );
-    return;
+  // user clicked Cancel or Esc — return -1 for "cancel"
+  return 2;
+}
+
+// ── Conversation ─────────────────────────────────────────
+
+export async function loadConversationUI() {
+  if (currentFileUUID) {
+    const msgs = await loadConversation(currentFileUUID);
+    AiPanel.loadConversation(msgs);
+  } else {
+    AiPanel.loadConversation([]);
   }
-  Editor.setContent(result.content);
-  setCurrentFilePath(filePath);
-  setIsModified(false);
-  Editor.focus();
-  await window.electronAPI.addRecentFile(filePath);
-  MenuBar.updateRecentFiles(await window.electronAPI.getRecentFiles());
-  AiPanel.loadConversation();
+}
+
+export async function saveConversationUI(messages) {
+  if (currentFileUUID) {
+    await saveConversation(currentFileUUID, messages);
+  }
 }
 
 // ── Init ─────────────────────────────────────────────────
@@ -205,12 +174,12 @@ async function init() {
   AiPanel.init();
   CtrlKPopup.init();
   SearchReplace.init();
-  await Settings.init();
   MenuBar.init();
   StatusBar.init();
   Keybindings.init();
   Keybindings.initWheelZoom();
   FileManager.initDragDrop(document.body);
+  Settings.init();
 
   // Track modified state
   Editor.onChange(() => { if (!isModified) setIsModified(true); });
@@ -220,50 +189,17 @@ async function init() {
     const pos = Editor.getCursorPosition();
     StatusBar.setCursor(pos.line, pos.column);
     const sel = Editor.getSelection();
-    if (sel && sel.text && sel.text.length > 0) {
-      StatusBar.setSelectedWords(countWords(sel.text));
-    } else {
-      StatusBar.setSelectedWords(0);
-    }
+    StatusBar.setSelectedWords((sel && sel.text) ? countWords(sel.text) : 0);
   });
 
   // Track word count
-  Editor.onUpdate(() => {
-    StatusBar.setWordCount(countWords(Editor.getContent()));
-  });
+  Editor.onUpdate(() => { StatusBar.setWordCount(countWords(Editor.getContent())); });
 
   // Initial status bar
   const pos = Editor.getCursorPosition();
   StatusBar.setCursor(pos.line, pos.column);
   StatusBar.setWordCount(0);
   StatusBar.setSaveState(true);
-
-  // Make SOURCE/PREVIEW indicator clickable
-  const modeEl = document.getElementById('status-mode');
-  if (modeEl) {
-    modeEl.addEventListener('click', () => Editor.togglePreview());
-  }
-
-  // Settings button in status bar
-  const settingsBtn = document.getElementById('status-settings');
-  if (settingsBtn) {
-    settingsBtn.addEventListener('click', () => Settings.showPanel());
-  }
-
-  // Ctrl+, handled at main process level (Chromium intercept)
-  window.electronAPI.onShortcutSettings(() => Settings.showPanel());
-
-  // Word wrap toggle button
-  const wrapEl = document.getElementById('status-wrap');
-  if (wrapEl) {
-    wrapEl.addEventListener('click', () => {
-      Editor.toggleWordWrap();
-      MenuBar.refreshMenuChecks();
-    });
-  }
-
-  // Temperature click-to-edit in status bar
-  initStatusTempClick();
 
   // Panel header click behaviors
   initPanelBehaviors();
@@ -272,38 +208,34 @@ async function init() {
   initResizeHandles();
   initPanelDivider();
 
-  // Load recent files
-  MenuBar.updateRecentFiles(await window.electronAPI.getRecentFiles());
-
-  // Window mode changes from main process
-  window.electronAPI.onWindowModeChanged((mode) => {
-    document.body.className = document.body.className
-      .replace(/window-mode-\d/g, '').trim();
-    if (mode !== 1) document.body.classList.add(`window-mode-${mode}`);
-    if (mode === 3) document.body.classList.add('no-menubar');
-    else document.body.classList.remove('no-menubar');
-  });
-
-  // Handle force-save-and-close from main process
-  window.electronAPI.onForceSaveAndClose(async () => {
-    await saveFile();
-    window.__hasUnsavedChanges = false;
-    window.close();
+  // Auto-save via settings timer
+  window.addEventListener('settings:auto-save', () => {
+    if (isModified && currentFileHandle) saveFile();
   });
 
   // Warn on close with unsaved changes
   window.addEventListener('beforeunload', (e) => {
-    if (isModified) {
-      e.preventDefault();
-      e.returnValue = '';
-    }
+    if (isModified) { e.preventDefault(); e.returnValue = ''; }
   });
 
-  // Auto-save via settings timer
-  window.addEventListener('settings:auto-save', () => {
-    if (isModified && currentFilePath) saveFile();
-  });
+  // Mode indicator
+  const modeEl = document.getElementById('status-mode');
+  if (modeEl) modeEl.addEventListener('click', () => Editor.togglePreview());
 
+  // Settings button
+  const settingsBtn = document.getElementById('status-settings');
+  if (settingsBtn) settingsBtn.addEventListener('click', () => Settings.showPanel());
+
+  // Word wrap toggle
+  const wrapEl = document.getElementById('status-wrap');
+  if (wrapEl) {
+    wrapEl.addEventListener('click', () => { Editor.toggleWordWrap(); MenuBar.refreshMenuChecks(); });
+  }
+
+  // Temperature click-to-edit
+  initStatusTempClick();
+
+  MenuBar.refreshMenuChecks();
   updateTitle();
   window.__hasUnsavedChanges = false;
 }
@@ -318,7 +250,6 @@ function initResizeHandles() {
 
   function makeResizable(handle, sidebar, direction) {
     let startX, startWidth;
-
     handle.addEventListener('mousedown', (e) => {
       e.preventDefault();
       startX = e.clientX;
@@ -327,16 +258,13 @@ function initResizeHandles() {
       document.body.style.cursor = 'col-resize';
       document.body.style.userSelect = 'none';
     });
-
     document.addEventListener('mousemove', (e) => {
       if (!handle.classList.contains('active')) return;
-      const delta = e.clientX - startX;
-      let newWidth = startWidth + (direction === 'left' ? delta : -delta);
+      let newWidth = startWidth + (direction === 'left' ? e.clientX - startX : startX - e.clientX);
       newWidth = Math.max(160, Math.min(480, newWidth));
       sidebar.style.width = newWidth + 'px';
       sidebar.style.transition = 'none';
     });
-
     document.addEventListener('mouseup', () => {
       if (!handle.classList.contains('active')) return;
       handle.classList.remove('active');
@@ -350,7 +278,7 @@ function initResizeHandles() {
   makeResizable(rightHandle, rightSidebar, 'right');
 }
 
-// ── Panel divider (vertical resize between file browser and outline) ──
+// ── Panel divider ───────────────────────────────────────
 
 function initPanelDivider() {
   const divider = document.getElementById('panel-divider');
@@ -359,21 +287,16 @@ function initPanelDivider() {
   const leftSidebar = document.getElementById('left-sidebar');
   if (!divider || !fbPanel || !outlinePanel || !leftSidebar) return;
 
-  let startY, startFbHeight, totalHeight;
-
+  let startY, startFbHeight;
   divider.addEventListener('mousedown', (e) => {
     e.preventDefault();
     startY = e.clientY;
-    const sidebarRect = leftSidebar.getBoundingClientRect();
     const fbRect = fbPanel.getBoundingClientRect();
-    const outlineRect = outlinePanel.getBoundingClientRect();
     startFbHeight = fbRect.height;
-    totalHeight = fbRect.height + outlineRect.height + divider.getBoundingClientRect().height;
     divider.classList.add('active');
     document.body.style.cursor = 'row-resize';
     document.body.style.userSelect = 'none';
   });
-
   document.addEventListener('mousemove', (e) => {
     if (!divider.classList.contains('active')) return;
     const delta = e.clientY - startY;
@@ -382,15 +305,11 @@ function initPanelDivider() {
     const minH = 28;
     const maxH = sidebarHeight - minH - 4;
     const clamped = Math.max(minH, Math.min(maxH, newFbHeight));
-    const fbPercent = (clamped / sidebarHeight) * 100;
-    const outlinePercent = 100 - fbPercent - 0.5;
-
-    fbPanel.style.flex = `1 1 ${fbPercent}%`;
+    fbPanel.style.flex = `1 1 ${(clamped / sidebarHeight) * 100}%`;
     fbPanel.style.transition = 'none';
-    outlinePanel.style.flex = `1 1 ${outlinePercent}%`;
+    outlinePanel.style.flex = '1 1 auto';
     outlinePanel.style.transition = 'none';
   });
-
   document.addEventListener('mouseup', () => {
     if (!divider.classList.contains('active')) return;
     divider.classList.remove('active');
@@ -409,10 +328,7 @@ function initPanelBehaviors() {
   const fbPanel = document.getElementById('file-browser-panel');
   const outlinePanel = document.getElementById('outline-panel');
 
-  // States: 0 = maximized, 1 = half, 2 = minimized
-  let fbState = 1;
-  let outlineState = 1;
-
+  let fbState = 1, outlineState = 1;
   const applyState = (panel, otherPanel, state) => {
     panel.classList.remove('minimized', 'maximized');
     if (state === 0) {
@@ -423,7 +339,7 @@ function initPanelBehaviors() {
       panel.style.flex = '1 1 50%';
       otherPanel.style.flex = '1 1 50%';
       otherPanel.classList.remove('maximized', 'minimized');
-    } else if (state === 2) {
+    } else {
       panel.classList.add('minimized');
       otherPanel.classList.remove('maximized', 'minimized');
       otherPanel.style.flex = '1 1 auto';
@@ -435,17 +351,11 @@ function initPanelBehaviors() {
     fbHeader.addEventListener('click', (e) => {
       if (e.target.closest('.sidebar-btn') || e.target.closest('.rename-input')) return;
       if (fbClickTimer) {
-        // Double click
-        clearTimeout(fbClickTimer);
-        fbClickTimer = null;
+        clearTimeout(fbClickTimer); fbClickTimer = null;
         fbState = fbState === 2 ? 0 : 2;
         applyState(fbPanel, outlinePanel, fbState);
       } else {
-        fbClickTimer = setTimeout(() => {
-          fbClickTimer = null;
-          fbState = (fbState + 1) % 3;
-          applyState(fbPanel, outlinePanel, fbState);
-        }, 250);
+        fbClickTimer = setTimeout(() => { fbClickTimer = null; fbState = (fbState + 1) % 3; applyState(fbPanel, outlinePanel, fbState); }, 250);
       }
     });
   }
@@ -454,44 +364,32 @@ function initPanelBehaviors() {
     let outlineClickTimer;
     outlineHeader.addEventListener('click', (e) => {
       if (outlineClickTimer) {
-        clearTimeout(outlineClickTimer);
-        outlineClickTimer = null;
+        clearTimeout(outlineClickTimer); outlineClickTimer = null;
         outlineState = outlineState === 2 ? 0 : 2;
         applyState(outlinePanel, fbPanel, outlineState);
       } else {
-        outlineClickTimer = setTimeout(() => {
-          outlineClickTimer = null;
-          outlineState = (outlineState + 1) % 3;
-          applyState(outlinePanel, fbPanel, outlineState);
-        }, 250);
+        outlineClickTimer = setTimeout(() => { outlineClickTimer = null; outlineState = (outlineState + 1) % 3; applyState(outlinePanel, fbPanel, outlineState); }, 250);
       }
     });
   }
 }
 
-// ── Status bar temperature click-to-edit ──────────────────
+// ── Temp click-to-edit ───────────────────────────────────
 
 function statusTempClick(span) {
   span.addEventListener('click', () => {
     const current = parseFloat(span.textContent) || 0.7;
     const input = document.createElement('input');
-    input.type = 'number';
-    input.min = '0';
-    input.max = '2';
-    input.step = '0.1';
-    input.value = current;
-    input.className = 'status-temp-input';
-    span.replaceWith(input);
-    input.focus();
-    input.select();
+    input.type = 'number'; input.min = '0'; input.max = '2'; input.step = '0.1';
+    input.value = current; input.className = 'status-temp-input';
+    span.replaceWith(input); input.focus(); input.select();
 
     const finish = () => {
       let val = parseFloat(input.value);
       if (isNaN(val)) val = current;
       val = Math.max(0, Math.min(2, Math.round(val * 10) / 10));
       const newSpan = document.createElement('span');
-      newSpan.id = 'status-temp';
-      newSpan.title = '点击修改温度值';
+      newSpan.id = 'status-temp'; newSpan.title = '点击修改温度值';
       newSpan.textContent = val.toFixed(1);
       input.replaceWith(newSpan);
       statusTempClick(newSpan);
@@ -514,7 +412,4 @@ function initStatusTempClick() {
   if (el) statusTempClick(el);
 }
 
-initStatusTempClick();
-// Set initial menu checkmarks
-MenuBar.refreshMenuChecks();
 init();

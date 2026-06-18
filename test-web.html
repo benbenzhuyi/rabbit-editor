@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rabbit Web — Phase Completion Check</title>
+  <style>
+    body { background: #1e1e1e; color: #ccc; font-family: 'Microsoft YaHei', sans-serif; padding: 24px; }
+    h1 { color: #569cd6; }
+    .card { background: #252526; border: 1px solid #3c3c3c; border-radius: 8px; padding: 12px 20px; margin: 8px 0; }
+    .done { color: #4ec9b0; }
+    .wip { color: #e5a74b; }
+    .pending { color: #666; }
+  </style>
+</head>
+<body>
+  <h1>小野兔 Rabbit Web — Phase Completion</h1>
+
+  <div class="card"><span class="done">✓</span> Phase 0 — 基础设施<br>
+  &nbsp;&nbsp;platformInfo.js, storage.js (IndexedDB 3 stores, isSameEntry), fileAdapter.js (open/read/write/create/delete)</div>
+
+  <div class="card"><span class="done">✓</span> Phase 1 — 数据层<br>
+  &nbsp;&nbsp;fileBindings UUID 映射, conversations (load/save trim), virtualFiles, handle 权限恢复</div>
+
+  <div class="card"><span class="wip">●</span> Phase 2 — 核心应用层<br>
+  &nbsp;&nbsp;settings.js (→ localStorage) ✓ | aiClient.js (→ fetch) ✓ | app.js (IPC → adapter) ✓ | aiPanel.js (load/save) ✓ | fileBrowser.js (list/new/rename/delete/dir entries) — <b>remaining</b> | keybindings.js (F11/窗口模式) | menubar.js (退出) | editor.js (same) | outline (same) | searchReplace (same) | ctrlKPopup (same) | fileManager.js (drag)</div>
+
+  <div class="card"><span class="pending">○</span> Phase 3 — 降级与兼容<br>
+  &nbsp;&nbsp;未开始</div>
+
+  <div class="card"><span class="pending">○</span> Phase 4 — PWA + 部署<br>
+  &nbsp;&nbsp;未开始</div>
+</body>
+</html>

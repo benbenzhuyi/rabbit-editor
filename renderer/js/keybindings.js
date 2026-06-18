@@ -7,6 +7,7 @@ import * as Editor from './editor.js';
 import * as Outline from './outline.js';
 import * as AiPanel from './aiPanel.js';
 import * as CtrlKPopup from './ctrlKPopup.js';
+import * as FileAdapter from './fileAdapter.js';
 import * as FileBrowser from './fileBrowser.js';
 import * as SearchReplace from './searchReplace.js';
 import * as Settings from './settings.js';
@@ -69,27 +70,31 @@ function handleKeydown(e) {
   const shift = e.shiftKey;
   const alt = e.altKey;
 
-  // F11: cycle window mode
+  // F11: cycle window mode (Web: Fullscreen API)
   if (e.key === 'F11') {
     e.preventDefault();
-    App.cycleWindowMode();
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
     return;
   }
 
-  // Ctrl+Shift+1/2/3: set window mode
+  // Ctrl+Shift+1/2/3: layout modes (CSS class toggle — same as electron)
   if (ctrl && shift && (e.key === '!' || e.key === '1')) {
     e.preventDefault();
-    window.electronAPI.setWindowMode(1);
+    applyLayoutMode(1);
     return;
   }
   if (ctrl && shift && (e.key === '@' || e.key === '2')) {
     e.preventDefault();
-    window.electronAPI.setWindowMode(2);
+    applyLayoutMode(2);
     return;
   }
   if (ctrl && shift && (e.key === '#' || e.key === '3')) {
     e.preventDefault();
-    window.electronAPI.setWindowMode(3);
+    applyLayoutMode(3);
     return;
   }
 
@@ -125,7 +130,7 @@ function handleKeydown(e) {
   if (ctrl && shift && (e.key === 'O' || e.key === 'o')) {
     e.preventDefault();
     (async () => {
-      const result = await window.electronAPI.openFolderDialog();
+      const result = await FileAdapter.openFolder();
       if (result.success) {
         FileBrowser.setRootDir(result.folderPath);
       }
@@ -324,6 +329,15 @@ function handleKeydown(e) {
   }
 
   // Ctrl+wheel: handled in initWheelZoom
+}
+
+// ── Layout mode helper (CSS classes — no Fullscreen API involved) ──
+
+function applyLayoutMode(mode) {
+  document.body.className = document.body.className.replace(/window-mode-\d/g, '').trim();
+  if (mode !== 1) document.body.classList.add(`window-mode-${mode}`);
+  if (mode === 3) document.body.classList.add('no-menubar');
+  else document.body.classList.remove('no-menubar');
 }
 
 // ── Wheel zoom ───────────────────────────────────────────

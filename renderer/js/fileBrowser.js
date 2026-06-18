@@ -4,6 +4,7 @@
 
 import * as App from './app.js';
 import * as Editor from './editor.js';
+import * as FileAdapter from './fileAdapter.js';
 
 let rootDir = null;
 let selectedPath = null;  // persistent selected file
@@ -37,9 +38,8 @@ export function init() {
 }
 
 async function loadDefaultRoot() {
-  const paths = await window.electronAPI.getPaths();
-  rootDir = paths.documents;
-  if (rootDir) refresh(rootDir);
+  // Web: default root is empty — user must "Open Folder"
+  rootDir = null;
 }
 
 function getParentPath(dirPath) {
@@ -79,18 +79,18 @@ export async function refresh(dirPath) {
     tree.appendChild(upNode);
   }
 
-  const result = await window.electronAPI.listFiles(dirPath);
-  if (!result.success) {
+  const entries = await FileAdapter.listDirectory(dirPath);
+  if (!entries || entries.length === 0) {
     tree.innerHTML += `<div class="tree-empty-hint">无法读取目录</div>`;
     return;
   }
 
-  for (const entry of result.entries) {
+  for (const entry of entries) {
     if (entry.type === 'directory') {
       renderDirectoryNode(tree, entry, 0, true);
     }
   }
-  for (const entry of result.entries) {
+  for (const entry of entries) {
     if (entry.type === 'file') {
       renderFileNode(tree, entry, 0);
     }
@@ -276,8 +276,8 @@ function collapseAll() {
 }
 
 async function loadChildren(container, dirPath, depth) {
-  const result = await window.electronAPI.listFiles(dirPath);
-  if (!result.success) return;
+  const entries = await FileAdapter.listDirectory(dirPath);
+  if (!entries || entries.length === 0) return;
 
   const existing = container.querySelectorAll(':scope > .tree-node');
   existing.forEach(n => n.remove());
@@ -285,12 +285,12 @@ async function loadChildren(container, dirPath, depth) {
   existingChildren.forEach(c => c.remove());
 
   // Directories first
-  for (const entry of result.entries) {
+  for (const entry of entries) {
     if (entry.type === 'directory') {
       renderDirectoryNode(container, entry, depth, true);
     }
   }
-  for (const entry of result.entries) {
+  for (const entry of entries) {
     if (entry.type === 'file') {
       renderFileNode(container, entry, depth);
     }
@@ -306,16 +306,13 @@ function showContextMenu(x, y, path, type, parentDir) {
 
   if (type === 'directory') {
     addContextItem('📝', '新建文件', async () => {
-      const result = await window.electronAPI.newFile(path);
-      if (result.success) {
-        await refresh(rootDir);
-      }
+      const result = await FileAdapter.createFile(rootDir, '未命名.md');
+      if (result.success) { await refresh(rootDir); }
     });
     addContextItem('📁', '新建文件夹', async () => {
-      const result = await window.electronAPI.createDir(path);
-      if (result.success) {
-        await refresh(rootDir);
-      }
+      // createFolder is not part of FSAA — create a dummy placeholder
+      // User can create folder by manually adding one in explorer and refreshing
+      alert('请直接在文件管理器中的当前文件夹内新建文件夹，然后点击刷新按钮。');
     });
     addSeparator();
     addContextItem('✏️', '重命名', () => startRename(path, type));
@@ -378,7 +375,7 @@ function startRename(oldPath, type) {
     const newName = input.value.trim();
     input.replaceWith(nameEl);
     if (newName && newName !== oldName) {
-      const result = await window.electronAPI.renameEntry(oldPath, newName);
+      const result = await FileAdapter.renameEntry(oldPath, newName, rootDir);
       if (!result.success) {
         alert(`重命名失败：${result.error}`);
       }
@@ -403,7 +400,7 @@ async function deleteEntry(targetPath) {
   const name = targetPath.split(/[/\\]/).pop();
   const type = targetPath.includes('.') ? '文件' : '文件夹';
   if (!confirm(`确定要删除${type} "${name}" 吗？\n此操作不可撤销。`)) return;
-  const result = await window.electronAPI.deleteEntry(targetPath);
+  const result = await FileAdapter.deleteEntry(targetPath, rootDir);
   if (!result.success) {
     alert(`删除失败：${result.error}`);
   }
@@ -434,7 +431,42 @@ export function getRootDir() {
   return rootDir;
 }
 
-export function setRootDir(dirPath) {
-  rootDir = dirPath;
-  refresh(dirPath);
+export function setRootDir(dirPathOrHandle) {
+  rootDir = dirPathOrHandle;
+  refresh(dirPathOrHandle);
+}
+
+export function setRootDirFromEntries(entries, folderPath) {
+  // entries are already resolved — just render them
+  rootDir = folderPath;
+
+  const tree = document.getElementById('file-tree');
+  tree.innerHTML = '';
+
+  // Show path in header
+  const header = document.getElementById('file-browser-header');
+  const existingPath = header.querySelector('.sidebar-path');
+  if (existingPath) existingPath.remove();
+  const pathEl = document.createElement('span');
+  pathEl.className = 'sidebar-path';
+  pathEl.textContent = folderPath || rootDir || '文件夹';
+  pathEl.title = folderPath || rootDir || '';
+  const titleEl = header.querySelector('.sidebar-title');
+  if (titleEl) titleEl.after(pathEl);
+
+  if (entries.length === 0) {
+    tree.innerHTML = '<div class="tree-empty-hint">文件夹为空</div>';
+    return;
+  }
+
+  for (const entry of entries) {
+    if (entry.type === 'directory') {
+      renderDirectoryNode(tree, entry, 0, true);
+    }
+  }
+  for (const entry of entries) {
+    if (entry.type === 'file') {
+      renderFileNode(tree, entry, 0);
+    }
+  }
 }

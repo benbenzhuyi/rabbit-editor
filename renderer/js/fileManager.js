@@ -41,11 +41,8 @@ export function initDragDrop(element) {
     const reader = new FileReader();
     reader.onload = async () => {
       if (App.getIsModified()) {
-        const choice = await window.electronAPI.confirmClose();
-        if (choice === 0) {
+        if (confirm('文件尚未保存，是否保存？\n[确定] 保存  [取消] 放弃')) {
           await App.saveFile();
-        } else if (choice === 2) {
-          return;
         }
       }
       Editor.setContent(reader.result);

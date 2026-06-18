@@ -33,23 +33,35 @@ export async function sendMessage(messages, options = {}) {
   showLoading();
 
   try {
-    const result = await window.electronAPI.aiRequest({
-      messages,
-      model: mergedConfig.model,
-      baseUrl: mergedConfig.baseUrl,
-      apiKey: mergedConfig.apiKey,
-      temperature: mergedConfig.temperature,
-      maxTokens: mergedConfig.maxTokens,
+    const url = mergedConfig.baseUrl.replace(/\/+$/, '') + '/chat/completions';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(mergedConfig.apiKey ? { 'Authorization': `Bearer ${mergedConfig.apiKey}` } : {}),
+      },
+      body: JSON.stringify({
+        model: mergedConfig.model,
+        messages,
+        temperature: mergedConfig.temperature || 0.7,
+        max_tokens: mergedConfig.maxTokens || 2048,
+        stream: false,
+      }),
     });
+
+    if (!response.ok) {
+      const errText = await response.text().catch(() => '');
+      throw new Error(`HTTP ${response.status}: ${errText}`);
+    }
+
+    const json = await response.json();
+    const content = json.choices?.[0]?.message?.content;
 
     isStreaming = false;
     hideLoading();
 
-    if (!result.success) {
-      throw new Error(result.error || 'AI 请求失败');
-    }
-
-    return result.content;
+    if (!content) throw new Error('模型未返回任何内容');
+    return content;
   } catch (err) {
     isStreaming = false;
     hideLoading();
