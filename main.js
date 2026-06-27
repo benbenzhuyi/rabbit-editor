@@ -22,7 +22,7 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 
-  // mainWindow.webContents.openDevTools({ mode: 'detach' });
+  mainWindow.webContents.openDevTools({ mode: 'detach' });
 
   // Intercept Ctrl+, at Chromium level (before DOM sees it)
   mainWindow.webContents.on('before-input-event', (event, input) => {
@@ -337,11 +337,24 @@ ipcMain.handle('ai:request', async (_event, config) => {
       return { success: false, error: `HTTP ${response.status}: ${errText}` };
     }
 
-    const json = await response.json();
-    const content = json.choices?.[0]?.message?.content;
+    // Read as text first, then try JSON parse (more robust)
+    const rawText = await response.text();
 
-    if (!content) {
-      return { success: false, error: '模型未返回任何内容' };
+    let json;
+    try { json = JSON.parse(rawText); } catch (e) {
+      return { success: false, error: `无法解析 API 响应: ${rawText.slice(0, 200)}` };
+    }
+
+    const choice = json.choices?.[0];
+    const message = choice?.message;
+
+    // Note: newer llama.cpp returns reasoning_content while content is empty string "".
+    // JavaScript || treats "" as falsy so the fallback works correctly.
+    const content = message?.content || message?.reasoning_content || choice?.text || json.content;
+
+    if (!content || (typeof content === 'string' && content.trim().length === 0)) {
+      const raw = JSON.stringify(json).slice(0, 300);
+      return { success: false, error: `模型未返回任何内容\n原始响应: ${raw}` };
     }
 
     return { success: true, content };
