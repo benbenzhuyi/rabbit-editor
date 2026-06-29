@@ -350,12 +350,15 @@ ipcMain.handle('ai:request', async (_event, config) => {
 
     // Note: newer llama.cpp returns reasoning_content while content is empty string "".
     // JavaScript || treats "" as falsy so the fallback works correctly.
-    const content = message?.content || message?.reasoning_content || choice?.text || json.content;
+    let content = message?.content || message?.reasoning_content || choice?.text || json.content;
 
     if (!content || (typeof content === 'string' && content.trim().length === 0)) {
       const raw = JSON.stringify(json).slice(0, 300);
       return { success: false, error: `模型未返回任何内容\n原始响应: ${raw}` };
     }
+
+    // Strip <think>...</think> XML blocks incl. truncated responses (no closing tag)
+    content = content.replace(/<think>[\s\S]*?(?:<\/think>|$)/g, '').replace(/<\/?think>/g, '').trim();
 
     return { success: true, content };
   } catch (err) {
