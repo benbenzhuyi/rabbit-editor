@@ -317,6 +317,7 @@ ipcMain.handle('ai:request', async (_event, config) => {
   const url = baseUrl.replace(/\/+$/, '') + '/chat/completions';
 
   try {
+    console.log('[AI v0.5.4-think-fix] Request to:', url);
     const response = await fetch(url, {
       method: 'POST',
       headers: {
