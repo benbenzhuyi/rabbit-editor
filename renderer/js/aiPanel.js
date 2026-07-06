@@ -8,7 +8,8 @@ import * as App from './app.js';
 
 let messages = [];
 let currentResponse = '';
-let editingMsgId = null;   // id of message being edited
+let editingMsgId = null;
+let quotedText = null;     // Ctrl+L quoted text — injected into API request, not shown in input
 
 // ── Init ─────────────────────────────────────────────────
 
@@ -94,6 +95,7 @@ async function sendMessage() {
       timestamp: new Date().toISOString(),
       role: 'user',
       content: text,
+      refText: quotedText || null,   // Ctrl+L quoted text for collapsible display
     };
     messages.push(userMsg);
   }
@@ -102,10 +104,16 @@ async function sendMessage() {
   scrollToBottom();
   await saveConversation();
 
+  // Inject quoted text into API request
+  const effectiveText = quotedText
+    ? `【引用内容】：\n\`\`\`\n${quotedText}\n\`\`\`\n\n【用户指令】：\n${text}`
+    : text;
+  quotedText = null;
+
   // Match Ctrl+K format: system prompt + wrapped user message, no history
   const apiMessages = [
     { role: 'system', content: '你是一位专业创意写手。请根据用户的具体要求来完成任务。直接输出所需内容，不需要解释或说明。' },
-    { role: 'user', content: `请按要求完成任务：\n\n${text}` },
+    { role: 'user', content: `请按要求完成任务：\n\n${effectiveText}` },
   ];
 
   // Show loading
@@ -159,12 +167,19 @@ function renderMessages() {
     const editingClass = m.editing ? ' editing' : '';
     const streamingClass = m.streaming ? ' ai-streaming' : '';
 
+    // Collapsible reference block for Ctrl+L quoted text
+    const refBlock = m.refText
+      ? `<details class="msg-ref-block"><summary>📎 引用内容 (${m.refText.length}字)</summary><pre>${escapeHtml(m.refText)}</pre></details>`
+      : '';
+
     let contentHtml;
     if (m.editing) {
       contentHtml = `<textarea class="ai-edit-input" data-id="${m.id}" rows="3">${escapeHtml(m.content)}</textarea>`;
     } else {
       contentHtml = escapeHtml(m.content);
     }
+
+    if (refBlock) contentHtml = refBlock + contentHtml;
 
     let actionsHtml = '';
     if (m.role === 'user' && !m.streaming) {
@@ -291,12 +306,15 @@ export function quoteToAI() {
 
   if (sel && sel.text && sel.text.length > 0) {
     const lines = `${sel.fromLine}-${sel.toLine}`;
-    const quote = `@${fileName} ${lines} `;
-    input.value = input.value ? input.value + '\n' + quote : quote;
+    quotedText = sel.text;
+    const tag = `@${fileName} ${lines} `;
+    input.value = input.value ? input.value + ' ' + tag : tag;
   } else {
     const lineNum = Editor.getCursorPosition().line;
-    const quote = `@${fileName} ${lineNum}-${lineNum} `;
-    input.value = input.value ? input.value + '\n' + quote : quote;
+    const lineText = Editor.getCurrentLineText();
+    quotedText = lineText;
+    const tag = `@${fileName} ${lineNum}-${lineNum} `;
+    input.value = input.value ? input.value + ' ' + tag : tag;
     Editor.selectLine(lineNum);
   }
 

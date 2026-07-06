@@ -117520,6 +117520,12 @@ ${text5}</tr>
     const line = editorView.state.doc.line(lineNumber);
     editorView.dispatch({ selection: { anchor: line.from, head: line.to }, scrollIntoView: true });
   }
+  function getCurrentLineText() {
+    if (!editorView) return "";
+    const pos = editorView.state.selection.main.head;
+    const line = editorView.state.doc.lineAt(pos);
+    return line.text;
+  }
   function toggleWordWrap() {
     if (!editorView) return;
     wordWrapEnabled = !wordWrapEnabled;
@@ -118361,6 +118367,7 @@ ${text5}</tr>
   // renderer/js/aiPanel.js
   var messages = [];
   var editingMsgId = null;
+  var quotedText = null;
   var MODEL_PRESETS = [
     "deepseek-chat",
     "deepseek-reasoner",
@@ -118426,18 +118433,28 @@ ${text5}</tr>
         id: Date.now().toString(),
         timestamp: (/* @__PURE__ */ new Date()).toISOString(),
         role: "user",
-        content: text5
+        content: text5,
+        refText: quotedText || null
+        // Ctrl+L quoted text for collapsible display
       };
       messages.push(userMsg);
     }
     renderMessages();
     scrollToBottom();
     await saveConversation();
+    const effectiveText = quotedText ? `\u3010\u5F15\u7528\u5185\u5BB9\u3011\uFF1A
+\`\`\`
+${quotedText}
+\`\`\`
+
+\u3010\u7528\u6237\u6307\u4EE4\u3011\uFF1A
+${text5}` : text5;
+    quotedText = null;
     const apiMessages = [
       { role: "system", content: "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u521B\u610F\u5199\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u7684\u5177\u4F53\u8981\u6C42\u6765\u5B8C\u6210\u4EFB\u52A1\u3002\u76F4\u63A5\u8F93\u51FA\u6240\u9700\u5185\u5BB9\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002" },
       { role: "user", content: `\u8BF7\u6309\u8981\u6C42\u5B8C\u6210\u4EFB\u52A1\uFF1A
 
-${text5}` }
+${effectiveText}` }
     ];
     const assistantMsg = {
       id: (Date.now() + 1).toString(),
@@ -118481,12 +118498,14 @@ ${text5}` }
       const roleLabel = m.role === "user" ? "\u7528\u6237" : "AI";
       const editingClass = m.editing ? " editing" : "";
       const streamingClass = m.streaming ? " ai-streaming" : "";
+      const refBlock = m.refText ? `<details class="msg-ref-block"><summary>\u{1F4CE} \u5F15\u7528\u5185\u5BB9 (${m.refText.length}\u5B57)</summary><pre>${escapeHtml2(m.refText)}</pre></details>` : "";
       let contentHtml;
       if (m.editing) {
         contentHtml = `<textarea class="ai-edit-input" data-id="${m.id}" rows="3">${escapeHtml2(m.content)}</textarea>`;
       } else {
         contentHtml = escapeHtml2(m.content);
       }
+      if (refBlock) contentHtml = refBlock + contentHtml;
       let actionsHtml = "";
       if (m.role === "user" && !m.streaming) {
         actionsHtml = `
@@ -118594,12 +118613,15 @@ ${text5}` }
     if (sidebar?.classList.contains("hidden")) sidebar.classList.remove("hidden");
     if (sel && sel.text && sel.text.length > 0) {
       const lines = `${sel.fromLine}-${sel.toLine}`;
-      const quote2 = `@${fileName} ${lines} `;
-      input.value = input.value ? input.value + "\n" + quote2 : quote2;
+      quotedText = sel.text;
+      const tag3 = `@${fileName} ${lines} `;
+      input.value = input.value ? input.value + " " + tag3 : tag3;
     } else {
       const lineNum = getCursorPosition().line;
-      const quote2 = `@${fileName} ${lineNum}-${lineNum} `;
-      input.value = input.value ? input.value + "\n" + quote2 : quote2;
+      const lineText = getCurrentLineText();
+      quotedText = lineText;
+      const tag3 = `@${fileName} ${lineNum}-${lineNum} `;
+      input.value = input.value ? input.value + " " + tag3 : tag3;
       selectLine2(lineNum);
     }
     input.style.transition = "background-color 0.15s";

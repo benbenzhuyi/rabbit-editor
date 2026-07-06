@@ -153,6 +153,35 @@
 
 /* ── Inline edit textarea ────────────────────────── */
 
+.msg-ref-block {
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.msg-ref-block summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 2px 0;
+  user-select: none;
+}
+
+.msg-ref-block summary:hover { color: var(--text-secondary); }
+
+.msg-ref-block pre {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin-top: 4px;
+  font-size: 12px;
+  font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  white-space: pre-wrap;
+  max-height: 120px;
+  overflow-y: auto;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
 .ai-edit-input {
   width: 100%;
   background-color: var(--bg-tertiary);
