@@ -102,7 +102,9 @@ async function executeCtrlK() {
   ];
 
   try {
-    const result = await AiClient.sendMessage(messages, { maxTokens: Math.max(wordCount * 2, 256) });
+    // Qwen thinking models eat ~50% of tokens with <think> blocks; 2.5x multiplier ensures content survives stripping
+    const maxToks = Math.max(wordCount * 3, 1024);
+    const result = await AiClient.sendMessage(messages, { maxTokens: maxToks });
     if (result) {
       if (mode === '续写') {
         Editor.insertAfterSelection(result);

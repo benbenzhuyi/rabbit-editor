@@ -358,20 +358,13 @@ ipcMain.handle('ai:request', async (_event, config) => {
       return { success: false, error: `模型未返回任何内容\n原始响应: ${raw}` };
     }
 
-    // Strip <think>...</think> XML blocks — Qwen thinking leftover (v0.5.5-thinkfix)
-    while (true) {
-      const startIdx = content.indexOf('<think>');
-      if (startIdx === -1) break;
-      const endIdx = content.indexOf('</think>', startIdx);
-      if (endIdx === -1) {
-        // No closing tag — remove from <think> to end
-        content = content.substring(0, startIdx);
-        break;
-      }
-      content = content.substring(0, startIdx) + content.substring(endIdx + 8);
+    // Strip <think>...</think> blocks (Qwen model outputs these regardless of thinking setting)
+    content = content.replace(/<think>[\s\S]*?<\/think>/g, '').replace(/<\/?think>/g, '').trim();
+
+    // If stripping left nothing, the model spent all tokens on thinking — tell user to increase limit
+    if (!content) {
+      return { success: false, error: '模型将全部 tokens 用于思考过程，请增加"最大输出 Tokens"（建议设为 4096 以上）' };
     }
-    // Clean up any orphaned tags
-    content = content.replace(/<\/?think>/g, '').trim();
 
     return { success: true, content };
   } catch (err) {

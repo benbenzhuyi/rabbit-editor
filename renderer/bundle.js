@@ -118434,8 +118434,10 @@ ${text5}</tr>
     scrollToBottom();
     await saveConversation();
     const apiMessages = [
-      { role: "system", content: "\u4F60\u662F\u4E00\u4F4D\u5168\u80FD\u7684AI\u5199\u4F5C\u52A9\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u7684\u5177\u4F53\u8981\u6C42\u6765\u5B8C\u6210\u4EFB\u52A1\u3002\u76F4\u63A5\u8F93\u51FA\u6240\u9700\u5185\u5BB9\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002" },
-      ...messages.map((m) => ({ role: m.role, content: m.content }))
+      { role: "system", content: "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u521B\u610F\u5199\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u7684\u5177\u4F53\u8981\u6C42\u6765\u5B8C\u6210\u4EFB\u52A1\u3002\u76F4\u63A5\u8F93\u51FA\u6240\u9700\u5185\u5BB9\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002" },
+      { role: "user", content: `\u8BF7\u6309\u8981\u6C42\u5B8C\u6210\u4EFB\u52A1\uFF1A
+
+${text5}` }
     ];
     const assistantMsg = {
       id: (Date.now() + 1).toString(),
@@ -118448,8 +118450,8 @@ ${text5}</tr>
     renderMessages();
     scrollToBottom();
     try {
-      const model = document.getElementById("ai-model-select")?.value || getConfig2().model;
-      const content3 = await sendMessage(apiMessages, { model });
+      const mergedConfig = getConfig2();
+      const content3 = await sendMessage(apiMessages, { model: mergedConfig.model, maxTokens: 4096 });
       assistantMsg.content = content3;
       assistantMsg.streaming = false;
       await saveConversation();
@@ -118724,7 +118726,8 @@ ${sel.text}`;
       { role: "user", content: userContent }
     ];
     try {
-      const result = await sendMessage(messages2, { maxTokens: Math.max(wordCount * 2, 256) });
+      const maxToks = Math.max(wordCount * 3, 1024);
+      const result = await sendMessage(messages2, { maxTokens: maxToks });
       if (result) {
         if (mode === "\u7EED\u5199") {
           insertAfterSelection(result);

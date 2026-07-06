@@ -102,10 +102,10 @@ async function sendMessage() {
   scrollToBottom();
   await saveConversation();
 
-  // Build API messages — use content as-is (no special mode/wordCount injection)
+  // Match Ctrl+K format: system prompt + wrapped user message, no history
   const apiMessages = [
-    { role: 'system', content: '你是一位全能的AI写作助手。请根据用户的具体要求来完成任务。直接输出所需内容，不需要解释或说明。' },
-    ...messages.map(m => ({ role: m.role, content: m.content })),
+    { role: 'system', content: '你是一位专业创意写手。请根据用户的具体要求来完成任务。直接输出所需内容，不需要解释或说明。' },
+    { role: 'user', content: `请按要求完成任务：\n\n${text}` },
   ];
 
   // Show loading
@@ -121,8 +121,9 @@ async function sendMessage() {
   scrollToBottom();
 
   try {
-    const model = document.getElementById('ai-model-select')?.value || AiClient.getConfig().model;
-    const content = await AiClient.sendMessage(apiMessages, { model });
+    // Match Ctrl+K exactly: same model, same large maxTokens
+    const mergedConfig = AiClient.getConfig();
+    const content = await AiClient.sendMessage(apiMessages, { model: mergedConfig.model, maxTokens: 4096 });
     assistantMsg.content = content;
     assistantMsg.streaming = false;
     await saveConversation();
