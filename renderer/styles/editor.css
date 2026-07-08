@@ -64,7 +64,6 @@
 /* Bold: render bold in source (markers visible) */
 #editor-container .cm-editor .cm-strong {
   font-weight: 800;
-  color: #dcdcaa;
 }
 
 /* Italic */
@@ -99,10 +98,7 @@
   color: #4ec9b0;
 }
 
-/* Horizontal rule / thematic break */
-#editor-container .cm-editor .cm-hr {
-  color: #555;
-}
+/* Search match highlights — source mode */
 
 /* Quote block */
 #editor-container .cm-editor .cm-quote {
