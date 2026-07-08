@@ -117143,7 +117143,7 @@ ${text5}</tr>
       ".cm-strong": { fontWeight: "800", color: "#dcdcaa" },
       ".cm-emphasis": { fontStyle: "italic", color: "#ce9178" },
       ".cm-strikethrough": { textDecoration: "line-through", color: "#888" },
-      // Formatting marks (** _ * ` --- etc.) — bright enough to see on dark bg
+      // Formatting marks
       ".cm-formatting": { color: "#b8b8b8" },
       ".cm-formatting-strong, .cm-formatting-em": { color: "#c0c0c0" },
       ".cm-link, .cm-url": { color: "#4fc1ff", textDecoration: "underline" },
@@ -117182,8 +117182,8 @@ ${text5}</tr>
       ".cm-list": { color: "#8e562e" },
       ".cm-codeBlock": { fontFamily: "'Consolas', 'Courier New', monospace" },
       ".cm-hr": { color: "#7a7a50" },
-      ".cm-formatting": { color: "#666" },
-      ".cm-formatting-strong, .cm-formatting-em": { color: "#555" },
+      ".cm-formatting": { color: "#888" },
+      ".cm-formatting-strong, .cm-formatting-em": { color: "#777" },
       ".cm-tooltip": { backgroundColor: "#f3f3f3", border: "1px solid #ccc", color: "#333" }
     },
     { dark: false }

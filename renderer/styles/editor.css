@@ -111,6 +111,12 @@
   color: #d7ba7d;
 }
 
+/* Formatting marks (** _ * ` etc.) — override dark defaults */
+#editor-container .cm-editor .cm-formatting { color: #b8b8b8 !important; }
+#editor-container .cm-editor .cm-formatting-strong,
+#editor-container .cm-editor .cm-formatting-em { color: #c0c0c0 !important; }
+#editor-container .cm-editor .cm-hr { color: #8a8a6a !important; }
+
 /* Code block background */
 #editor-container .cm-editor .cm-codeBlock {
   font-family: 'Consolas', 'Courier New', monospace;
