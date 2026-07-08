@@ -279,8 +279,12 @@
 
 .markdown-body hr {
   border: none;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid #8a8a6a;
   margin: 2em 0;
+}
+
+[data-theme="light"] .markdown-body hr {
+  border-top-color: #7a7a50;
 }
 
 .markdown-body input[type="checkbox"] {

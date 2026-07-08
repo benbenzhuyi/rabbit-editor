@@ -117143,12 +117143,15 @@ ${text5}</tr>
       ".cm-strong": { fontWeight: "800", color: "#dcdcaa" },
       ".cm-emphasis": { fontStyle: "italic", color: "#ce9178" },
       ".cm-strikethrough": { textDecoration: "line-through", color: "#888" },
+      // Formatting marks (** _ * ` --- etc.) — bright enough to see on dark bg
+      ".cm-formatting": { color: "#b8b8b8" },
+      ".cm-formatting-strong, .cm-formatting-em": { color: "#c0c0c0" },
       ".cm-link, .cm-url": { color: "#4fc1ff", textDecoration: "underline" },
       ".cm-link-text": { color: "#4ec9b0" },
       ".cm-quote": { color: "#6a9955", fontStyle: "italic" },
       ".cm-list": { color: "#d7ba7d" },
       ".cm-codeBlock": { fontFamily: "'Consolas', 'Courier New', monospace" },
-      ".cm-hr": { color: "#555" },
+      ".cm-hr": { color: "#8a8a6a" },
       ".cm-tooltip": { backgroundColor: "#2d2d2d", border: "1px solid #555", color: "#d4d4d4" }
     },
     { dark: true }
@@ -117178,7 +117181,9 @@ ${text5}</tr>
       ".cm-quote": { color: "#498039", fontStyle: "italic" },
       ".cm-list": { color: "#8e562e" },
       ".cm-codeBlock": { fontFamily: "'Consolas', 'Courier New', monospace" },
-      ".cm-hr": { color: "#ccc" },
+      ".cm-hr": { color: "#7a7a50" },
+      ".cm-formatting": { color: "#666" },
+      ".cm-formatting-strong, .cm-formatting-em": { color: "#555" },
       ".cm-tooltip": { backgroundColor: "#f3f3f3", border: "1px solid #ccc", color: "#333" }
     },
     { dark: false }

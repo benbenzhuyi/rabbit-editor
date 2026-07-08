@@ -326,6 +326,13 @@ function handleKeydown(e) {
   // Ctrl+wheel: handled in initWheelZoom
 }
 
+function applyLayoutMode(mode) {
+  document.body.className = document.body.className.replace(/window-mode-\d/g, '').trim();
+  if (mode !== 1) document.body.classList.add(`window-mode-${mode}`);
+  if (mode === 3) document.body.classList.add('no-menubar');
+  else document.body.classList.remove('no-menubar');
+}
+
 // ── Wheel zoom ───────────────────────────────────────────
 
 export function initWheelZoom() {
