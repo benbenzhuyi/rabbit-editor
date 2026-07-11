@@ -4,7 +4,7 @@
 
 A lightweight AI-assisted Markdown editor built for writers.
 
-> 版本 Version：v0.5.2 | License: MIT
+> 版本 Version：v0.5.8 | License: MIT
 
 ![小野兔 Rabbit 截图](rabbit-edit.png)
 
@@ -42,8 +42,8 @@ Download the package for your platform from [Releases](https://github.com/benben
 
 | Platform | File |
 |----------|------|
-| Windows x64 | `rabbit-editor-0.5.2-win-x64.zip`（解压后双击 `小野兔 Rabbit.exe` / Extract and run `小野兔 Rabbit.exe`） |
-| Linux x64 | `rabbit-editor-0.5.2-linux-x64.tar.gz`（解压后运行 `./small-rabbit-editor` / Extract and run `./small-rabbit-editor`） |
+| Windows x64 | `rabbit-editor-0.5.8-win-x64.zip`（解压后双击 `小野兔 Rabbit.exe` / Extract and run `小野兔 Rabbit.exe`） |
+| Linux x64 | `rabbit-editor-0.5.8-linux-x64.tar.gz`（解压后运行 `./small-rabbit-editor` / Extract and run `./small-rabbit-editor`） |
 
 ### 开发运行 / Development
 
@@ -112,6 +112,7 @@ Configure API base URL, API Key, and model name in the Settings panel (Ctrl+, or
 | Ctrl+Shift+P | 源码 / 预览切换 — Toggle Source/Preview |
 | Ctrl+Shift+1/2/3 | 正常 / 全屏有菜单 / 极简全屏 — Window Modes |
 | F11 | 循环窗口模式 / Cycle Window Modes |
+| Ctrl+Alt+R | 切换退出时恢复窗口 / Toggle Startup Window Restore |
 | Ctrl+Alt+T | 切换深色/浅色主题 / Toggle Dark/Light Theme |
 | Ctrl+= / Ctrl+- / Ctrl+0 | 放大 / 缩小 / 重置缩放 — Zoom In/Out/Reset |
 
