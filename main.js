@@ -4,6 +4,11 @@ const fs = require('fs');
 
 let mainWindow = null;
 let windowMode = 1; // 1=normal, 2=fullscreen+menu, 3=fullscreen no menu
+let openFilePath = null; // passed from double-click file association
+
+// Handle double-click file association on Windows
+const fileArg = process.argv.find(a => a.endsWith('.md') || a.endsWith('.txt'));
+if (fileArg) openFilePath = path.resolve(fileArg);
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -21,6 +26,13 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+
+  // Auto-open file when launched via double-click file association
+  if (openFilePath) {
+    mainWindow.webContents.on('did-finish-load', () => {
+      mainWindow.webContents.send('open-file', openFilePath);
+    });
+  }
 
   // mainWindow.webContents.openDevTools({ mode: 'detach' });
 

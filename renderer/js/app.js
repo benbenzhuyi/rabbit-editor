@@ -299,6 +299,11 @@ async function init() {
     }
   });
 
+  // Handle double-click file association (via preload IPC)
+  window.electronAPI.onOpenFile(async (filePath) => {
+    await openFileByPath(filePath, filePath.endsWith('.md'));
+  });
+
   // Auto-save via settings timer
   window.addEventListener('settings:auto-save', () => {
     if (isModified && currentFilePath) saveFile();

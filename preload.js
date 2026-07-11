@@ -35,6 +35,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('app:force-save-and-close', () => callback());
   },
 
+  // Double-click file association
+  onOpenFile: (callback) => {
+    ipcRenderer.on('open-file', (_event, filePath) => callback(filePath));
+  },
+
   // Main process shortcuts
   onShortcutSettings: (callback) => {
     ipcRenderer.on('shortcut:settings', () => callback());

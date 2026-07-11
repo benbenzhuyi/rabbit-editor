@@ -119586,6 +119586,9 @@ ${sel.text}`;
         e.returnValue = "";
       }
     });
+    window.electronAPI.onOpenFile(async (filePath) => {
+      await openFileByPath(filePath, filePath.endsWith(".md"));
+    });
     window.addEventListener("settings:auto-save", () => {
       if (isModified && currentFilePath) saveFile();
     });
