@@ -4,16 +4,34 @@ const fs = require('fs');
 
 let mainWindow = null;
 let windowMode = 1; // 1=normal, 2=fullscreen+menu, 3=fullscreen no menu
-let openFilePath = null; // passed from double-click file association
+let openFilePath = null;
 
-// Handle double-click file association on Windows
-const fileArg = process.argv.find(a => a.endsWith('.md') || a.endsWith('.txt'));
-if (fileArg) openFilePath = path.resolve(fileArg);
+// Scan for file paths in args
+for (const arg of process.argv.slice(1)) {
+  const lower = arg.toLowerCase();
+  if (/\.(md|txt|html|htm|json|js|css|xml|yaml|log)$/i.test(lower)) {
+    const resolved = path.resolve(arg);
+    if (fs.existsSync(resolved)) { openFilePath = resolved; break; }
+    const fromCwd = path.resolve(process.cwd(), arg);
+    if (fs.existsSync(fromCwd)) { openFilePath = fromCwd; break; }
+  }
+}
 
 function createWindow() {
+  // Read saved window state if "保留上次退出状态" is enabled
+  const settings = loadSettings();
+  let savedState = null;
+  if (settings.startupMode === 'last') {
+    try {
+      if (fs.existsSync(windowStatePath)) {
+        savedState = JSON.parse(fs.readFileSync(windowStatePath, 'utf-8'));
+      }
+    } catch (_) {}
+  }
+
   mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 800,
+    width: savedState?.width || 1280,
+    height: savedState?.height || 800,
     minWidth: 800,
     minHeight: 600,
     backgroundColor: '#1e1e1e',
@@ -25,13 +43,41 @@ function createWindow() {
     },
   });
 
+  // 显式恢复窗口位置（比构造函数 x/y 更可靠）
+  if (savedState?.x != null && savedState?.y != null) {
+    mainWindow.setBounds({
+      x: savedState.x,
+      y: savedState.y,
+      width: savedState.width || 1280,
+      height: savedState.height || 800,
+    });
+  }
+
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 
-  // Auto-open file when launched via double-click file association
-  if (openFilePath) {
-    mainWindow.webContents.on('did-finish-load', () => {
+  // 页面加载完成后恢复侧边栏状态
+  mainWindow.webContents.on('did-finish-load', () => {
+    // 恢复侧边栏
+    if (savedState?.leftSidebarHidden) {
+      mainWindow.webContents.executeJavaScript(
+        'document.getElementById("left-sidebar")?.classList.add("hidden")'
+      );
+    }
+    if (savedState?.rightSidebarHidden) {
+      mainWindow.webContents.executeJavaScript(
+        'document.getElementById("right-sidebar")?.classList.add("hidden")'
+      );
+    }
+    // 恢复打开的文件
+    if (openFilePath) {
       mainWindow.webContents.send('open-file', openFilePath);
-    });
+    }
+  });
+
+  // Restore window mode if saved
+  if (savedState?.mode && savedState.mode > 1) {
+    windowMode = savedState.mode;
+    mainWindow.setFullScreen(true);
   }
 
   // mainWindow.webContents.openDevTools({ mode: 'detach' });
@@ -68,7 +114,9 @@ function createWindow() {
   // Hide native menu bar (we use custom HTML menu), but keep accelerators
   mainWindow.setMenuBarVisibility(false);
 
+  // 关闭时保存窗口状态 + 检查未保存内容
   mainWindow.on('close', async (e) => {
+    await saveWindowState();
     try {
       const hasUnsaved = await mainWindow.webContents.executeJavaScript(
         'window.__hasUnsavedChanges || false'
@@ -87,7 +135,7 @@ function createWindow() {
         if (choice === 0) {
           mainWindow.webContents.send('app:force-save-and-close');
         } else if (choice === 1) {
-          mainWindow.destroy();
+          await saveWindowState();
           app.quit();
         }
         // choice 2: cancel, do nothing
@@ -100,6 +148,16 @@ function createWindow() {
   // Remove native menu bar (we use custom HTML menu)
   Menu.setApplicationMenu(null);
 }
+
+// Handle file association: already-running app gets new file via open-file event
+app.on('open-file', (event, filePath) => {
+  event.preventDefault();
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send('open-file', filePath);
+  } else {
+    openFilePath = filePath;
+  }
+});
 
 // ── IPC Handlers ──────────────────────────────────────────
 
@@ -278,16 +336,50 @@ ipcMain.handle('window:set-mode', async (_event, mode) => {
   if (mode === 1) {
     mainWindow.setFullScreen(false);
   } else {
-    // modes 2 and 3 are fullscreen
     mainWindow.setFullScreen(true);
   }
   mainWindow.webContents.send('window:mode-changed', mode);
+  saveWindowState();
   return mode;
 });
 
 ipcMain.handle('window:get-mode', async () => {
   return windowMode;
 });
+
+async function saveWindowState() {
+  try {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    const bounds = mainWindow.getBounds();
+    const state = {
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
+      mode: windowMode,
+      leftSidebarHidden: false,
+      rightSidebarHidden: false,
+    };
+
+    // 异步读取侧边栏可见性
+    try {
+      const leftHidden = await mainWindow.webContents.executeJavaScript(
+        '!!document.getElementById("left-sidebar")?.classList.contains("hidden")'
+      );
+      const rightHidden = await mainWindow.webContents.executeJavaScript(
+        '!!document.getElementById("right-sidebar")?.classList.contains("hidden")'
+      );
+      state.leftSidebarHidden = leftHidden;
+      state.rightSidebarHidden = rightHidden;
+    } catch (_) {}
+
+    const dir = path.dirname(windowStatePath);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(windowStatePath, JSON.stringify(state, null, 2), 'utf-8');
+  } catch (e) {
+    console.error('保存窗口状态失败:', e.message);
+  }
+}
 
 // Recent files storage
 const recentFilePath = path.join(app.getPath('userData'), 'recent_files.json');
@@ -402,6 +494,7 @@ ipcMain.handle('file:read-multiple', async (_event, filePaths) => {
 
 const crypto = require('crypto');
 const conversationsDir = path.join(app.getPath('userData'), 'conversations');
+const windowStatePath = path.join(app.getPath('userData'), 'window-state.json');
 
 function hashPath(filePath) {
   return crypto.createHash('md5').update(filePath).digest('hex');

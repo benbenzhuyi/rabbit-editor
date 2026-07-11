@@ -118123,6 +118123,199 @@ ${text5}</tr>
     allArrows.forEach((a2) => a2.classList.add("expanded"));
   }
 
+  // renderer/js/aiClient.js
+  var config2 = {
+    baseUrl: "http://localhost:8080/v1",
+    apiKey: "",
+    model: "local-model",
+    temperature: 0.7,
+    maxTokens: 2048,
+    customPrompts: {}
+  };
+  var isStreaming = false;
+  function getConfig2() {
+    return { ...config2 };
+  }
+  function setConfig(newConfig) {
+    config2 = { ...config2, ...newConfig };
+  }
+  function getIsStreaming() {
+    return isStreaming;
+  }
+  function showLoading() {
+    const el = document.getElementById("status-ai-loading");
+    if (el) el.classList.remove("ai-loading-hidden");
+  }
+  function hideLoading() {
+    const el = document.getElementById("status-ai-loading");
+    if (el) el.classList.add("ai-loading-hidden");
+  }
+  async function sendMessage(messages2, options2 = {}) {
+    const mergedConfig = { ...config2, ...options2 };
+    isStreaming = true;
+    showLoading();
+    try {
+      const result = await window.electronAPI.aiRequest({
+        messages: messages2,
+        model: mergedConfig.model,
+        baseUrl: mergedConfig.baseUrl,
+        apiKey: mergedConfig.apiKey,
+        temperature: mergedConfig.temperature,
+        maxTokens: mergedConfig.maxTokens
+      });
+      isStreaming = false;
+      hideLoading();
+      if (!result.success) {
+        throw new Error(result.error || "AI \u8BF7\u6C42\u5931\u8D25");
+      }
+      return result.content;
+    } catch (err) {
+      isStreaming = false;
+      hideLoading();
+      throw err;
+    }
+  }
+  var SYSTEM_PROMPTS = {
+    "\u7EED\u5199": "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u521B\u610F\u5199\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u63D0\u4F9B\u7684\u4E0A\u4E0B\u6587\uFF0C\u81EA\u7136\u5730\u7EED\u5199\u5185\u5BB9\u3002\u4FDD\u6301\u4E0E\u539F\u6587\u4E00\u81F4\u7684\u98CE\u683C\u3001\u8BED\u6C14\u548C\u8282\u594F\u3002\u76F4\u63A5\u8F93\u51FA\u7EED\u5199\u5185\u5BB9\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002",
+    "\u6DA6\u8272": "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u4E2D\u6587\u7F16\u8F91\u3002\u8BF7\u5BF9\u7528\u6237\u63D0\u4F9B\u7684\u6587\u672C\u8FDB\u884C\u6DA6\u8272\u4F18\u5316\uFF0C\u63D0\u5347\u8868\u8FBE\u8D28\u91CF\uFF0C\u4FEE\u6B63\u8BED\u6CD5\u9519\u8BEF\u548C\u4E0D\u6D41\u7545\u7684\u8868\u8FBE\u3002\u7528\u6237\u53EF\u80FD\u6307\u5B9A\u4E86\u76EE\u6807\u5B57\u6570\uFF0C\u8BF7\u5728\u4FDD\u6301\u539F\u610F\u7684\u524D\u63D0\u4E0B\u6269\u5145\u6216\u7CBE\u7B80\u5185\u5BB9\u4EE5\u8FBE\u5230\u76EE\u6807\u7BC7\u5E45\u3002\u76F4\u63A5\u8F93\u51FA\u6DA6\u8272\u540E\u7684\u6587\u672C\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002",
+    "\u5B9A\u5236": "\u4F60\u662F\u4E00\u4F4D\u5168\u80FD\u7684AI\u52A9\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u7684\u5177\u4F53\u8981\u6C42\u6765\u5B8C\u6210\u5199\u4F5C\u4EFB\u52A1\u3002\u76F4\u63A5\u8F93\u51FA\u6240\u9700\u5185\u5BB9\u3002",
+    "\u82F1\u8BD1\u4E2D": "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u7FFB\u8BD1\u3002\u8BF7\u5C06\u7528\u6237\u63D0\u4F9B\u7684\u82F1\u6587\u5185\u5BB9\u7FFB\u8BD1\u4E3A\u6D41\u7545\u81EA\u7136\u7684\u4E2D\u6587\u3002\u4FDD\u6301\u539F\u6587\u8BED\u4E49\u548C\u98CE\u683C\uFF0C\u76F4\u63A5\u8F93\u51FA\u8BD1\u6587\u3002",
+    "\u4E2D\u8BD1\u82F1": "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u7FFB\u8BD1\u3002\u8BF7\u5C06\u7528\u6237\u63D0\u4F9B\u7684\u4E2D\u6587\u5185\u5BB9\u7FFB\u8BD1\u4E3A\u6D41\u7545\u81EA\u7136\u7684\u82F1\u6587\u3002\u4FDD\u6301\u539F\u6587\u8BED\u4E49\u548C\u98CE\u683C\uFF0C\u76F4\u63A5\u8F93\u51FA\u8BD1\u6587\u3002"
+  };
+
+  // renderer/js/settings.js
+  var defaults6 = {
+    aiBaseUrl: "http://localhost:8080/v1",
+    aiApiKey: "",
+    aiModel: "local-model",
+    aiDefaultMode: "\u7EED\u5199",
+    ctrlKWords: 800,
+    maxTokens: 2048,
+    temperature: 0.7,
+    customPrompts: {},
+    startupMode: "default"
+  };
+  var currentSettings = { ...defaults6 };
+  var autoSaveTimer = null;
+  function getSettings() {
+    return { ...currentSettings };
+  }
+  async function init4() {
+    const result = await window.electronAPI.loadSettings();
+    if (result) currentSettings = { ...defaults6, ...result };
+    applySettings();
+    const overlay = document.getElementById("settings-overlay");
+    const closeBtn = document.getElementById("settings-close");
+    const cancelBtn = document.getElementById("settings-cancel");
+    const saveBtn = document.getElementById("settings-save");
+    const tabs = document.querySelectorAll(".settings-tab");
+    closeBtn.addEventListener("click", () => hidePanel());
+    cancelBtn.addEventListener("click", () => hidePanel());
+    saveBtn.addEventListener("click", () => saveAndApply());
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) hidePanel();
+    });
+    overlay.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") hidePanel();
+    });
+    tabs.forEach((tab3) => {
+      tab3.addEventListener("click", () => switchTab(tab3.dataset.tab));
+    });
+    const promptMode = document.getElementById("set-prompt-mode");
+    const promptText = document.getElementById("set-prompt-text");
+    const promptReset = document.getElementById("set-prompt-reset");
+    if (promptMode && promptText) {
+      promptMode.addEventListener("change", () => {
+        const mode = promptMode.value;
+        promptText.value = currentSettings.customPrompts[mode] || SYSTEM_PROMPTS[mode] || "";
+      });
+    }
+    if (promptReset && promptMode && promptText) {
+      promptReset.addEventListener("click", () => {
+        const mode = promptMode.value;
+        promptText.value = SYSTEM_PROMPTS[mode] || "";
+      });
+    }
+  }
+  function showPanel2() {
+    const overlay = document.getElementById("settings-overlay");
+    overlay.classList.remove("hidden");
+    overlay.focus();
+    populateForm();
+  }
+  function hidePanel() {
+    document.getElementById("settings-overlay").classList.add("hidden");
+  }
+  function switchTab(tabName) {
+    document.querySelectorAll(".settings-tab").forEach((t2) => t2.classList.toggle("active", t2.dataset.tab === tabName));
+    document.querySelectorAll(".settings-tab-content").forEach((c2) => c2.classList.toggle("hidden", c2.id !== `settings-tab-${tabName}`));
+  }
+  function populateForm() {
+    const s = currentSettings;
+    document.getElementById("set-ai-base-url").value = s.aiBaseUrl;
+    document.getElementById("set-ai-api-key").value = s.aiApiKey;
+    document.getElementById("set-ai-model").value = s.aiModel;
+    document.getElementById("set-ai-default-mode").value = s.aiDefaultMode;
+    document.getElementById("set-ctrlk-words").value = s.ctrlKWords;
+    document.getElementById("set-max-tokens").value = s.maxTokens;
+    document.getElementById("set-temperature").value = s.temperature;
+    const promptMode = document.getElementById("set-prompt-mode");
+    const promptText = document.getElementById("set-prompt-text");
+    const mode = promptMode.value;
+    promptText.value = s.customPrompts[mode] || SYSTEM_PROMPTS[mode] || "";
+  }
+  async function saveAndApply() {
+    currentSettings.aiBaseUrl = document.getElementById("set-ai-base-url").value.trim() || defaults6.aiBaseUrl;
+    currentSettings.aiApiKey = document.getElementById("set-ai-api-key").value.trim();
+    currentSettings.aiModel = document.getElementById("set-ai-model").value.trim() || defaults6.aiModel;
+    currentSettings.aiDefaultMode = document.getElementById("set-ai-default-mode").value;
+    currentSettings.ctrlKWords = parseInt(document.getElementById("set-ctrlk-words").value) || 800;
+    currentSettings.maxTokens = parseInt(document.getElementById("set-max-tokens").value) || 2048;
+    currentSettings.temperature = parseFloat(document.getElementById("set-temperature").value) || 0.7;
+    const promptMode = document.getElementById("set-prompt-mode").value;
+    const promptText = document.getElementById("set-prompt-text").value.trim();
+    if (!currentSettings.customPrompts) currentSettings.customPrompts = {};
+    if (promptText && promptText !== SYSTEM_PROMPTS[promptMode]) {
+      currentSettings.customPrompts[promptMode] = promptText;
+    } else {
+      delete currentSettings.customPrompts[promptMode];
+    }
+    await window.electronAPI.saveSettings(currentSettings);
+    applySettings();
+    hidePanel();
+  }
+  function applySettings() {
+    const s = currentSettings;
+    setConfig({
+      baseUrl: s.aiBaseUrl,
+      apiKey: s.aiApiKey,
+      model: s.aiModel,
+      temperature: s.temperature,
+      maxTokens: s.maxTokens,
+      customPrompts: s.customPrompts || {}
+    });
+    const modelEl = document.getElementById("status-model");
+    if (modelEl) {
+      modelEl.textContent = `\u5F53\u524D\u6A21\u578B: ${s.aiModel}`;
+    }
+    const tempEl = document.getElementById("status-temp");
+    if (tempEl) {
+      tempEl.textContent = s.temperature.toFixed(1);
+    }
+    if (autoSaveTimer) clearInterval(autoSaveTimer);
+    autoSaveTimer = setInterval(() => {
+      window.dispatchEvent(new CustomEvent("settings:auto-save"));
+    }, 6e4);
+  }
+  async function setStartupMode(mode) {
+    currentSettings.startupMode = mode;
+    await window.electronAPI.saveSettings(currentSettings);
+  }
+  async function saveTemperature(val) {
+    currentSettings.temperature = val;
+    await window.electronAPI.saveSettings(currentSettings);
+  }
+
   // renderer/js/menubar.js
   var activeMenu = null;
   var menuActions = {
@@ -118162,9 +118355,14 @@ ${text5}</tr>
       refreshMenuChecks();
     },
     fontSizeUp: () => zoomIn(),
-    fontSizeDown: () => zoomOut()
+    fontSizeDown: () => zoomOut(),
+    startupRestore: () => {
+      const settings = getSettings();
+      const newMode = (settings.startupMode || "default") === "default" ? "last" : "default";
+      setStartupMode(newMode);
+    }
   };
-  function init4() {
+  function init5() {
     const menuItems = document.querySelectorAll(".menu-item");
     menuItems.forEach((item) => {
       const label = item.querySelector(".menu-label");
@@ -118226,6 +118424,11 @@ ${text5}</tr>
     const lightItem = document.getElementById("menu-item-theme-light");
     if (darkItem) darkItem.classList.toggle("checked", !isLight);
     if (lightItem) lightItem.classList.toggle("checked", !!isLight);
+    const settings = getSettings();
+    const startupMode = settings.startupMode || "default";
+    const restoreItem = document.getElementById("menu-item-startup-restore");
+    console.log("[startupMode] item:", restoreItem, "mode:", startupMode);
+    if (restoreItem) restoreItem.classList.toggle("checked", startupMode === "last");
   }
   function updateRecentFiles(recentFiles) {
     const container = document.getElementById("menu-recent-files");
@@ -118271,7 +118474,7 @@ ${text5}</tr>
 
   // renderer/js/statusbar.js
   var currentSaveState = false;
-  function init5() {
+  function init6() {
     setSaveState(false);
   }
   function setCursor(line, column) {
@@ -118309,66 +118512,6 @@ ${text5}</tr>
     }
   }
 
-  // renderer/js/aiClient.js
-  var config2 = {
-    baseUrl: "http://localhost:8080/v1",
-    apiKey: "",
-    model: "local-model",
-    temperature: 0.7,
-    maxTokens: 2048,
-    customPrompts: {}
-  };
-  var isStreaming = false;
-  function getConfig2() {
-    return { ...config2 };
-  }
-  function setConfig(newConfig) {
-    config2 = { ...config2, ...newConfig };
-  }
-  function getIsStreaming() {
-    return isStreaming;
-  }
-  function showLoading() {
-    const el = document.getElementById("status-ai-loading");
-    if (el) el.classList.remove("ai-loading-hidden");
-  }
-  function hideLoading() {
-    const el = document.getElementById("status-ai-loading");
-    if (el) el.classList.add("ai-loading-hidden");
-  }
-  async function sendMessage(messages2, options2 = {}) {
-    const mergedConfig = { ...config2, ...options2 };
-    isStreaming = true;
-    showLoading();
-    try {
-      const result = await window.electronAPI.aiRequest({
-        messages: messages2,
-        model: mergedConfig.model,
-        baseUrl: mergedConfig.baseUrl,
-        apiKey: mergedConfig.apiKey,
-        temperature: mergedConfig.temperature,
-        maxTokens: mergedConfig.maxTokens
-      });
-      isStreaming = false;
-      hideLoading();
-      if (!result.success) {
-        throw new Error(result.error || "AI \u8BF7\u6C42\u5931\u8D25");
-      }
-      return result.content;
-    } catch (err) {
-      isStreaming = false;
-      hideLoading();
-      throw err;
-    }
-  }
-  var SYSTEM_PROMPTS = {
-    "\u7EED\u5199": "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u521B\u610F\u5199\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u63D0\u4F9B\u7684\u4E0A\u4E0B\u6587\uFF0C\u81EA\u7136\u5730\u7EED\u5199\u5185\u5BB9\u3002\u4FDD\u6301\u4E0E\u539F\u6587\u4E00\u81F4\u7684\u98CE\u683C\u3001\u8BED\u6C14\u548C\u8282\u594F\u3002\u76F4\u63A5\u8F93\u51FA\u7EED\u5199\u5185\u5BB9\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002",
-    "\u6DA6\u8272": "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u4E2D\u6587\u7F16\u8F91\u3002\u8BF7\u5BF9\u7528\u6237\u63D0\u4F9B\u7684\u6587\u672C\u8FDB\u884C\u6DA6\u8272\u4F18\u5316\uFF0C\u63D0\u5347\u8868\u8FBE\u8D28\u91CF\uFF0C\u4FEE\u6B63\u8BED\u6CD5\u9519\u8BEF\u548C\u4E0D\u6D41\u7545\u7684\u8868\u8FBE\u3002\u7528\u6237\u53EF\u80FD\u6307\u5B9A\u4E86\u76EE\u6807\u5B57\u6570\uFF0C\u8BF7\u5728\u4FDD\u6301\u539F\u610F\u7684\u524D\u63D0\u4E0B\u6269\u5145\u6216\u7CBE\u7B80\u5185\u5BB9\u4EE5\u8FBE\u5230\u76EE\u6807\u7BC7\u5E45\u3002\u76F4\u63A5\u8F93\u51FA\u6DA6\u8272\u540E\u7684\u6587\u672C\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002",
-    "\u5B9A\u5236": "\u4F60\u662F\u4E00\u4F4D\u5168\u80FD\u7684AI\u52A9\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u7684\u5177\u4F53\u8981\u6C42\u6765\u5B8C\u6210\u5199\u4F5C\u4EFB\u52A1\u3002\u76F4\u63A5\u8F93\u51FA\u6240\u9700\u5185\u5BB9\u3002",
-    "\u82F1\u8BD1\u4E2D": "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u7FFB\u8BD1\u3002\u8BF7\u5C06\u7528\u6237\u63D0\u4F9B\u7684\u82F1\u6587\u5185\u5BB9\u7FFB\u8BD1\u4E3A\u6D41\u7545\u81EA\u7136\u7684\u4E2D\u6587\u3002\u4FDD\u6301\u539F\u6587\u8BED\u4E49\u548C\u98CE\u683C\uFF0C\u76F4\u63A5\u8F93\u51FA\u8BD1\u6587\u3002",
-    "\u4E2D\u8BD1\u82F1": "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u7FFB\u8BD1\u3002\u8BF7\u5C06\u7528\u6237\u63D0\u4F9B\u7684\u4E2D\u6587\u5185\u5BB9\u7FFB\u8BD1\u4E3A\u6D41\u7545\u81EA\u7136\u7684\u82F1\u6587\u3002\u4FDD\u6301\u539F\u6587\u8BED\u4E49\u548C\u98CE\u683C\uFF0C\u76F4\u63A5\u8F93\u51FA\u8BD1\u6587\u3002"
-  };
-
   // renderer/js/aiPanel.js
   var messages = [];
   var editingMsgId = null;
@@ -118381,7 +118524,7 @@ ${text5}</tr>
     "claude-sonnet-4-20250514",
     "local-model"
   ];
-  function init6() {
+  function init7() {
     const input = document.getElementById("ai-input");
     const sendBtn = document.getElementById("ai-send-btn");
     const newChatBtn = document.getElementById("ai-new-chat");
@@ -118673,7 +118816,7 @@ ${effectiveText}` }
   var lastMode = "\u6DA6\u8272";
   var lastWordCount = 800;
   var ctrlKActive = false;
-  function init7() {
+  function init8() {
     const popup = document.getElementById("ctrlk-popup");
     if (!popup) return;
     const modeSelect = document.getElementById("ctrlk-mode");
@@ -118773,7 +118916,7 @@ ${sel.text}`;
   var searchVisible = false;
   var replaceVisible = false;
   var previewOriginalHTML = "";
-  function init8() {
+  function init9() {
     const searchInput = document.getElementById("search-input");
     const toggleBtn = document.getElementById("search-toggle-replace");
     const closeBtn = document.getElementById("search-close");
@@ -118983,131 +119126,6 @@ ${sel.text}`;
   }
   function isSearchVisible() {
     return searchVisible;
-  }
-
-  // renderer/js/settings.js
-  var defaults6 = {
-    aiBaseUrl: "http://localhost:8080/v1",
-    aiApiKey: "",
-    aiModel: "local-model",
-    aiDefaultMode: "\u7EED\u5199",
-    ctrlKWords: 800,
-    maxTokens: 2048,
-    temperature: 0.7,
-    customPrompts: {}
-  };
-  var currentSettings = { ...defaults6 };
-  var autoSaveTimer = null;
-  async function init9() {
-    const result = await window.electronAPI.loadSettings();
-    if (result) currentSettings = { ...defaults6, ...result };
-    applySettings();
-    const overlay = document.getElementById("settings-overlay");
-    const closeBtn = document.getElementById("settings-close");
-    const cancelBtn = document.getElementById("settings-cancel");
-    const saveBtn = document.getElementById("settings-save");
-    const tabs = document.querySelectorAll(".settings-tab");
-    closeBtn.addEventListener("click", () => hidePanel());
-    cancelBtn.addEventListener("click", () => hidePanel());
-    saveBtn.addEventListener("click", () => saveAndApply());
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) hidePanel();
-    });
-    overlay.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") hidePanel();
-    });
-    tabs.forEach((tab3) => {
-      tab3.addEventListener("click", () => switchTab(tab3.dataset.tab));
-    });
-    const promptMode = document.getElementById("set-prompt-mode");
-    const promptText = document.getElementById("set-prompt-text");
-    const promptReset = document.getElementById("set-prompt-reset");
-    if (promptMode && promptText) {
-      promptMode.addEventListener("change", () => {
-        const mode = promptMode.value;
-        promptText.value = currentSettings.customPrompts[mode] || SYSTEM_PROMPTS[mode] || "";
-      });
-    }
-    if (promptReset && promptMode && promptText) {
-      promptReset.addEventListener("click", () => {
-        const mode = promptMode.value;
-        promptText.value = SYSTEM_PROMPTS[mode] || "";
-      });
-    }
-  }
-  function showPanel2() {
-    const overlay = document.getElementById("settings-overlay");
-    overlay.classList.remove("hidden");
-    overlay.focus();
-    populateForm();
-  }
-  function hidePanel() {
-    document.getElementById("settings-overlay").classList.add("hidden");
-  }
-  function switchTab(tabName) {
-    document.querySelectorAll(".settings-tab").forEach((t2) => t2.classList.toggle("active", t2.dataset.tab === tabName));
-    document.querySelectorAll(".settings-tab-content").forEach((c2) => c2.classList.toggle("hidden", c2.id !== `settings-tab-${tabName}`));
-  }
-  function populateForm() {
-    const s = currentSettings;
-    document.getElementById("set-ai-base-url").value = s.aiBaseUrl;
-    document.getElementById("set-ai-api-key").value = s.aiApiKey;
-    document.getElementById("set-ai-model").value = s.aiModel;
-    document.getElementById("set-ai-default-mode").value = s.aiDefaultMode;
-    document.getElementById("set-ctrlk-words").value = s.ctrlKWords;
-    document.getElementById("set-max-tokens").value = s.maxTokens;
-    document.getElementById("set-temperature").value = s.temperature;
-    const promptMode = document.getElementById("set-prompt-mode");
-    const promptText = document.getElementById("set-prompt-text");
-    const mode = promptMode.value;
-    promptText.value = s.customPrompts[mode] || SYSTEM_PROMPTS[mode] || "";
-  }
-  async function saveAndApply() {
-    currentSettings.aiBaseUrl = document.getElementById("set-ai-base-url").value.trim() || defaults6.aiBaseUrl;
-    currentSettings.aiApiKey = document.getElementById("set-ai-api-key").value.trim();
-    currentSettings.aiModel = document.getElementById("set-ai-model").value.trim() || defaults6.aiModel;
-    currentSettings.aiDefaultMode = document.getElementById("set-ai-default-mode").value;
-    currentSettings.ctrlKWords = parseInt(document.getElementById("set-ctrlk-words").value) || 800;
-    currentSettings.maxTokens = parseInt(document.getElementById("set-max-tokens").value) || 2048;
-    currentSettings.temperature = parseFloat(document.getElementById("set-temperature").value) || 0.7;
-    const promptMode = document.getElementById("set-prompt-mode").value;
-    const promptText = document.getElementById("set-prompt-text").value.trim();
-    if (!currentSettings.customPrompts) currentSettings.customPrompts = {};
-    if (promptText && promptText !== SYSTEM_PROMPTS[promptMode]) {
-      currentSettings.customPrompts[promptMode] = promptText;
-    } else {
-      delete currentSettings.customPrompts[promptMode];
-    }
-    await window.electronAPI.saveSettings(currentSettings);
-    applySettings();
-    hidePanel();
-  }
-  function applySettings() {
-    const s = currentSettings;
-    setConfig({
-      baseUrl: s.aiBaseUrl,
-      apiKey: s.aiApiKey,
-      model: s.aiModel,
-      temperature: s.temperature,
-      maxTokens: s.maxTokens,
-      customPrompts: s.customPrompts || {}
-    });
-    const modelEl = document.getElementById("status-model");
-    if (modelEl) {
-      modelEl.textContent = `\u5F53\u524D\u6A21\u578B: ${s.aiModel}`;
-    }
-    const tempEl = document.getElementById("status-temp");
-    if (tempEl) {
-      tempEl.textContent = s.temperature.toFixed(1);
-    }
-    if (autoSaveTimer) clearInterval(autoSaveTimer);
-    autoSaveTimer = setInterval(() => {
-      window.dispatchEvent(new CustomEvent("settings:auto-save"));
-    }, 6e4);
-  }
-  async function saveTemperature(val) {
-    currentSettings.temperature = val;
-    await window.electronAPI.saveSettings(currentSettings);
   }
 
   // renderer/js/keybindings.js
@@ -119337,6 +119355,14 @@ ${sel.text}`;
       refreshMenuChecks();
       return;
     }
+    if (ctrl && alt && !shift2 && (e.key === "R" || e.key === "r")) {
+      e.preventDefault();
+      const settings = getSettings();
+      const newMode = (settings.startupMode || "default") === "default" ? "last" : "default";
+      setStartupMode(newMode);
+      refreshMenuChecks();
+      return;
+    }
     if (ctrl && shift2 && (e.key === "W" || e.key === "w")) {
       e.preventDefault();
       toggleWordWrap();
@@ -119519,12 +119545,12 @@ ${sel.text}`;
     init(document.getElementById("editor-container"));
     init2();
     init3();
-    init6();
     init7();
     init8();
-    await init9();
-    init4();
+    init9();
+    await init4();
     init5();
+    init6();
     init10();
     initWheelZoom();
     initDragDrop(document.body);

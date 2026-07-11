@@ -315,6 +315,16 @@ function handleKeydown(e) {
     return;
   }
 
+  // Ctrl+Alt+R: toggle startup window restore
+  if (ctrl && alt && !shift && (e.key === 'R' || e.key === 'r')) {
+    e.preventDefault();
+    const settings = Settings.getSettings();
+    const newMode = (settings.startupMode || 'default') === 'default' ? 'last' : 'default';
+    Settings.setStartupMode(newMode);
+    MenuBar.refreshMenuChecks();
+    return;
+  }
+
   // Ctrl+Shift+W: toggle word wrap
   if (ctrl && shift && (e.key === 'W' || e.key === 'w')) {
     e.preventDefault();

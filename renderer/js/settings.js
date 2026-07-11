@@ -13,6 +13,7 @@ const defaults = {
   maxTokens: 2048,
   temperature: 0.7,
   customPrompts: {},
+  startupMode: 'default',
 };
 
 let currentSettings = { ...defaults };
@@ -153,6 +154,12 @@ function applySettings() {
   autoSaveTimer = setInterval(() => {
     window.dispatchEvent(new CustomEvent('settings:auto-save'));
   }, 60000);
+}
+
+export async function setStartupMode(mode) {
+  currentSettings.startupMode = mode;
+  await window.electronAPI.saveSettings(currentSettings);
+  // 同步更新主进程，以便下次启动时读取
 }
 
 export async function saveTemperature(val) {

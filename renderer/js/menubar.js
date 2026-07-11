@@ -5,6 +5,7 @@
 import * as App from './app.js';
 import * as FileBrowser from './fileBrowser.js';
 import * as Editor from './editor.js';
+import * as Settings from './settings.js';
 
 // ── State ────────────────────────────────────────────────
 
@@ -50,6 +51,12 @@ const menuActions = {
   },
   fontSizeUp: () => Editor.zoomIn(),
   fontSizeDown: () => Editor.zoomOut(),
+
+  startupRestore: () => {
+    const settings = Settings.getSettings();
+    const newMode = (settings.startupMode || 'default') === 'default' ? 'last' : 'default';
+    Settings.setStartupMode(newMode);
+  },
 };
 
 // ── Init ─────────────────────────────────────────────────
@@ -137,6 +144,13 @@ export function refreshMenuChecks() {
   const lightItem = document.getElementById('menu-item-theme-light');
   if (darkItem) darkItem.classList.toggle('checked', !isLight);
   if (lightItem) lightItem.classList.toggle('checked', !!isLight);
+
+  // Startup mode
+  const settings = Settings.getSettings();
+  const startupMode = settings.startupMode || 'default';
+  const restoreItem = document.getElementById('menu-item-startup-restore');
+  console.log('[startupMode] item:', restoreItem, 'mode:', startupMode);
+  if (restoreItem) restoreItem.classList.toggle('checked', startupMode === 'last');
 }
 
 export function closeMenus() {
