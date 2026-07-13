@@ -36,7 +36,7 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "renderer/assets/icon.ico",
+      "icon": "renderer/assets/icon.png",
       "signAndEditExecutable": false
     },
     "linux": {
