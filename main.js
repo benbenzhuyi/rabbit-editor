@@ -36,6 +36,7 @@ function createWindow() {
     minHeight: 600,
     backgroundColor: '#1e1e1e',
     title: '小野兔 Rabbit - 未命名.md',
+    icon: path.join(__dirname, 'renderer', 'assets', 'icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
