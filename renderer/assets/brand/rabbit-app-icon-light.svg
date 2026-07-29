@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 205 205" role="img" aria-label="小野兔应用图标">
+<defs>
+  <linearGradient id="vermilion" x1="0" y1="0" x2="0.12" y2="1">
+    <stop offset="0" stop-color="#E33E24"/>
+    <stop offset="1" stop-color="#D83820"/>
+  </linearGradient>
+</defs>
+<rect x="1.5" y="1.5" width="202" height="202" rx="39" fill="#FFFDF9" stroke="#DED4CD" stroke-width="3"/>
+<g transform="translate(44.5 31.5) scale(.296 .296)">
+<path d="
+  M19 19 L129 67 Q158 80 158 110 L158 209
+  L234 209 L234 110 Q234 80 263 67 L373 19
+  L373 148 Q373 164 361 175 L310 220
+  C350 253 372 296 372 340
+  C372 415 310 459 196 459
+  C82 459 20 415 20 340
+  C20 296 42 253 82 220
+  L31 175 Q19 164 19 148 Z"
+  fill="none" stroke="url(#vermilion)" stroke-width="34"
+  stroke-linecap="round" stroke-linejoin="round"/>
+
+<path fill="url(#vermilion)" d="
+  M69 98 Q63 98 60 103 Q59 106 59 111 L59 131
+  Q59 138 66 142 L107 161 Q113 164 118 160
+  Q121 157 121 151 L121 131 Q121 124 114 120
+  L73 100 Q71 98 69 98 Z"/>
+<path fill="url(#vermilion)" d="
+  M323 98 Q329 98 332 103 Q333 106 333 111 L333 131
+  Q333 138 326 142 L285 161 Q279 164 274 160
+  Q271 157 271 151 L271 131 Q271 124 278 120
+  L319 100 Q321 98 323 98 Z"/>
+
+<path d="M99 309 L146 336 L99 362"
+      fill="none" stroke="#DC3B22" stroke-width="27"
+      stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M250 336 L295 336"
+      fill="none" stroke="#DC3B22" stroke-width="25"
+      stroke-linecap="round"/>
+</g>
+</svg>

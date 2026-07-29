@@ -1,6 +1,8 @@
 # 小野兔 Rabbit — 功能开发手册 / Development Manual
 
-> 版本 Version：v0.5.8 | 最后更新 / Last Updated：2026-06-15 | 完整功能参考文档 / Complete Feature Reference
+> 版本 Version：v0.6.0 | 最后更新 / Last Updated：2026-07-29 | 开发与架构参考文档 / Development & Architecture Reference
+
+> 用户功能、当前菜单结构和完整快捷键清单以 [SOFTWARE_MANUAL.md](SOFTWARE_MANUAL.md) 为准。
 
 *This document is primarily in Chinese with English descriptions for key sections. For a full English README, see [README.md](README.md).*
 
@@ -964,4 +966,4 @@ mainWindow.webContents.openDevTools({ mode: 'detach' });
 
 ---
 
-*文档版本：v0.5.8 | 最后更新：2026-06-15*
+*文档版本：v0.6.0 | 最后更新：2026-07-29*

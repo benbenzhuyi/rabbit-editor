@@ -152,6 +152,7 @@ function handleKeydown(e) {
     e.preventDefault();
     const sidebar = document.getElementById('left-sidebar');
     if (sidebar) sidebar.classList.toggle('hidden');
+    MenuBar.refreshMenuChecks();
     return;
   }
 
@@ -160,6 +161,7 @@ function handleKeydown(e) {
     e.preventDefault();
     const sidebar = document.getElementById('right-sidebar');
     if (sidebar) sidebar.classList.toggle('hidden');
+    MenuBar.refreshMenuChecks();
     return;
   }
 
