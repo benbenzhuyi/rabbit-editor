@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
   <title>小野兔 Rabbit - 未命名.md</title>
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/editor.css">
@@ -48,24 +48,53 @@
         <div class="menu-dropdown-item" data-action="copyLine">复制行 <span class="shortcut">Ctrl+D</span></div>
         <div class="menu-dropdown-item" data-action="deleteLine">删除行 <span class="shortcut">Ctrl+Shift+K</span></div>
         <div class="menu-separator"></div>
-        <div class="menu-dropdown-item" data-action="wordWrap" id="menu-item-wordwrap"><span class="menu-check">✓</span>自动换行 <span class="shortcut">Ctrl+Shift+W</span></div>
-        <div class="menu-dropdown-item" data-action="fontSizeUp">增大字号 <span class="shortcut">Ctrl+=</span></div>
-        <div class="menu-dropdown-item" data-action="fontSizeDown">减小字号 <span class="shortcut">Ctrl+-</span></div>
+        <div class="menu-dropdown-item" data-action="selectionAiEdit">选区弹窗编辑 <span class="shortcut">Ctrl+K</span></div>
+        <div class="menu-dropdown-item" data-action="selectionQuoteAi">选区引用AI <span class="shortcut">Ctrl+L</span></div>
+        <div class="menu-dropdown-item" data-action="aiReplaceSelection">AI回复替换选区 <span class="shortcut">Ctrl+Shift+T</span></div>
+        <div class="menu-dropdown-item" data-action="aiInsertSelection">AI回复插入选区 <span class="shortcut">Ctrl+Shift+I</span></div>
+        <div class="menu-dropdown-item" data-action="copyAiReply">复制AI回复 <span class="shortcut">Ctrl+Shift+C</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item" data-action="settings">设置 <span class="shortcut">Ctrl+,</span></div>
       </div>
     </div>
     <div class="menu-item" data-menu="view">
       <span class="menu-label">视图(<u>V</u>)</span>
       <div class="menu-dropdown" id="menu-view">
         <div class="menu-dropdown-item" data-action="togglePreview">预览切换 <span class="shortcut">Ctrl+Shift+P</span></div>
+        <div class="menu-dropdown-item view-check-item" data-action="wordWrap" id="menu-item-wordwrap"><span class="view-item-label">自动换行</span><span class="menu-check">✓</span><span class="shortcut">Ctrl+Shift+W</span></div>
         <div class="menu-separator"></div>
         <div class="menu-dropdown-item" data-action="zoomIn">放大 <span class="shortcut">Ctrl+=</span></div>
         <div class="menu-dropdown-item" data-action="zoomOut">缩小 <span class="shortcut">Ctrl+-</span></div>
         <div class="menu-dropdown-item" data-action="zoomReset">重置缩放 <span class="shortcut">Ctrl+0</span></div>
         <div class="menu-separator"></div>
-        <div class="menu-dropdown-item" data-action="themeDark" id="menu-item-theme-dark"><span class="menu-check">✓</span>深色主题 <span class="shortcut">Ctrl+Alt+T</span></div>
-        <div class="menu-dropdown-item" data-action="themeLight" id="menu-item-theme-light"><span class="menu-check">✓</span>浅色主题 <span class="shortcut">Ctrl+Alt+T</span></div>
+        <div class="menu-dropdown-item view-check-item" data-action="toggleLeftSidebar" id="menu-item-left-sidebar"><span class="view-item-label">左边栏</span><span class="menu-check">✓</span><span class="shortcut">Ctrl+B</span></div>
+        <div class="menu-dropdown-item view-check-item" data-action="toggleRightSidebar" id="menu-item-right-sidebar"><span class="view-item-label">右边栏</span><span class="menu-check">✓</span><span class="shortcut">Ctrl+J</span></div>
         <div class="menu-separator"></div>
-        <div class="menu-dropdown-item" data-action="startupRestore" id="menu-item-startup-restore"><span class="menu-check">&#10003;</span>退出时恢复窗口 <span class="shortcut">Ctrl+Alt+R</span></div>
+        <div class="menu-dropdown-item view-check-item" data-action="themeDark" id="menu-item-theme-dark"><span class="view-item-label">深色主题</span><span class="menu-check">✓</span><span class="shortcut">Ctrl+Alt+T</span></div>
+        <div class="menu-dropdown-item view-check-item" data-action="themeLight" id="menu-item-theme-light"><span class="view-item-label">浅色主题</span><span class="menu-check">✓</span><span class="shortcut">Ctrl+Alt+T</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item view-check-item" data-action="windowNormal" id="menu-item-window-normal"><span class="view-item-label">正常窗口</span><span class="menu-check">✓</span><span class="shortcut">Ctrl+Shift+1</span></div>
+        <div class="menu-dropdown-item view-check-item" data-action="windowFullscreenMenu" id="menu-item-window-fullscreen-menu"><span class="view-item-label">全屏有菜单</span><span class="menu-check">✓</span><span class="shortcut">Ctrl+Shift+2</span></div>
+        <div class="menu-dropdown-item view-check-item" data-action="windowFullscreenClean" id="menu-item-window-fullscreen-clean"><span class="view-item-label">全屏无菜单</span><span class="menu-check">✓</span><span class="shortcut">Ctrl+Shift+3</span></div>
+        <div class="menu-dropdown-item" data-action="cycleWindowMode">窗口模式轮换 <span class="shortcut">F11</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item view-check-item" data-action="startupRestore" id="menu-item-startup-restore"><span class="view-item-label">退出保存窗口</span><span class="menu-check">&#10003;</span><span class="shortcut">Ctrl+Alt+R</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item menu-has-sub language-menu-trigger" data-action="language">
+          <span class="language-trigger-label">语言</span><span class="shortcut">›</span>
+          <div class="menu-subdropdown language-submenu">
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="zh-CN"><span class="menu-check">✓</span><span class="language-flag flag-cn"></span><span class="language-name">中文</span></div>
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="en"><span class="menu-check">✓</span><span class="language-flag flag-gb"></span><span class="language-name">English</span></div>
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="fr"><span class="menu-check">✓</span><span class="language-flag flag-fr"></span><span class="language-name">Français</span></div>
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="ru"><span class="menu-check">✓</span><span class="language-flag flag-ru"></span><span class="language-name">Русский</span></div>
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="es"><span class="menu-check">✓</span><span class="language-flag flag-es"></span><span class="language-name">Español</span></div>
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="pt"><span class="menu-check">✓</span><span class="language-flag flag-pt"></span><span class="language-name">Português</span></div>
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="de"><span class="menu-check">✓</span><span class="language-flag flag-de"></span><span class="language-name">Deutsch</span></div>
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="it"><span class="menu-check">✓</span><span class="language-flag flag-it"></span><span class="language-name">Italiano</span></div>
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="ja"><span class="menu-check">✓</span><span class="language-flag flag-jp"></span><span class="language-name">日本語</span></div>
+            <div class="menu-dropdown-item" data-action="setLanguage" data-language="ko"><span class="menu-check">✓</span><span class="language-flag flag-kp"></span><span class="language-name">조선말</span></div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Search Bar -->

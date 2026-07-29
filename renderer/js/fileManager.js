@@ -43,7 +43,7 @@ export function initDragDrop(element) {
       if (App.getIsModified()) {
         const choice = await window.electronAPI.confirmClose();
         if (choice === 0) {
-          await App.saveFile();
+          if (!(await App.saveFile())) return;
         } else if (choice === 2) {
           return;
         }

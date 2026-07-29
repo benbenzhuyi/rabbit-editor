@@ -10,6 +10,7 @@ let currentIndex = -1;
 let searchVisible = false;
 let replaceVisible = false;
 let previewOriginalHTML = ''; // saved on search, restored on close
+let searchRefreshTimer = null;
 
 export function init() {
   const searchInput = document.getElementById('search-input');
@@ -48,9 +49,17 @@ export function init() {
   searchInput.addEventListener('input', () => performSearch());
   searchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); navigateMatch(e.shiftKey ? -1 : 1); }
-    if (e.key === 'Escape') closeSearch();
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      e.stopPropagation();
+      closeSearch();
+      Editor.focus();
+    }
   });
-  closeBtn.addEventListener('click', () => closeSearch());
+  closeBtn.addEventListener('click', () => {
+    closeSearch();
+    Editor.focus();
+  });
   prevBtn.addEventListener('click', () => navigateMatch(-1));
   nextBtn.addEventListener('click', () => navigateMatch(1));
   toggleBtn.addEventListener('click', () => toggleReplace());
@@ -59,6 +68,17 @@ export function init() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && searchVisible) { closeSearch(); Editor.focus(); }
   });
+
+  // A document edit invalidates every stored source range. Re-run the search
+  // after CodeMirror finishes its current update so highlights cannot drift.
+  Editor.onChange(() => {
+    if (!searchVisible || Editor.isPreviewMode()) return;
+    clearTimeout(searchRefreshTimer);
+    searchRefreshTimer = setTimeout(() => {
+      searchRefreshTimer = null;
+      if (searchVisible) performSearch({ moveSelection: false });
+    }, 0);
+  });
 }
 
 export function openSearch(presetQuery) {
@@ -66,18 +86,25 @@ export function openSearch(presetQuery) {
   const input = document.getElementById('search-input');
   bar.classList.remove('hidden');
   searchVisible = true;
-  if (presetQuery) { input.value = presetQuery; performSearch(); }
+  setReplaceVisible(false);
+  if (presetQuery) input.value = presetQuery;
+  if (input.value) performSearch();
   input.focus(); input.select();
 }
 
 export function openReplace(presetQuery) {
   openSearch(presetQuery);
-  if (!replaceVisible) toggleReplace();
+  setReplaceVisible(true);
+  const input = document.getElementById('search-input');
+  input.focus();
+  input.select();
 }
 
 export function closeSearch() {
   document.getElementById('search-bar').classList.add('hidden');
   searchVisible = false;
+  clearTimeout(searchRefreshTimer);
+  searchRefreshTimer = null;
   matches = []; currentIndex = -1;
   clearAllHighlights();
   // Restore preview HTML if we modified it
@@ -89,17 +116,22 @@ export function closeSearch() {
 }
 
 function toggleReplace() {
+  setReplaceVisible(!replaceVisible);
+  if (replaceVisible) document.getElementById('replace-input').focus();
+}
+
+function setReplaceVisible(visible) {
   const row = document.getElementById('replace-row');
   const btn = document.getElementById('search-toggle-replace');
-  replaceVisible = !replaceVisible;
+  replaceVisible = visible;
   row.classList.toggle('hidden', !replaceVisible);
   btn.classList.toggle('expanded', replaceVisible);
-  if (replaceVisible) document.getElementById('replace-input').focus();
+  btn.title = replaceVisible ? '收起替换' : '展开替换';
 }
 
 // ── Search engine (works in both source and preview modes) ──
 
-function performSearch() {
+function performSearch({ moveSelection = true } = {}) {
   const query = document.getElementById('search-input').value;
   const countEl = document.getElementById('search-count');
   if (!query) {
@@ -116,10 +148,16 @@ function performSearch() {
   }
 
   if (matches.length > 0) {
-    currentIndex = 0;
-    countEl.textContent = `1 / ${matches.length}`;
+    currentIndex = moveSelection
+      ? 0
+      : Math.max(0, Math.min(currentIndex, matches.length - 1));
+    countEl.textContent = `${currentIndex + 1} / ${matches.length}`;
     countEl.className = 'search-count';
-    selectMatch(0);
+    if (moveSelection) {
+      selectMatch(currentIndex);
+    } else if (!Editor.isPreviewMode()) {
+      Editor.highlightRanges(matches, currentIndex);
+    }
   } else {
     currentIndex = -1;
     countEl.textContent = '无结果';
@@ -135,7 +173,6 @@ function performSourceSearch(query) {
   while (!cursor.next().done) {
     matches.push({ from: cursor.value.from, to: cursor.value.to, type: 'source' });
   }
-  Editor.highlightRanges(matches, currentIndex);
 }
 
 function performPreviewSearch(query) {

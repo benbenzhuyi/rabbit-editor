@@ -2,6 +2,7 @@ node_modules/
 dist/
 dist-new/
 dist-release/
+dist-pkg/
 *.log
 .DS_Store
 Thumbs.db

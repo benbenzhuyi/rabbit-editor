@@ -14,6 +14,7 @@ const defaults = {
   temperature: 0.7,
   customPrompts: {},
   startupMode: 'default',
+  language: 'zh-CN',
 };
 
 let currentSettings = { ...defaults };
@@ -110,7 +111,8 @@ async function saveAndApply() {
   currentSettings.aiDefaultMode = document.getElementById('set-ai-default-mode').value;
   currentSettings.ctrlKWords = parseInt(document.getElementById('set-ctrlk-words').value) || 800;
   currentSettings.maxTokens = parseInt(document.getElementById('set-max-tokens').value) || 2048;
-  currentSettings.temperature = parseFloat(document.getElementById('set-temperature').value) || 0.7;
+  const parsedTemperature = parseFloat(document.getElementById('set-temperature').value);
+  currentSettings.temperature = Number.isNaN(parsedTemperature) ? 0.7 : parsedTemperature;
 
   const promptMode = document.getElementById('set-prompt-mode').value;
   const promptText = document.getElementById('set-prompt-text').value.trim();
@@ -160,6 +162,11 @@ export async function setStartupMode(mode) {
   currentSettings.startupMode = mode;
   await window.electronAPI.saveSettings(currentSettings);
   // 同步更新主进程，以便下次启动时读取
+}
+
+export async function setLanguage(language) {
+  currentSettings.language = language;
+  await window.electronAPI.saveSettings(currentSettings);
 }
 
 export async function saveTemperature(val) {

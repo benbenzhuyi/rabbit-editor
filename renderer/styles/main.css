@@ -186,6 +186,98 @@ body {
   display: block;
 }
 
+#menu-view {
+  min-width: 238px;
+  width: 238px;
+  max-width: 238px;
+  box-sizing: border-box;
+}
+
+#menu-view > .menu-dropdown-item {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#menu-view > .menu-dropdown-item .shortcut {
+  margin-left: 8px;
+  font-size: 11px;
+}
+
+.view-check-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18px auto;
+  column-gap: 4px;
+  justify-content: initial;
+}
+
+.view-check-item > .view-item-label { text-align: left; }
+.view-check-item > .menu-check { grid-column: 2; margin: 0; }
+.view-check-item > .shortcut { grid-column: 3; }
+
+.check-right-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18px auto;
+  column-gap: 4px;
+  justify-content: initial;
+}
+
+.check-right-item > .menu-status-label { text-align: left; }
+.check-right-item > .menu-check { grid-column: 2; margin: 0; }
+.check-right-item > .shortcut { grid-column: 3; margin-left: 12px; }
+
+.language-submenu {
+  min-width: 190px;
+  max-height: 360px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.language-menu-trigger {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 8px;
+  justify-content: initial;
+}
+
+.language-menu-trigger > .language-trigger-label {
+  grid-column: 1;
+  text-align: left;
+}
+
+.language-menu-trigger > .shortcut {
+  grid-column: 2;
+  margin-left: 0;
+}
+
+.language-submenu .menu-dropdown-item {
+  justify-content: flex-start;
+  text-align: left;
+  padding: 5px 12px;
+}
+
+.language-flag {
+  width: 22px;
+  height: 15px;
+  display: inline-block;
+  flex: 0 0 22px;
+  margin-right: 10px;
+  background: center / 100% 100% no-repeat;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(128, 128, 128, .35);
+}
+
+.language-name { flex: 1; text-align: left; }
+.flag-cn { background-image: url("../assets/flags/cn.svg"); }
+.flag-gb { background-image: url("../assets/flags/gb.svg"); }
+.flag-fr { background-image: url("../assets/flags/fr.svg"); }
+.flag-ru { background-image: url("../assets/flags/ru.svg"); }
+.flag-es { background-image: url("../assets/flags/es.svg"); }
+.flag-pt { background-image: url("../assets/flags/pt.svg"); }
+.flag-de { background-image: url("../assets/flags/de.svg"); }
+.flag-it { background-image: url("../assets/flags/it.svg"); }
+.flag-jp { background-image: url("../assets/flags/jp.svg"); }
+.flag-kp { background-image: url("../assets/flags/kp.svg"); }
+
 /* Light theme: menu dropdown items */
 [data-theme="light"] .menu-dropdown-item {
   color: var(--text-primary);
@@ -707,4 +799,3 @@ body.no-menubar #menubar {
 .setting-prompt-textarea:focus {
   border-color: var(--accent);
 }
-

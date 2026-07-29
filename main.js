@@ -5,15 +5,64 @@ const fs = require('fs');
 let mainWindow = null;
 let windowMode = 1; // 1=normal, 2=fullscreen+menu, 3=fullscreen no menu
 let openFilePath = null;
+let forceClose = false;
+let closeCheckInProgress = false;
+const allowedRoots = new Set();
+const allowedFiles = new Set();
+
+function normalizePath(targetPath) {
+  if (typeof targetPath !== 'string' || targetPath.trim() === '') {
+    throw new Error('无效的文件路径');
+  }
+  const resolved = path.resolve(targetPath);
+  if (fs.existsSync(resolved)) {
+    return fs.realpathSync.native(resolved);
+  }
+  const parent = path.dirname(resolved);
+  if (fs.existsSync(parent)) {
+    return path.join(fs.realpathSync.native(parent), path.basename(resolved));
+  }
+  return resolved;
+}
+
+function authorizeRoot(rootPath) {
+  allowedRoots.add(normalizePath(rootPath));
+}
+
+function authorizeFile(filePath) {
+  const normalized = normalizePath(filePath);
+  allowedFiles.add(normalized);
+  authorizeRoot(path.dirname(normalized));
+}
+
+function isPathAllowed(targetPath) {
+  const normalized = normalizePath(targetPath);
+  if (allowedFiles.has(normalized)) return true;
+  for (const root of allowedRoots) {
+    const relative = path.relative(root, normalized);
+    if (relative === '' || (!relative.startsWith('..' + path.sep) && relative !== '..' && !path.isAbsolute(relative))) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function requireAllowedPath(targetPath) {
+  const normalized = normalizePath(targetPath);
+  if (!isPathAllowed(normalized)) {
+    throw new Error('拒绝访问未经用户授权的路径');
+  }
+  return normalized;
+}
 
 // Scan for file paths in args
 for (const arg of process.argv.slice(1)) {
   const lower = arg.toLowerCase();
   if (/\.(md|txt|html|htm|json|js|css|xml|yaml|log)$/i.test(lower)) {
     const resolved = path.resolve(arg);
-    if (fs.existsSync(resolved)) { openFilePath = resolved; break; }
+    if (fs.existsSync(resolved)) { openFilePath = resolved; authorizeFile(resolved); break; }
     const fromCwd = path.resolve(process.cwd(), arg);
-    if (fs.existsSync(fromCwd)) { openFilePath = fromCwd; break; }
+    if (fs.existsSync(fromCwd)) { openFilePath = fromCwd; authorizeFile(fromCwd); break; }
   }
 }
 
@@ -116,34 +165,46 @@ function createWindow() {
   mainWindow.setMenuBarVisibility(false);
 
   // 关闭时保存窗口状态 + 检查未保存内容
-  mainWindow.on('close', async (e) => {
-    await saveWindowState();
-    try {
-      const hasUnsaved = await mainWindow.webContents.executeJavaScript(
-        'window.__hasUnsavedChanges || false'
-      );
-      if (hasUnsaved) {
-        e.preventDefault();
-        const choice = await dialog.showMessageBox(mainWindow, {
-          type: 'warning',
-          title: '小野兔 Rabbit',
-          message: '文件尚未保存，是否保存后再退出？',
-          detail: '不保存：放弃所有修改\n取消：回到编辑器继续编辑',
-          buttons: ['保存', '不保存', '取消'],
-          defaultId: 0,
-          cancelId: 2,
-        });
-        if (choice === 0) {
-          mainWindow.webContents.send('app:force-save-and-close');
-        } else if (choice === 1) {
-          await saveWindowState();
-          app.quit();
+  mainWindow.on('close', (e) => {
+    if (forceClose) return;
+    e.preventDefault();
+    if (closeCheckInProgress) return;
+    closeCheckInProgress = true;
+
+    void (async () => {
+      await saveWindowState();
+      try {
+        const hasUnsaved = await mainWindow.webContents.executeJavaScript(
+          'window.__hasUnsavedChanges || false'
+        );
+        if (hasUnsaved) {
+          const choice = await dialog.showMessageBox(mainWindow, {
+            type: 'warning',
+            title: '小野兔 Rabbit',
+            message: '文件尚未保存，是否保存后再退出？',
+            detail: '不保存：放弃所有修改\n取消：回到编辑器继续编辑',
+            buttons: ['保存', '不保存', '取消'],
+            defaultId: 0,
+            cancelId: 2,
+          });
+          if (choice.response === 0) {
+            closeCheckInProgress = false;
+            mainWindow.webContents.send('app:force-save-and-close');
+          } else if (choice.response === 1) {
+            forceClose = true;
+            mainWindow.destroy();
+          } else {
+            closeCheckInProgress = false;
+          }
+        } else {
+          forceClose = true;
+          mainWindow.destroy();
         }
-        // choice 2: cancel, do nothing
+      } catch (_) {
+        forceClose = true;
+        if (mainWindow && !mainWindow.isDestroyed()) mainWindow.destroy();
       }
-    } catch (_) {
-      // If executeJavaScript fails, just close
-    }
+    })();
   });
 
   // Remove native menu bar (we use custom HTML menu)
@@ -164,7 +225,8 @@ app.on('open-file', (event, filePath) => {
 
 ipcMain.handle('file:read', async (_event, filePath) => {
   try {
-    const content = fs.readFileSync(filePath, 'utf-8');
+    const safePath = requireAllowedPath(filePath);
+    const content = fs.readFileSync(safePath, 'utf-8');
     return { success: true, content };
   } catch (err) {
     return { success: false, error: err.message };
@@ -173,20 +235,21 @@ ipcMain.handle('file:read', async (_event, filePath) => {
 
 ipcMain.handle('file:write', async (_event, filePath, content) => {
   try {
+    const safePath = requireAllowedPath(filePath);
     // Safety: refuse to save empty content to an existing file
-    if (content.trim() === '' && fs.existsSync(filePath)) {
-      const existing = fs.readFileSync(filePath, 'utf-8');
+    if (content.trim() === '' && fs.existsSync(safePath)) {
+      const existing = fs.readFileSync(safePath, 'utf-8');
       if (existing.trim() !== '') {
-        console.error('Refusing to overwrite non-empty file with empty content:', filePath);
+        console.error('Refusing to overwrite non-empty file with empty content:', safePath);
         return { success: false, error: 'Refusing to overwrite existing file with empty content (data-loss prevention)' };
       }
     }
     // Auto-backup: create .bak copy before overwriting
-    if (fs.existsSync(filePath)) {
-      const bakPath = filePath.replace(/\.md$/, '') + '.bak.md';
-      try { fs.copyFileSync(filePath, bakPath); } catch (_) {}
+    if (fs.existsSync(safePath)) {
+      const bakPath = safePath.replace(/\.md$/, '') + '.bak.md';
+      try { fs.copyFileSync(safePath, bakPath); } catch (_) {}
     }
-    fs.writeFileSync(filePath, content, 'utf-8');
+    fs.writeFileSync(safePath, content, 'utf-8');
     return { success: true };
   } catch (err) {
     return { success: false, error: err.message };
@@ -195,6 +258,7 @@ ipcMain.handle('file:write', async (_event, filePath, content) => {
 
 ipcMain.handle('file:new', async (_event, dirPath) => {
   try {
+    dirPath = requireAllowedPath(dirPath);
     const baseName = '未命名.md';
     let filePath = path.join(dirPath, baseName);
     let counter = 1;
@@ -211,6 +275,7 @@ ipcMain.handle('file:new', async (_event, dirPath) => {
 
 ipcMain.handle('file:list', async (_event, dirPath) => {
   try {
+    dirPath = requireAllowedPath(dirPath);
     const entries = fs.readdirSync(dirPath, { withFileTypes: true });
     const result = entries
       .filter(e => !e.name.startsWith('.'))
@@ -231,6 +296,7 @@ ipcMain.handle('file:list', async (_event, dirPath) => {
 
 ipcMain.handle('file:create-dir', async (_event, parentPath) => {
   try {
+    parentPath = requireAllowedPath(parentPath);
     const base = '新建文件夹';
     let dirPath = path.join(parentPath, base);
     let counter = 1;
@@ -247,6 +313,10 @@ ipcMain.handle('file:create-dir', async (_event, parentPath) => {
 
 ipcMain.handle('file:delete-entry', async (_event, targetPath) => {
   try {
+    targetPath = requireAllowedPath(targetPath);
+    if (allowedRoots.has(targetPath)) {
+      return { success: false, error: '不能删除当前授权的工作区根目录' };
+    }
     const stat = fs.statSync(targetPath);
     if (stat.isDirectory()) {
       fs.rmSync(targetPath, { recursive: true });
@@ -261,6 +331,14 @@ ipcMain.handle('file:delete-entry', async (_event, targetPath) => {
 
 ipcMain.handle('file:rename-entry', async (_event, oldPath, newName) => {
   try {
+    oldPath = requireAllowedPath(oldPath);
+    if (allowedRoots.has(oldPath)) {
+      return { success: false, error: '不能重命名当前授权的工作区根目录' };
+    }
+    if (typeof newName !== 'string' || newName === '' || newName === '.' || newName === '..' ||
+        newName.includes('/') || newName.includes('\\')) {
+      return { success: false, error: '文件名不能包含路径分隔符' };
+    }
     const dir = path.dirname(oldPath);
     const newPath = path.join(dir, newName);
     if (fs.existsSync(newPath)) {
@@ -285,6 +363,7 @@ ipcMain.handle('dialog:open', async () => {
   if (result.canceled || result.filePaths.length === 0) {
     return { success: false, canceled: true };
   }
+  authorizeFile(result.filePaths[0]);
   return { success: true, filePath: result.filePaths[0] };
 });
 
@@ -296,6 +375,7 @@ ipcMain.handle('dialog:open-folder', async () => {
   if (result.canceled || result.filePaths.length === 0) {
     return { success: false, canceled: true };
   }
+  authorizeRoot(result.filePaths[0]);
   return { success: true, folderPath: result.filePaths[0] };
 });
 
@@ -307,6 +387,7 @@ ipcMain.handle('dialog:save', async () => {
   if (result.canceled || !result.filePath) {
     return { success: false, canceled: true };
   }
+  authorizeFile(result.filePath);
   return { success: true, filePath: result.filePath };
 });
 
@@ -403,10 +484,15 @@ function saveRecentFiles(files) {
 }
 
 ipcMain.handle('recent:get', async () => {
-  return loadRecentFiles();
+  const files = loadRecentFiles();
+  for (const filePath of files) {
+    try { authorizeFile(filePath); } catch (_) {}
+  }
+  return files;
 });
 
 ipcMain.handle('recent:add', async (_event, filePath) => {
+  authorizeFile(filePath);
   let files = loadRecentFiles();
   files = files.filter(f => f !== filePath);
   files.unshift(filePath);
@@ -422,7 +508,7 @@ ipcMain.handle('ai:request', async (_event, config) => {
   const url = baseUrl.replace(/\/+$/, '') + '/chat/completions';
 
   try {
-    console.log('[AI v0.5.4-think-fix] Request to:', url);
+    console.log('[AI v0.6.0] Request to:', url);
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -432,8 +518,8 @@ ipcMain.handle('ai:request', async (_event, config) => {
       body: JSON.stringify({
         model,
         messages,
-        temperature: temperature || 0.7,
-        max_tokens: maxTokens || 2048,
+        temperature: temperature ?? 0.7,
+        max_tokens: maxTokens ?? 2048,
         stream: false,
       }),
     });
@@ -483,7 +569,8 @@ ipcMain.handle('file:read-multiple', async (_event, filePaths) => {
   const results = {};
   for (const fp of filePaths) {
     try {
-      results[fp] = fs.readFileSync(fp, 'utf-8');
+      const safePath = requireAllowedPath(fp);
+      results[fp] = fs.readFileSync(safePath, 'utf-8');
     } catch (_) {
       results[fp] = null;
     }
@@ -555,6 +642,7 @@ const defaultSettings = {
   maxTokens: 2048,
   temperature: 0.7,
   theme: 'dark',
+  language: 'zh-CN',
 };
 
 function loadSettings() {

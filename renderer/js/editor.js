@@ -9,6 +9,8 @@ import { markdown } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
+import DOMPurify from 'dompurify';
+import { duplicateLine, moveLineUp, moveLineDown } from './editCommands.js';
 
 marked.setOptions({
   highlight: (code, lang) => {
@@ -44,7 +46,7 @@ const searchHighlightField = StateField.define({
       if (e.is(setSearchHighlights)) return e.value;
       if (e.is(clearSearchHighlights)) return Decoration.none;
     }
-    return decos;
+    return decos.map(tr.changes);
   },
   provide: f => EditorView.decorations.from(f),
 });
@@ -120,9 +122,7 @@ const customKeymap = keymap.of([
   {
     key: 'Ctrl-d',
     run: (view) => {
-      const { from } = view.state.selection.main;
-      const line = view.state.doc.lineAt(from);
-      view.dispatch(view.state.update({ changes: { from: line.to + 1, insert: '\n' + line.text }, selection: { anchor: line.to + 1 + line.text.length } }));
+      view.dispatch(view.state.update(duplicateLine(view.state)));
       return true;
     },
   },
@@ -139,22 +139,16 @@ const customKeymap = keymap.of([
   {
     key: 'Alt-ArrowUp',
     run: (view) => {
-      const { from } = view.state.selection.main;
-      const line = view.state.doc.lineAt(from);
-      if (line.number <= 1) return true;
-      const prevLine = view.state.doc.line(line.number - 1);
-      view.dispatch(view.state.update({ changes: [{ from: prevLine.from, to: line.to }, line.text + '\n' + prevLine.text] }));
+      const spec = moveLineUp(view.state);
+      if (spec) view.dispatch(view.state.update(spec));
       return true;
     },
   },
   {
     key: 'Alt-ArrowDown',
     run: (view) => {
-      const { from } = view.state.selection.main;
-      const line = view.state.doc.lineAt(from);
-      if (line.number >= view.state.doc.lines) return true;
-      const nextLine = view.state.doc.line(line.number + 1);
-      view.dispatch(view.state.update({ changes: [{ from: line.from, to: nextLine.to }, nextLine.text + '\n' + line.text] }));
+      const spec = moveLineDown(view.state);
+      if (spec) view.dispatch(view.state.update(spec));
       return true;
     },
   },
@@ -194,11 +188,6 @@ export function getContent() { return editorView ? editorView.state.doc.toString
 export function setContent(text) {
   if (!editorView) return;
   if (previewMode) togglePreview();
-  // Safety: refuse to replace non-empty document with empty text (data-loss prevention)
-  if (text === '' && editorView.state.doc.length > 0) {
-    console.error('Refusing to clear existing document contents — possible bug');
-    return;
-  }
   editorView.dispatch({ changes: { from: 0, to: editorView.state.doc.length, insert: text } });
   updateCallbacks.forEach(cb => cb());
 }
@@ -220,10 +209,15 @@ export function zoomReset() { setFontSize(FONT_DEFAULT); }
 
 function setFontSize(size) {
   currentFontSize = Math.max(FONT_MIN, Math.min(FONT_MAX, size));
-  if (!editorView) return;
-  editorView.dom.style.fontSize = currentFontSize + 'px';
-  const content = editorView.dom.querySelector('.cm-content');
-  if (content) content.style.fontSize = currentFontSize + 'px';
+  if (editorView) {
+    editorView.dom.style.fontSize = currentFontSize + 'px';
+    const content = editorView.dom.querySelector('.cm-content');
+    if (content) content.style.fontSize = currentFontSize + 'px';
+  }
+
+  // Preview and source mode share one zoom level.
+  const previewContent = document.getElementById('preview-content');
+  if (previewContent) previewContent.style.fontSize = currentFontSize + 'px';
 }
 
 export function getFontSize() { return currentFontSize; }
@@ -244,6 +238,7 @@ export function togglePreview() {
 
     // Step 2: render markdown, injecting data-src-line on EVERY block element
     pContent.innerHTML = renderWithLineIds(editorView.state.doc.toString());
+    pContent.style.fontSize = currentFontSize + 'px';
 
     // Step 3: show preview, hide editor
     ec.classList.add('hidden');
@@ -390,7 +385,7 @@ function renderWithLineIds(src) {
   const totalLines = lines.length;
 
   // ── Pass 1: tag each source line with its 1-based number ──────────────
-  // We emit one <div data-src-line="N"> sentinel per logical block start,
+  // We emit one comment sentinel per logical block start,
   // then let marked render the whole document.  Because we can't easily
   // hook into marked's AST here, we use a two-step approach:
   //   a) Render full HTML with marked (correct output).
@@ -431,35 +426,39 @@ function renderWithLineIds(src) {
   if (blockStartLines.length === 0) blockStartLines.push(1);
 
   // ── Pass 2: inject sentinel comments into source, render, then annotate ─
-  // We insert <!--src-L{n}--> before each block-start line, render with
-  // marked, then find the first real element after each comment and set
-  // data-src-line on it.
+  // We insert comment markers before each block-start line. Unlike an HTML
+  // element, a comment does not make marked treat the following Markdown as
+  // a raw HTML block.
   const markedLines = [...lines];
   // Insert sentinels from bottom to top so indices stay stable.
   for (let k = blockStartLines.length - 1; k >= 0; k--) {
     const lineIdx = blockStartLines[k] - 1; // 0-based
-    markedLines.splice(lineIdx, 0, `<!--src-L${blockStartLines[k]}-->`);
+    markedLines.splice(lineIdx, 0, `<!--SRC_LINE_${blockStartLines[k]}-->`);
   }
 
-  const html = marked.parse(markedLines.join('\n'));
-
-  // ── Pass 3: parse the rendered HTML, find sentinels, tag next sibling ──
+  // ── Pass 3: annotate the detached result, then sanitize the final HTML ──
   const wrapper = document.createElement('div');
-  wrapper.innerHTML = html;
+  wrapper.innerHTML = marked.parse(markedLines.join('\n'));
 
   let lastLine = 1;
   const childNodes = Array.from(wrapper.childNodes);
   for (let i = 0; i < childNodes.length; i++) {
     const node = childNodes[i];
     if (node.nodeType === Node.COMMENT_NODE) {
-      const m = node.nodeValue.match(/^src-L(\d+)$/);
-      if (m) lastLine = parseInt(m[1], 10);
+      const marker = /^SRC_LINE_(\d+)$/.exec(node.nodeValue || '');
+      if (!marker) continue;
+      lastLine = parseInt(marker[1], 10);
+      node.remove();
     } else if (node.nodeType === Node.ELEMENT_NODE) {
       node.dataset.srcLine = lastLine;
     }
   }
 
-  return wrapper.innerHTML;
+  return DOMPurify.sanitize(wrapper.innerHTML, {
+    USE_PROFILES: { html: true },
+    FORBID_TAGS: ['style'],
+    FORBID_ATTR: ['style'],
+  });
 }
 
 export function setLastCursorPos(lineNumber) { lastSourceLine = lineNumber; }

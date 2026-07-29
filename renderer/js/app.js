@@ -13,6 +13,7 @@ import * as AiPanel from './aiPanel.js';
 import * as CtrlKPopup from './ctrlKPopup.js';
 import * as Settings from './settings.js';
 import * as SearchReplace from './searchReplace.js';
+import * as I18n from './i18n.js';
 
 let currentFilePath = null;
 let isModified = false;
@@ -70,7 +71,7 @@ export async function cycleWindowMode() {
 export async function newFile() {
   if (isModified) {
     const choice = await window.electronAPI.confirmClose();
-    if (choice === 0) await saveFile();
+    if (choice === 0 && !(await saveFile())) return;
     else if (choice === 2) return;
   }
   Editor.setContent('');
@@ -83,7 +84,7 @@ export async function newFile() {
 export async function openFile() {
   if (isModified) {
     const choice = await window.electronAPI.confirmClose();
-    if (choice === 0) await saveFile();
+    if (choice === 0 && !(await saveFile())) return;
     else if (choice === 2) return;
   }
   const result = await window.electronAPI.openDialog();
@@ -108,31 +109,37 @@ export async function openFile() {
 export async function saveFile() {
   if (currentFilePath) {
     const result = await window.electronAPI.writeFile(currentFilePath, Editor.getContent());
-    if (result.success) setIsModified(false);
-    else alert(`保存失败：${result.error}`);
+    if (result.success) {
+      setIsModified(false);
+      return true;
+    }
+    alert(`保存失败：${result.error}`);
+    return false;
   } else {
-    await saveFileAs();
+    return saveFileAs();
   }
 }
 
 export async function saveFileAs() {
   const result = await window.electronAPI.saveDialog();
-  if (!result.success) return;
+  if (!result.success) return false;
   const writeResult = await window.electronAPI.writeFile(result.filePath, Editor.getContent());
   if (writeResult.success) {
     setCurrentFilePath(result.filePath);
     setIsModified(false);
     await window.electronAPI.addRecentFile(result.filePath);
     MenuBar.updateRecentFiles(await window.electronAPI.getRecentFiles());
+    return true;
   } else {
     alert(`保存失败：${writeResult.error}`);
+    return false;
   }
 }
 
 export async function closeFile() {
   if (isModified) {
     const choice = await window.electronAPI.confirmClose();
-    if (choice === 0) { await saveFile(); if (isModified) return; }
+    if (choice === 0 && !(await saveFile())) return;
     else if (choice === 2) return;
   }
   Editor.setContent('');
@@ -146,7 +153,7 @@ export async function openFileByPath(filePath, openInPreview) {
   if (!textExts.includes(ext)) return;
   if (isModified) {
     const choice = await window.electronAPI.confirmClose();
-    if (choice === 0) await saveFile();
+    if (choice === 0 && !(await saveFile())) return;
     else if (choice === 2) return;
   }
   const result = await window.electronAPI.readFile(filePath);
@@ -176,7 +183,7 @@ export async function openFileByPath(filePath, openInPreview) {
 export async function openRecentFile(filePath) {
   if (isModified) {
     const choice = await window.electronAPI.confirmClose();
-    if (choice === 0) await saveFile();
+    if (choice === 0 && !(await saveFile())) return;
     else if (choice === 2) return;
   }
   const result = await window.electronAPI.readFile(filePath);
@@ -206,6 +213,7 @@ async function init() {
   CtrlKPopup.init();
   SearchReplace.init();
   await Settings.init();
+  await I18n.init();
   MenuBar.init();
   StatusBar.init();
   Keybindings.init();
@@ -282,12 +290,13 @@ async function init() {
     if (mode !== 1) document.body.classList.add(`window-mode-${mode}`);
     if (mode === 3) document.body.classList.add('no-menubar');
     else document.body.classList.remove('no-menubar');
+    MenuBar.refreshMenuChecks();
   });
 
   // Handle force-save-and-close from main process
   window.electronAPI.onForceSaveAndClose(async () => {
-    await saveFile();
-    window.__hasUnsavedChanges = false;
+    if (!(await saveFile())) return;
+    setIsModified(false);
     window.close();
   });
 

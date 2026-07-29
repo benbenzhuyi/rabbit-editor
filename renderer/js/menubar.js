@@ -6,6 +6,9 @@ import * as App from './app.js';
 import * as FileBrowser from './fileBrowser.js';
 import * as Editor from './editor.js';
 import * as Settings from './settings.js';
+import * as I18n from './i18n.js';
+import * as AiPanel from './aiPanel.js';
+import * as CtrlKPopup from './ctrlKPopup.js';
 
 // ── State ────────────────────────────────────────────────
 
@@ -30,6 +33,11 @@ const menuActions = {
   selectAll: () => document.execCommand('selectAll'),
   copyLine: () => Editor.focus(), // Handled by CodeMirror keymap
   deleteLine: () => Editor.focus(), // Handled by CodeMirror keymap
+  selectionAiEdit: () => CtrlKPopup.showCtrlKPopup(),
+  selectionQuoteAi: () => AiPanel.quoteToAI(),
+  aiReplaceSelection: () => AiPanel.replaceWithLastResponse(),
+  aiInsertSelection: () => AiPanel.insertLastResponse(),
+  copyAiReply: () => AiPanel.copyLastResponse(),
 
   togglePreview: () => Editor.togglePreview(),
   zoomIn: () => Editor.zoomIn(),
@@ -49,13 +57,42 @@ const menuActions = {
     Editor.toggleWordWrap();
     refreshMenuChecks();
   },
-  fontSizeUp: () => Editor.zoomIn(),
-  fontSizeDown: () => Editor.zoomOut(),
+  settings: () => Settings.showPanel(),
+  toggleLeftSidebar: () => {
+    document.getElementById('left-sidebar')?.classList.toggle('hidden');
+    refreshMenuChecks();
+  },
+  toggleRightSidebar: () => {
+    document.getElementById('right-sidebar')?.classList.toggle('hidden');
+    refreshMenuChecks();
+  },
+  windowNormal: async () => {
+    await window.electronAPI.setWindowMode(1);
+    refreshMenuChecks();
+  },
+  windowFullscreenMenu: async () => {
+    await window.electronAPI.setWindowMode(2);
+    refreshMenuChecks();
+  },
+  windowFullscreenClean: async () => {
+    await window.electronAPI.setWindowMode(3);
+    refreshMenuChecks();
+  },
+  cycleWindowMode: async () => {
+    await App.cycleWindowMode();
+    refreshMenuChecks();
+  },
 
   startupRestore: () => {
     const settings = Settings.getSettings();
     const newMode = (settings.startupMode || 'default') === 'default' ? 'last' : 'default';
     Settings.setStartupMode(newMode);
+  },
+  setLanguage: async (language) => {
+    if (!language || language === Settings.getSettings().language) return;
+    await Settings.setLanguage(language);
+    alert(`${I18n.t('restartTitle')}\n\n${I18n.t('restartMessage')}`);
+    refreshMenuChecks();
   },
 };
 
@@ -89,6 +126,11 @@ export function init() {
         if (!dropdownItem || dropdownItem.classList.contains('disabled')) return;
 
         const action = dropdownItem.dataset.action;
+        if (action === 'setLanguage') {
+          closeAllMenus();
+          menuActions.setLanguage(dropdownItem.dataset.language);
+          return;
+        }
         if (action && menuActions[action]) {
           closeAllMenus();
           menuActions[action]();
@@ -137,6 +179,26 @@ export function refreshMenuChecks() {
     wwItem.classList.toggle('checked', !!wrapOn);
   }
 
+  // Sidebars are checked while visible.
+  const leftSidebarItem = document.getElementById('menu-item-left-sidebar');
+  const rightSidebarItem = document.getElementById('menu-item-right-sidebar');
+  const leftSidebar = document.getElementById('left-sidebar');
+  const rightSidebar = document.getElementById('right-sidebar');
+  if (leftSidebarItem) leftSidebarItem.classList.toggle('checked', !!leftSidebar && !leftSidebar.classList.contains('hidden'));
+  if (rightSidebarItem) rightSidebarItem.classList.toggle('checked', !!rightSidebar && !rightSidebar.classList.contains('hidden'));
+
+  // Window modes are mutually exclusive.
+  window.electronAPI.getWindowMode().then((mode) => {
+    const modeItems = {
+      1: document.getElementById('menu-item-window-normal'),
+      2: document.getElementById('menu-item-window-fullscreen-menu'),
+      3: document.getElementById('menu-item-window-fullscreen-clean'),
+    };
+    Object.entries(modeItems).forEach(([itemMode, item]) => {
+      item?.classList.toggle('checked', Number(itemMode) === mode);
+    });
+  });
+
   // Theme
   const isLight = document.documentElement.hasAttribute('data-theme') &&
     document.documentElement.getAttribute('data-theme') === 'light';
@@ -151,6 +213,11 @@ export function refreshMenuChecks() {
   const restoreItem = document.getElementById('menu-item-startup-restore');
   console.log('[startupMode] item:', restoreItem, 'mode:', startupMode);
   if (restoreItem) restoreItem.classList.toggle('checked', startupMode === 'last');
+
+  const language = settings.language || 'zh-CN';
+  document.querySelectorAll('[data-action="setLanguage"]').forEach((item) => {
+    item.classList.toggle('checked', item.dataset.language === language);
+  });
 }
 
 export function closeMenus() {
@@ -165,7 +232,7 @@ export function updateRecentFiles(recentFiles) {
 
   if (!recentFiles || recentFiles.length === 0) {
     container.innerHTML =
-      '<div class="menu-dropdown-item disabled">（无最近文件）</div>';
+      `<div class="menu-dropdown-item disabled">${I18n.t('noRecentFiles')}</div>`;
     return;
   }
 

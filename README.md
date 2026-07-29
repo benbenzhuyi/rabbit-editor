@@ -4,7 +4,7 @@
 
 A lightweight AI-assisted Markdown editor built for writers.
 
-> 版本 Version：v0.5.8 | License: MIT
+> 版本 Version：v0.6.0 | License: MIT
 
 ![小野兔 Rabbit 截图](rabbit-edit.png)
 
@@ -20,6 +20,8 @@ A lightweight AI-assisted Markdown editor built for writers.
 - **文件浏览器** — 目录树导航，右键菜单，双击重命名，点击不抢焦点
 - **多模型切换** — AI 面板底部下拉选择模型，状态栏实时显示当前模型和温度
 - **自定义提示词** — 设置中可编辑各模式的系统提示词
+- **双模式缩放** — 源码和预览共享缩放级别，支持快捷键及 Ctrl+滚轮
+- **多语言界面** — 支持中文、英语、法语、俄语、西班牙语、葡萄牙语、德语、意大利语、日语和朝鲜语
 
 - **Immersive Writing** — Dark/light themes, high-frequency operations via keyboard shortcuts
 - **AI-Native** — Ctrl+K floating polish/continue-writing, Ctrl+L quote to AI, right-side chat panel (edit/refresh/resubmit)
@@ -29,6 +31,8 @@ A lightweight AI-assisted Markdown editor built for writers.
 - **File Browser** — Directory tree, right-click context menu, double-click rename, click without focus steal
 - **Multi-Model** — Model selector in AI panel, live model name and temperature in status bar
 - **Custom Prompts** — Editable system prompts for each mode in Settings
+- **Shared Zoom** — Source and preview share one zoom level, with shortcuts and Ctrl+wheel
+- **Multilingual UI** — Chinese, English, French, Russian, Spanish, Portuguese, German, Italian, Japanese, and Korean
 
 ---
 
@@ -42,8 +46,8 @@ Download the package for your platform from [Releases](https://github.com/benben
 
 | Platform | File |
 |----------|------|
-| Windows x64 | `rabbit-editor-0.5.8-win-x64.zip`（解压后双击 `小野兔 Rabbit.exe` / Extract and run `小野兔 Rabbit.exe`） |
-| Linux x64 | `rabbit-editor-0.5.8-linux-x64.tar.gz`（解压后运行 `./small-rabbit-editor` / Extract and run `./small-rabbit-editor`） |
+| Windows x64 | `rabbit-editor-0.6.0-win-x64.zip`（解压后双击 `小野兔 Rabbit.exe` / Extract and run `小野兔 Rabbit.exe`） |
+| Linux x64 | `rabbit-editor-0.6.0-linux-x64.tar.gz`（解压后运行 `./small-rabbit-editor` / Extract and run `./small-rabbit-editor`） |
 
 ### 开发运行 / Development
 
@@ -112,9 +116,10 @@ Configure API base URL, API Key, and model name in the Settings panel (Ctrl+, or
 | Ctrl+Shift+P | 源码 / 预览切换 — Toggle Source/Preview |
 | Ctrl+Shift+1/2/3 | 正常 / 全屏有菜单 / 极简全屏 — Window Modes |
 | F11 | 循环窗口模式 / Cycle Window Modes |
-| Ctrl+Alt+R | 切换退出时恢复窗口 / Toggle Startup Window Restore |
+| Ctrl+Alt+R | 切换退出保存窗口 / Toggle Save Window on Exit |
 | Ctrl+Alt+T | 切换深色/浅色主题 / Toggle Dark/Light Theme |
 | Ctrl+= / Ctrl+- / Ctrl+0 | 放大 / 缩小 / 重置缩放 — Zoom In/Out/Reset |
+| Ctrl+鼠标滚轮 | 源码和预览连续缩放 / Zoom Source and Preview |
 
 ### 查找替换 / Find & Replace
 | Shortcut | Action |
@@ -147,9 +152,13 @@ Configure API base URL, API Key, and model name in the Settings panel (Ctrl+, or
 
 ---
 
-## 功能开发手册 / Development Manual
+## 软件说明书与开发手册 / Manuals
 
-完整的功能说明、架构文档和开发指南参见 / See full documentation:
+最新的软件功能、菜单说明和完整快捷键清单：
+
+- [软件功能说明书 / Software Manual](SOFTWARE_MANUAL.md)
+
+架构与开发实现参考：
 
 - [DEVELOPMENT_MANUAL.md](DEVELOPMENT_MANUAL.md)
 
