@@ -55,14 +55,33 @@ function requireAllowedPath(targetPath) {
   return normalized;
 }
 
-// Scan for file paths in args
-for (const arg of process.argv.slice(1)) {
-  const lower = arg.toLowerCase();
-  if (/\.(md|txt|html|htm|json|js|css|xml|yaml|log)$/i.test(lower)) {
-    const resolved = path.resolve(arg);
-    if (fs.existsSync(resolved)) { openFilePath = resolved; authorizeFile(resolved); break; }
-    const fromCwd = path.resolve(process.cwd(), arg);
-    if (fs.existsSync(fromCwd)) { openFilePath = fromCwd; authorizeFile(fromCwd); break; }
+function findOpenFileInArgs(args, workingDirectory = process.cwd()) {
+  for (const arg of args) {
+    if (typeof arg !== 'string') continue;
+    const lower = arg.toLowerCase();
+    if (!/\.(md|txt|html|htm|json|js|css|xml|yaml|yml|csv|log|rst|tex|py|java|c|cpp|h|sh)$/i.test(lower)) {
+      continue;
+    }
+
+    const candidates = [
+      path.resolve(arg),
+      path.resolve(workingDirectory || process.cwd(), arg),
+    ];
+    for (const candidate of candidates) {
+      if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
+        return normalizePath(candidate);
+      }
+    }
+  }
+  return null;
+}
+
+// Scan for a file path supplied by Explorer or the command line.
+{
+  const initialFile = findOpenFileInArgs(process.argv.slice(1));
+  if (initialFile) {
+    openFilePath = initialFile;
+    authorizeFile(initialFile);
   }
 }
 
@@ -618,10 +637,24 @@ const gotLock = app.requestSingleInstanceLock();
 if (!gotLock) {
   app.quit();
 } else {
-  app.on('second-instance', () => {
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
+  app.on('second-instance', (_event, commandLine, workingDirectory) => {
+    const requestedFile = findOpenFileInArgs(commandLine, workingDirectory);
+    if (requestedFile) authorizeFile(requestedFile);
+
+    if (!mainWindow) {
+      openFilePath = requestedFile;
+      return;
+    }
+
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.show();
+    mainWindow.focus();
+
+    if (!requestedFile) return;
+    if (mainWindow.webContents.isLoadingMainFrame()) {
+      openFilePath = requestedFile;
+    } else {
+      mainWindow.webContents.send('open-file', requestedFile);
     }
   });
 }
