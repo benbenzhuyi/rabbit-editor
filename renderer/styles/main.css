@@ -500,6 +500,31 @@ body {
   margin: 0;
 }
 
+#status-goto {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+#status-goto input {
+  width: 5ch;
+  height: 16px;
+  font-size: 11px;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 3px;
+  text-align: center;
+  outline: none;
+  padding: 0 2px;
+  margin: 0;
+}
+
+#status-goto input:focus {
+  border-color: var(--accent);
+}
+
 /* AI loading indicator */
 .ai-loading-hidden { display: none; }
 

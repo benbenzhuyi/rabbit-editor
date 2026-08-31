@@ -105,16 +105,22 @@ async function sendMessage() {
   await saveConversation();
 
   // Inject quoted text into API request
+  const hasRef = !!quotedText;
   const effectiveText = quotedText
     ? `【引用内容】：\n\`\`\`\n${quotedText}\n\`\`\`\n\n【用户指令】：\n${text}`
     : text;
   quotedText = null;
 
-  // Match Ctrl+K format: system prompt + wrapped user message, no history
-  const apiMessages = [
-    { role: 'system', content: '你是一位专业创意写手。请根据用户的具体要求来完成任务。直接输出所需内容，不需要解释或说明。' },
-    { role: 'user', content: `请按要求完成任务：\n\n${effectiveText}` },
-  ];
+  // 引用文本时对齐 Ctrl+K 的「续写/改写」编辑框架（区别于「从零生成」）；纯对话保持原框架。
+  const apiMessages = hasRef
+    ? [
+        { role: 'system', content: '你是一位专业创意写手。请根据用户提供的上下文，自然地续写或改写内容。保持与原文一致的风格、语气和节奏。结合用户的具体指令完成任务，直接输出处理后的内容，不需要解释或说明。' },
+        { role: 'user', content: `请根据【用户指令】对【引用内容】进行续写、改写或优化，直接输出处理后的内容：\n\n${effectiveText}` },
+      ]
+    : [
+        { role: 'system', content: '你是一位专业创意写手。请根据用户的具体要求来完成任务。直接输出所需内容，不需要解释或说明。' },
+        { role: 'user', content: `请按要求完成任务：\n\n${text}` },
+      ];
 
   // Show loading
   const assistantMsg = {

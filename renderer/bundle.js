@@ -119079,6 +119079,13 @@ ${text6}</tr>
     const line = editorView.state.doc.line(lineNumber);
     editorView.dispatch({ selection: { anchor: line.from, head: line.to }, scrollIntoView: true });
   }
+  function gotoLine2(lineNumber) {
+    if (!editorView) return;
+    const n = Math.max(1, Math.min(lineNumber, editorView.state.doc.lines));
+    const line = editorView.state.doc.line(n);
+    editorView.dispatch({ selection: { anchor: line.from, head: line.from }, scrollIntoView: true });
+    editorView.focus();
+  }
   function getCurrentLineText() {
     if (!editorView) return "";
     const pos = editorView.state.selection.main.head;
@@ -119897,6 +119904,8 @@ ${text6}</tr>
     copy: "\u590D\u5236",
     paste: "\u7C98\u8D34",
     selectAll: "\u5168\u9009",
+    find: "\u67E5\u627E",
+    replace: "\u66FF\u6362",
     copyLine: "\u590D\u5236\u884C",
     deleteLine: "\u5220\u9664\u884C",
     wordWrap: "\u81EA\u52A8\u6362\u884C",
@@ -119959,6 +119968,7 @@ ${text6}</tr>
     line: "\u884C",
     column: "\u5217",
     selected: "\u9009\u4E2D",
+    goto: "\u5B9A\u4F4D",
     restartTitle: "\u8BED\u8A00\u5DF2\u66F4\u6539",
     restartMessage: "\u754C\u9762\u8BED\u8A00\u5C06\u5728\u91CD\u542F\u5C0F\u91CE\u5154\u540E\u751F\u6548\u3002"
   };
@@ -119984,6 +119994,8 @@ ${text6}</tr>
       copy: "Copy",
       paste: "Paste",
       selectAll: "Select All",
+      find: "Find",
+      replace: "Replace",
       copyLine: "Copy Line",
       deleteLine: "Delete Line",
       selectionAiEdit: "Edit Selection with AI",
@@ -120046,6 +120058,7 @@ ${text6}</tr>
       line: "Line",
       column: "Column",
       selected: "Selected",
+      goto: "Go to Line",
       restartTitle: "Language changed",
       restartMessage: "The interface language will take effect after restarting Rabbit."
     },
@@ -120158,6 +120171,8 @@ ${text6}</tr>
       windowFullscreenMenu: "\u041F\u043E\u043B\u043D\u044B\u0439 \u044D\u043A\u0440\u0430\u043D \u0441 \u043C\u0435\u043D\u044E",
       windowFullscreenClean: "\u041F\u043E\u043B\u043D\u044B\u0439 \u044D\u043A\u0440\u0430\u043D \u0431\u0435\u0437 \u043C\u0435\u043D\u044E",
       cycleWindowMode: "\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u0440\u0435\u0436\u0438\u043C \u043E\u043A\u043D\u0430",
+      find: "\u041D\u0430\u0439\u0442\u0438",
+      replace: "\u0417\u0430\u043C\u0435\u043D\u0438\u0442\u044C",
       copyLine: "\u041A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0441\u0442\u0440\u043E\u043A\u0443",
       deleteLine: "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0441\u0442\u0440\u043E\u043A\u0443",
       wordWrap: "\u041F\u0435\u0440\u0435\u043D\u043E\u0441 \u0441\u0442\u0440\u043E\u043A",
@@ -120204,7 +120219,8 @@ ${text6}</tr>
       currentModel: "\u0422\u0435\u043A\u0443\u0449\u0430\u044F \u043C\u043E\u0434\u0435\u043B\u044C",
       line: "\u0421\u0442\u0440\u043E\u043A\u0430",
       column: "\u0421\u0442\u043E\u043B\u0431\u0435\u0446",
-      selected: "\u0412\u044B\u0431\u0440\u0430\u043D\u043E"
+      selected: "\u0412\u044B\u0431\u0440\u0430\u043D\u043E",
+      goto: "\u041F\u0435\u0440\u0435\u0439\u0442\u0438 \u043A \u0441\u0442\u0440\u043E\u043A\u0435"
     },
     es: {
       leftSidebar: "Barra lateral izquierda",
@@ -120218,6 +120234,8 @@ ${text6}</tr>
       windowFullscreenMenu: "Pantalla completa con men\xFA",
       windowFullscreenClean: "Pantalla completa sin men\xFA",
       cycleWindowMode: "Alternar modo de ventana",
+      find: "Buscar",
+      replace: "Reemplazar",
       copyLine: "Copiar l\xEDnea",
       deleteLine: "Eliminar l\xEDnea",
       wordWrap: "Ajuste de l\xEDnea",
@@ -120264,7 +120282,8 @@ ${text6}</tr>
       currentModel: "Modelo actual",
       line: "L\xEDnea",
       column: "Columna",
-      selected: "Seleccionado"
+      selected: "Seleccionado",
+      goto: "Ir a l\xEDnea"
     },
     pt: {
       leftSidebar: "Barra lateral esquerda",
@@ -120278,6 +120297,8 @@ ${text6}</tr>
       windowFullscreenMenu: "Ecr\xE3 inteiro com menu",
       windowFullscreenClean: "Ecr\xE3 inteiro sem menu",
       cycleWindowMode: "Alternar modo da janela",
+      find: "Localizar",
+      replace: "Substituir",
       copyLine: "Copiar linha",
       deleteLine: "Eliminar linha",
       wordWrap: "Quebra de linha",
@@ -120324,7 +120345,8 @@ ${text6}</tr>
       currentModel: "Modelo atual",
       line: "Linha",
       column: "Coluna",
-      selected: "Selecionado"
+      selected: "Selecionado",
+      goto: "Ir para linha"
     },
     de: {
       leftSidebar: "Linke Seitenleiste",
@@ -120338,6 +120360,8 @@ ${text6}</tr>
       windowFullscreenMenu: "Vollbild mit Men\xFC",
       windowFullscreenClean: "Vollbild ohne Men\xFC",
       cycleWindowMode: "Fenstermodus wechseln",
+      find: "Suchen",
+      replace: "Ersetzen",
       copyLine: "Zeile kopieren",
       deleteLine: "Zeile l\xF6schen",
       wordWrap: "Zeilenumbruch",
@@ -120384,7 +120408,8 @@ ${text6}</tr>
       currentModel: "Aktuelles Modell",
       line: "Zeile",
       column: "Spalte",
-      selected: "Ausgew\xE4hlt"
+      selected: "Ausgew\xE4hlt",
+      goto: "Zur Zeile"
     },
     it: {
       leftSidebar: "Barra laterale sinistra",
@@ -120398,6 +120423,8 @@ ${text6}</tr>
       windowFullscreenMenu: "Schermo intero con menu",
       windowFullscreenClean: "Schermo intero senza menu",
       cycleWindowMode: "Cambia modalit\xE0 finestra",
+      find: "Trova",
+      replace: "Sostituisci",
       copyLine: "Copia riga",
       deleteLine: "Elimina riga",
       wordWrap: "A capo automatico",
@@ -120444,7 +120471,8 @@ ${text6}</tr>
       currentModel: "Modello attuale",
       line: "Riga",
       column: "Colonna",
-      selected: "Selezionato"
+      selected: "Selezionato",
+      goto: "Vai a riga"
     },
     ja: {
       leftSidebar: "\u5DE6\u30B5\u30A4\u30C9\u30D0\u30FC",
@@ -120458,6 +120486,8 @@ ${text6}</tr>
       windowFullscreenMenu: "\u30E1\u30CB\u30E5\u30FC\u4ED8\u304D\u5168\u753B\u9762",
       windowFullscreenClean: "\u30E1\u30CB\u30E5\u30FC\u306A\u3057\u5168\u753B\u9762",
       cycleWindowMode: "\u30A6\u30A3\u30F3\u30C9\u30A6\u30E2\u30FC\u30C9\u5207\u66FF",
+      find: "\u691C\u7D22",
+      replace: "\u7F6E\u63DB",
       copyLine: "\u884C\u3092\u30B3\u30D4\u30FC",
       deleteLine: "\u884C\u3092\u524A\u9664",
       wordWrap: "\u884C\u3092\u6298\u308A\u8FD4\u3059",
@@ -120504,7 +120534,8 @@ ${text6}</tr>
       currentModel: "\u73FE\u5728\u306E\u30E2\u30C7\u30EB",
       line: "\u884C",
       column: "\u5217",
-      selected: "\u9078\u629E"
+      selected: "\u9078\u629E",
+      goto: "\u884C\u3078\u79FB\u52D5"
     },
     ko: {
       leftSidebar: "\uC67C\uCABD \uC0AC\uC774\uB4DC\uBC14",
@@ -120518,6 +120549,8 @@ ${text6}</tr>
       windowFullscreenMenu: "\uBA54\uB274 \uC788\uB294 \uC804\uCCB4 \uD654\uBA74",
       windowFullscreenClean: "\uBA54\uB274 \uC5C6\uB294 \uC804\uCCB4 \uD654\uBA74",
       cycleWindowMode: "\uCC3D \uBAA8\uB4DC \uC804\uD658",
+      find: "\uCC3E\uAE30",
+      replace: "\uBC14\uAFB8\uAE30",
       copyLine: "\uC904 \uBCF5\uC0AC",
       deleteLine: "\uC904 \uC0AD\uC81C",
       wordWrap: "\uC790\uB3D9 \uC904\uBC14\uAFC8",
@@ -120564,7 +120597,8 @@ ${text6}</tr>
       currentModel: "\uD604\uC7AC \uBAA8\uB378",
       line: "\uC904",
       column: "\uC5F4",
-      selected: "\uC120\uD0DD"
+      selected: "\uC120\uD0DD",
+      goto: "\uC904\uB85C \uC774\uB3D9"
     }
   };
   for (const [code2, values2] of Object.entries(commonPacks)) {
@@ -120708,6 +120742,7 @@ ${text6}</tr>
     renderMessages();
     scrollToBottom();
     await saveConversation();
+    const hasRef = !!quotedText;
     const effectiveText = quotedText ? `\u3010\u5F15\u7528\u5185\u5BB9\u3011\uFF1A
 \`\`\`
 ${quotedText}
@@ -120716,11 +120751,16 @@ ${quotedText}
 \u3010\u7528\u6237\u6307\u4EE4\u3011\uFF1A
 ${text6}` : text6;
     quotedText = null;
-    const apiMessages = [
+    const apiMessages = hasRef ? [
+      { role: "system", content: "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u521B\u610F\u5199\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u63D0\u4F9B\u7684\u4E0A\u4E0B\u6587\uFF0C\u81EA\u7136\u5730\u7EED\u5199\u6216\u6539\u5199\u5185\u5BB9\u3002\u4FDD\u6301\u4E0E\u539F\u6587\u4E00\u81F4\u7684\u98CE\u683C\u3001\u8BED\u6C14\u548C\u8282\u594F\u3002\u7ED3\u5408\u7528\u6237\u7684\u5177\u4F53\u6307\u4EE4\u5B8C\u6210\u4EFB\u52A1\uFF0C\u76F4\u63A5\u8F93\u51FA\u5904\u7406\u540E\u7684\u5185\u5BB9\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002" },
+      { role: "user", content: `\u8BF7\u6839\u636E\u3010\u7528\u6237\u6307\u4EE4\u3011\u5BF9\u3010\u5F15\u7528\u5185\u5BB9\u3011\u8FDB\u884C\u7EED\u5199\u3001\u6539\u5199\u6216\u4F18\u5316\uFF0C\u76F4\u63A5\u8F93\u51FA\u5904\u7406\u540E\u7684\u5185\u5BB9\uFF1A
+
+${effectiveText}` }
+    ] : [
       { role: "system", content: "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u521B\u610F\u5199\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u7684\u5177\u4F53\u8981\u6C42\u6765\u5B8C\u6210\u4EFB\u52A1\u3002\u76F4\u63A5\u8F93\u51FA\u6240\u9700\u5185\u5BB9\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002" },
       { role: "user", content: `\u8BF7\u6309\u8981\u6C42\u5B8C\u6210\u4EFB\u52A1\uFF1A
 
-${effectiveText}` }
+${text6}` }
     ];
     const assistantMsg = {
       id: (Date.now() + 1).toString(),
@@ -121028,263 +121068,6 @@ ${sel.text}`;
     }
   }
 
-  // renderer/js/menubar.js
-  var activeMenu = null;
-  var menuActions = {
-    new: () => newFile(),
-    open: () => openFile(),
-    save: () => saveFile(),
-    saveAs: () => saveFileAs(),
-    openFolder: () => openFolderDialog(),
-    closeFile: () => closeFile(),
-    exit: () => window.close(),
-    undo: () => document.execCommand("undo"),
-    redo: () => document.execCommand("redo"),
-    cut: () => document.execCommand("cut"),
-    copy: () => document.execCommand("copy"),
-    paste: () => document.execCommand("paste"),
-    selectAll: () => document.execCommand("selectAll"),
-    copyLine: () => focus(),
-    // Handled by CodeMirror keymap
-    deleteLine: () => focus(),
-    // Handled by CodeMirror keymap
-    selectionAiEdit: () => showCtrlKPopup(),
-    selectionQuoteAi: () => quoteToAI(),
-    aiReplaceSelection: () => replaceWithLastResponse(),
-    aiInsertSelection: () => insertLastResponse(),
-    copyAiReply: () => copyLastResponse(),
-    togglePreview: () => togglePreview(),
-    zoomIn: () => zoomIn(),
-    zoomOut: () => zoomOut(),
-    zoomReset: () => zoomReset(),
-    themeDark: () => {
-      document.documentElement.removeAttribute("data-theme");
-      applyEditorTheme();
-      refreshMenuChecks();
-    },
-    themeLight: () => {
-      document.documentElement.setAttribute("data-theme", "light");
-      applyEditorTheme();
-      refreshMenuChecks();
-    },
-    wordWrap: () => {
-      toggleWordWrap();
-      refreshMenuChecks();
-    },
-    settings: () => showPanel2(),
-    toggleLeftSidebar: () => {
-      document.getElementById("left-sidebar")?.classList.toggle("hidden");
-      refreshMenuChecks();
-    },
-    toggleRightSidebar: () => {
-      document.getElementById("right-sidebar")?.classList.toggle("hidden");
-      refreshMenuChecks();
-    },
-    windowNormal: async () => {
-      await window.electronAPI.setWindowMode(1);
-      refreshMenuChecks();
-    },
-    windowFullscreenMenu: async () => {
-      await window.electronAPI.setWindowMode(2);
-      refreshMenuChecks();
-    },
-    windowFullscreenClean: async () => {
-      await window.electronAPI.setWindowMode(3);
-      refreshMenuChecks();
-    },
-    cycleWindowMode: async () => {
-      await cycleWindowMode();
-      refreshMenuChecks();
-    },
-    startupRestore: () => {
-      const settings = getSettings();
-      const newMode = (settings.startupMode || "default") === "default" ? "last" : "default";
-      setStartupMode(newMode);
-    },
-    setLanguage: async (language2) => {
-      if (!language2 || language2 === getSettings().language) return;
-      await setLanguage(language2);
-      alert(`${t2("restartTitle")}
-
-${t2("restartMessage")}`);
-      refreshMenuChecks();
-    }
-  };
-  function init8() {
-    const menuItems = document.querySelectorAll(".menu-item");
-    menuItems.forEach((item) => {
-      const label = item.querySelector(".menu-label");
-      const dropdown = item.querySelector(".menu-dropdown");
-      label.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (activeMenu === item) {
-          closeAllMenus();
-        } else {
-          closeAllMenus();
-          item.classList.add("active");
-          activeMenu = item;
-          refreshMenuChecks();
-        }
-      });
-      if (dropdown) {
-        dropdown.addEventListener("click", (e) => {
-          e.stopPropagation();
-          const dropdownItem = e.target.closest(".menu-dropdown-item");
-          if (!dropdownItem || dropdownItem.classList.contains("disabled")) return;
-          const action = dropdownItem.dataset.action;
-          if (action === "setLanguage") {
-            closeAllMenus();
-            menuActions.setLanguage(dropdownItem.dataset.language);
-            return;
-          }
-          if (action && menuActions[action]) {
-            closeAllMenus();
-            menuActions[action]();
-          }
-        });
-      }
-    });
-    const recentMenu = document.getElementById("menu-recent-files");
-    if (recentMenu) {
-      recentMenu.addEventListener("click", async (e) => {
-        e.stopPropagation();
-        const item = e.target.closest(".menu-dropdown-item");
-        if (!item || item.classList.contains("disabled")) return;
-        const filePath = item.dataset.filepath;
-        if (filePath) {
-          closeAllMenus();
-          await openRecentFile(filePath);
-        }
-      });
-    }
-    document.addEventListener("click", () => {
-      closeAllMenus();
-    });
-  }
-  function closeAllMenus() {
-    document.querySelectorAll(".menu-item").forEach((m) => m.classList.remove("active"));
-    activeMenu = null;
-  }
-  function refreshMenuChecks() {
-    const wwItem = document.getElementById("menu-item-wordwrap");
-    if (wwItem) {
-      const wrapEl = document.getElementById("status-wrap");
-      const wrapOn = wrapEl && wrapEl.classList.contains("wrap-on");
-      wwItem.classList.toggle("checked", !!wrapOn);
-    }
-    const leftSidebarItem = document.getElementById("menu-item-left-sidebar");
-    const rightSidebarItem = document.getElementById("menu-item-right-sidebar");
-    const leftSidebar = document.getElementById("left-sidebar");
-    const rightSidebar = document.getElementById("right-sidebar");
-    if (leftSidebarItem) leftSidebarItem.classList.toggle("checked", !!leftSidebar && !leftSidebar.classList.contains("hidden"));
-    if (rightSidebarItem) rightSidebarItem.classList.toggle("checked", !!rightSidebar && !rightSidebar.classList.contains("hidden"));
-    window.electronAPI.getWindowMode().then((mode) => {
-      const modeItems = {
-        1: document.getElementById("menu-item-window-normal"),
-        2: document.getElementById("menu-item-window-fullscreen-menu"),
-        3: document.getElementById("menu-item-window-fullscreen-clean")
-      };
-      Object.entries(modeItems).forEach(([itemMode, item]) => {
-        item?.classList.toggle("checked", Number(itemMode) === mode);
-      });
-    });
-    const isLight = document.documentElement.hasAttribute("data-theme") && document.documentElement.getAttribute("data-theme") === "light";
-    const darkItem = document.getElementById("menu-item-theme-dark");
-    const lightItem = document.getElementById("menu-item-theme-light");
-    if (darkItem) darkItem.classList.toggle("checked", !isLight);
-    if (lightItem) lightItem.classList.toggle("checked", !!isLight);
-    const settings = getSettings();
-    const startupMode = settings.startupMode || "default";
-    const restoreItem = document.getElementById("menu-item-startup-restore");
-    console.log("[startupMode] item:", restoreItem, "mode:", startupMode);
-    if (restoreItem) restoreItem.classList.toggle("checked", startupMode === "last");
-    const language2 = settings.language || "zh-CN";
-    document.querySelectorAll('[data-action="setLanguage"]').forEach((item) => {
-      item.classList.toggle("checked", item.dataset.language === language2);
-    });
-  }
-  function updateRecentFiles(recentFiles) {
-    const container = document.getElementById("menu-recent-files");
-    if (!container) return;
-    if (!recentFiles || recentFiles.length === 0) {
-      container.innerHTML = `<div class="menu-dropdown-item disabled">${t2("noRecentFiles")}</div>`;
-      return;
-    }
-    container.innerHTML = recentFiles.map((fp) => {
-      const display = fp.length > 80 ? "..." + fp.slice(-77) : fp;
-      return `<div class="menu-dropdown-item" data-filepath="${fp.replace(/"/g, "&quot;")}">${escapeHtml2(display)}</div>`;
-    }).join("");
-  }
-  function openMenuByKey(key) {
-    const map = {
-      f: "file",
-      e: "edit",
-      v: "view",
-      a: "ai",
-      s: "settings"
-    };
-    const menuName = map[key.toLowerCase()];
-    if (!menuName) return;
-    const menuItem = document.querySelector(`.menu-item[data-menu="${menuName}"]`);
-    if (menuItem) {
-      closeAllMenus();
-      menuItem.classList.add("active");
-      activeMenu = menuItem;
-      refreshMenuChecks();
-    }
-  }
-  function escapeHtml2(str) {
-    const div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
-  }
-  async function openFolderDialog() {
-    const result = await window.electronAPI.openFolderDialog();
-    if (result.success) {
-      setRootDir(result.folderPath);
-    }
-  }
-
-  // renderer/js/statusbar.js
-  var currentSaveState = false;
-  function init9() {
-    setSaveState(false);
-  }
-  function setCursor(line, column) {
-    const el = document.getElementById("status-cursor");
-    if (el) {
-      el.textContent = `\u884C: ${line} | \u5217: ${column}`;
-    }
-  }
-  function setWordCount(count2) {
-    const el = document.getElementById("status-words");
-    if (el) {
-      el.textContent = `\u5B57\u6570: ${count2.toLocaleString()}`;
-    }
-  }
-  function setSelectedWords(count2) {
-    const el = document.getElementById("status-sel-words");
-    if (!el) return;
-    if (count2 > 0) {
-      el.textContent = `| \u9009\u4E2D: ${count2.toLocaleString()}`;
-      el.classList.remove("status-sel-hidden");
-    } else {
-      el.classList.add("status-sel-hidden");
-    }
-  }
-  function setSaveState(isSaved) {
-    currentSaveState = isSaved;
-    const el = document.getElementById("status-save");
-    if (!el) return;
-    if (isSaved) {
-      el.textContent = "\u5DF2\u4FDD\u5B58";
-      el.className = "saved";
-    } else {
-      el.textContent = "\u672A\u4FDD\u5B58 \u25CF";
-      el.className = "unsaved";
-    }
-  }
-
   // renderer/js/searchReplace.js
   var matches = [];
   var currentIndex = -1;
@@ -121292,7 +121075,7 @@ ${t2("restartMessage")}`);
   var replaceVisible = false;
   var previewOriginalHTML = "";
   var searchRefreshTimer = null;
-  function init10() {
+  function init8() {
     const searchInput = document.getElementById("search-input");
     const toggleBtn = document.getElementById("search-toggle-replace");
     const closeBtn = document.getElementById("search-close");
@@ -121529,6 +121312,288 @@ ${t2("restartMessage")}`);
   }
   function isSearchVisible() {
     return searchVisible;
+  }
+
+  // renderer/js/menubar.js
+  var activeMenu = null;
+  var menuActions = {
+    new: () => newFile(),
+    open: () => openFile(),
+    save: () => saveFile(),
+    saveAs: () => saveFileAs(),
+    openFolder: () => openFolderDialog(),
+    closeFile: () => closeFile(),
+    exit: () => window.close(),
+    undo: () => document.execCommand("undo"),
+    redo: () => document.execCommand("redo"),
+    cut: () => document.execCommand("cut"),
+    copy: () => document.execCommand("copy"),
+    paste: () => document.execCommand("paste"),
+    selectAll: () => document.execCommand("selectAll"),
+    find: () => {
+      const sel = getSelection2();
+      openSearch(sel?.text || "");
+    },
+    replace: () => {
+      const sel = getSelection2();
+      openReplace(sel?.text || "");
+    },
+    copyLine: () => focus(),
+    // Handled by CodeMirror keymap
+    deleteLine: () => focus(),
+    // Handled by CodeMirror keymap
+    selectionAiEdit: () => showCtrlKPopup(),
+    selectionQuoteAi: () => quoteToAI(),
+    aiReplaceSelection: () => replaceWithLastResponse(),
+    aiInsertSelection: () => insertLastResponse(),
+    copyAiReply: () => copyLastResponse(),
+    togglePreview: () => togglePreview(),
+    zoomIn: () => zoomIn(),
+    zoomOut: () => zoomOut(),
+    zoomReset: () => zoomReset(),
+    themeDark: () => {
+      document.documentElement.removeAttribute("data-theme");
+      applyEditorTheme();
+      refreshMenuChecks();
+    },
+    themeLight: () => {
+      document.documentElement.setAttribute("data-theme", "light");
+      applyEditorTheme();
+      refreshMenuChecks();
+    },
+    wordWrap: () => {
+      toggleWordWrap();
+      refreshMenuChecks();
+    },
+    settings: () => showPanel2(),
+    toggleLeftSidebar: () => {
+      document.getElementById("left-sidebar")?.classList.toggle("hidden");
+      refreshMenuChecks();
+    },
+    toggleRightSidebar: () => {
+      document.getElementById("right-sidebar")?.classList.toggle("hidden");
+      refreshMenuChecks();
+    },
+    windowNormal: async () => {
+      await window.electronAPI.setWindowMode(1);
+      refreshMenuChecks();
+    },
+    windowFullscreenMenu: async () => {
+      await window.electronAPI.setWindowMode(2);
+      refreshMenuChecks();
+    },
+    windowFullscreenClean: async () => {
+      await window.electronAPI.setWindowMode(3);
+      refreshMenuChecks();
+    },
+    cycleWindowMode: async () => {
+      await cycleWindowMode();
+      refreshMenuChecks();
+    },
+    startupRestore: () => {
+      const settings = getSettings();
+      const newMode = (settings.startupMode || "default") === "default" ? "last" : "default";
+      setStartupMode(newMode);
+    },
+    setLanguage: async (language2) => {
+      if (!language2 || language2 === getSettings().language) return;
+      await setLanguage(language2);
+      alert(`${t2("restartTitle")}
+
+${t2("restartMessage")}`);
+      refreshMenuChecks();
+    }
+  };
+  function init9() {
+    const menuItems = document.querySelectorAll(".menu-item");
+    menuItems.forEach((item) => {
+      const label = item.querySelector(".menu-label");
+      const dropdown = item.querySelector(".menu-dropdown");
+      label.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (activeMenu === item) {
+          closeAllMenus();
+        } else {
+          closeAllMenus();
+          item.classList.add("active");
+          activeMenu = item;
+          refreshMenuChecks();
+        }
+      });
+      if (dropdown) {
+        dropdown.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const dropdownItem = e.target.closest(".menu-dropdown-item");
+          if (!dropdownItem || dropdownItem.classList.contains("disabled")) return;
+          const action = dropdownItem.dataset.action;
+          if (action === "setLanguage") {
+            closeAllMenus();
+            menuActions.setLanguage(dropdownItem.dataset.language);
+            return;
+          }
+          if (action && menuActions[action]) {
+            closeAllMenus();
+            menuActions[action]();
+          }
+        });
+      }
+    });
+    const recentMenu = document.getElementById("menu-recent-files");
+    if (recentMenu) {
+      recentMenu.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const item = e.target.closest(".menu-dropdown-item");
+        if (!item || item.classList.contains("disabled")) return;
+        const filePath = item.dataset.filepath;
+        if (filePath) {
+          closeAllMenus();
+          await openRecentFile(filePath);
+        }
+      });
+    }
+    document.addEventListener("click", () => {
+      closeAllMenus();
+    });
+  }
+  function closeAllMenus() {
+    document.querySelectorAll(".menu-item").forEach((m) => m.classList.remove("active"));
+    activeMenu = null;
+  }
+  function refreshMenuChecks() {
+    const wwItem = document.getElementById("menu-item-wordwrap");
+    if (wwItem) {
+      const wrapEl = document.getElementById("status-wrap");
+      const wrapOn = wrapEl && wrapEl.classList.contains("wrap-on");
+      wwItem.classList.toggle("checked", !!wrapOn);
+    }
+    const leftSidebarItem = document.getElementById("menu-item-left-sidebar");
+    const rightSidebarItem = document.getElementById("menu-item-right-sidebar");
+    const leftSidebar = document.getElementById("left-sidebar");
+    const rightSidebar = document.getElementById("right-sidebar");
+    if (leftSidebarItem) leftSidebarItem.classList.toggle("checked", !!leftSidebar && !leftSidebar.classList.contains("hidden"));
+    if (rightSidebarItem) rightSidebarItem.classList.toggle("checked", !!rightSidebar && !rightSidebar.classList.contains("hidden"));
+    window.electronAPI.getWindowMode().then((mode) => {
+      const modeItems = {
+        1: document.getElementById("menu-item-window-normal"),
+        2: document.getElementById("menu-item-window-fullscreen-menu"),
+        3: document.getElementById("menu-item-window-fullscreen-clean")
+      };
+      Object.entries(modeItems).forEach(([itemMode, item]) => {
+        item?.classList.toggle("checked", Number(itemMode) === mode);
+      });
+    });
+    const isLight = document.documentElement.hasAttribute("data-theme") && document.documentElement.getAttribute("data-theme") === "light";
+    const darkItem = document.getElementById("menu-item-theme-dark");
+    const lightItem = document.getElementById("menu-item-theme-light");
+    if (darkItem) darkItem.classList.toggle("checked", !isLight);
+    if (lightItem) lightItem.classList.toggle("checked", !!isLight);
+    const settings = getSettings();
+    const startupMode = settings.startupMode || "default";
+    const restoreItem = document.getElementById("menu-item-startup-restore");
+    console.log("[startupMode] item:", restoreItem, "mode:", startupMode);
+    if (restoreItem) restoreItem.classList.toggle("checked", startupMode === "last");
+    const language2 = settings.language || "zh-CN";
+    document.querySelectorAll('[data-action="setLanguage"]').forEach((item) => {
+      item.classList.toggle("checked", item.dataset.language === language2);
+    });
+  }
+  function updateRecentFiles(recentFiles) {
+    const container = document.getElementById("menu-recent-files");
+    if (!container) return;
+    if (!recentFiles || recentFiles.length === 0) {
+      container.innerHTML = `<div class="menu-dropdown-item disabled">${t2("noRecentFiles")}</div>`;
+      return;
+    }
+    container.innerHTML = recentFiles.map((fp) => {
+      const display = fp.length > 80 ? "..." + fp.slice(-77) : fp;
+      return `<div class="menu-dropdown-item" data-filepath="${fp.replace(/"/g, "&quot;")}">${escapeHtml2(display)}</div>`;
+    }).join("");
+  }
+  function openMenuByKey(key) {
+    const map = {
+      f: "file",
+      e: "edit",
+      v: "view",
+      a: "ai",
+      s: "settings"
+    };
+    const menuName = map[key.toLowerCase()];
+    if (!menuName) return;
+    const menuItem = document.querySelector(`.menu-item[data-menu="${menuName}"]`);
+    if (menuItem) {
+      closeAllMenus();
+      menuItem.classList.add("active");
+      activeMenu = menuItem;
+      refreshMenuChecks();
+    }
+  }
+  function escapeHtml2(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+  async function openFolderDialog() {
+    const result = await window.electronAPI.openFolderDialog();
+    if (result.success) {
+      setRootDir(result.folderPath);
+    }
+  }
+
+  // renderer/js/statusbar.js
+  var currentSaveState = false;
+  function init10() {
+    setSaveState(false);
+    const input = document.getElementById("goto-line-input");
+    if (input) {
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const n = parseInt(input.value.trim(), 10);
+          if (!Number.isNaN(n) && n > 0) {
+            gotoLine2(n);
+            input.select();
+          }
+        } else if (e.key === "Escape") {
+          input.value = "";
+          focus();
+          input.blur();
+        }
+      });
+    }
+  }
+  function setCursor(line, column) {
+    const el = document.getElementById("status-cursor");
+    if (el) {
+      el.textContent = `\u884C: ${line} | \u5217: ${column}`;
+    }
+  }
+  function setWordCount(count2) {
+    const el = document.getElementById("status-words");
+    if (el) {
+      el.textContent = `\u5B57\u6570: ${count2.toLocaleString()}`;
+    }
+  }
+  function setSelectedWords(count2) {
+    const el = document.getElementById("status-sel-words");
+    if (!el) return;
+    if (count2 > 0) {
+      el.textContent = `| \u9009\u4E2D: ${count2.toLocaleString()}`;
+      el.classList.remove("status-sel-hidden");
+    } else {
+      el.classList.add("status-sel-hidden");
+    }
+  }
+  function setSaveState(isSaved) {
+    currentSaveState = isSaved;
+    const el = document.getElementById("status-save");
+    if (!el) return;
+    if (isSaved) {
+      el.textContent = "\u5DF2\u4FDD\u5B58";
+      el.className = "saved";
+    } else {
+      el.textContent = "\u672A\u4FDD\u5B58 \u25CF";
+      el.className = "unsaved";
+    }
   }
 
   // renderer/js/keybindings.js
@@ -121956,11 +122021,11 @@ ${t2("restartMessage")}`);
     init3();
     init6();
     init7();
-    init10();
+    init8();
     await init4();
     await init5();
-    init8();
     init9();
+    init10();
     init11();
     initWheelZoom();
     initDragDrop(document.body);

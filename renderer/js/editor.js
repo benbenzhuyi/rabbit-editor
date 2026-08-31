@@ -528,6 +528,14 @@ export function selectLine(lineNumber) {
   editorView.dispatch({ selection: { anchor: line.from, head: line.to }, scrollIntoView: true });
 }
 
+export function gotoLine(lineNumber) {
+  if (!editorView) return;
+  const n = Math.max(1, Math.min(lineNumber, editorView.state.doc.lines));
+  const line = editorView.state.doc.line(n);
+  editorView.dispatch({ selection: { anchor: line.from, head: line.from }, scrollIntoView: true });
+  editorView.focus();
+}
+
 export function getCurrentLineText() {
   if (!editorView) return '';
   const pos = editorView.state.selection.main.head;

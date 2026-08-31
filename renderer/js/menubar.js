@@ -9,6 +9,7 @@ import * as Settings from './settings.js';
 import * as I18n from './i18n.js';
 import * as AiPanel from './aiPanel.js';
 import * as CtrlKPopup from './ctrlKPopup.js';
+import * as SearchReplace from './searchReplace.js';
 
 // ── State ────────────────────────────────────────────────
 
@@ -31,6 +32,14 @@ const menuActions = {
   copy: () => document.execCommand('copy'),
   paste: () => document.execCommand('paste'),
   selectAll: () => document.execCommand('selectAll'),
+  find: () => {
+    const sel = Editor.getSelection();
+    SearchReplace.openSearch(sel?.text || '');
+  },
+  replace: () => {
+    const sel = Editor.getSelection();
+    SearchReplace.openReplace(sel?.text || '');
+  },
   copyLine: () => Editor.focus(), // Handled by CodeMirror keymap
   deleteLine: () => Editor.focus(), // Handled by CodeMirror keymap
   selectionAiEdit: () => CtrlKPopup.showCtrlKPopup(),

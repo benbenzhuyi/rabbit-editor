@@ -2,6 +2,8 @@
    小野兔 Rabbit — Status Bar Module
    ═══════════════════════════════════════════════════════ */
 
+import * as Editor from './editor.js';
+
 // ── State ────────────────────────────────────────────────
 
 let currentSaveState = false; // false = unsaved, true = saved
@@ -11,6 +13,25 @@ let currentSaveState = false; // false = unsaved, true = saved
 export function init() {
   // DOM elements should already exist
   setSaveState(false);
+
+  // Goto line input: Enter jumps cursor to the typed line
+  const input = document.getElementById('goto-line-input');
+  if (input) {
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const n = parseInt(input.value.trim(), 10);
+        if (!Number.isNaN(n) && n > 0) {
+          Editor.gotoLine(n);
+          input.select();
+        }
+      } else if (e.key === 'Escape') {
+        input.value = '';
+        Editor.focus();
+        input.blur();
+      }
+    });
+  }
 }
 
 // ── Update cursor position ──────────────────────────────
