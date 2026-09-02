@@ -32,7 +32,7 @@
     mod
   ));
 
-  // node_modules/@marijn/find-cluster-break/src/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@marijn/find-cluster-break/src/index.js
   function isExtendingChar(code2) {
     if (code2 < 768) return false;
     for (let from3 = 0, to = rangeFrom.length; ; ) {
@@ -99,7 +99,7 @@
   }
   var rangeFrom, rangeTo, ZWJ;
   var init_src = __esm({
-    "node_modules/@marijn/find-cluster-break/src/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@marijn/find-cluster-break/src/index.js"() {
       rangeFrom = [];
       rangeTo = [];
       (() => {
@@ -111,7 +111,7 @@
     }
   });
 
-  // node_modules/@codemirror/state/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/state/dist/index.js
   function textLength(text6) {
     let length = -1;
     for (let line of text6)
@@ -732,7 +732,7 @@
   }
   var Text, TextLeaf, TextNode, RawTextCursor, PartialTextCursor, LineCursor, Line, DefaultSplit, MapMode, ChangeDesc, ChangeSet, SectionIter, SelectionRange, EditorSelection, nextID, Facet, FacetProvider, initField, StateField, Prec_, Prec, PrecExtension, Compartment, CompartmentInstance, Configuration, languageData, allowMultipleSelections, lineSeparator, changeFilter, transactionFilter, transactionExtender, readOnly, Annotation, AnnotationType, StateEffectType, StateEffect, Transaction, none, CharCategory, nonASCIISingleCaseWordChar, wordChar, EditorState, RangeValue, Range, Chunk, RangeSet, RangeSetBuilder, LayerCursor, HeapCursor, SpanCursor;
   var init_dist = __esm({
-    "node_modules/@codemirror/state/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/state/dist/index.js"() {
       init_src();
       Text = class _Text {
         /**
@@ -3469,10 +3469,10 @@
     }
   });
 
-  // node_modules/style-mod/src/style-mod.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/style-mod/src/style-mod.js
   var C, COUNT, SET, top, StyleModule, adoptedSet, StyleSet;
   var init_style_mod = __esm({
-    "node_modules/style-mod/src/style-mod.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/style-mod/src/style-mod.js"() {
       C = "\u037C";
       COUNT = typeof Symbol == "undefined" ? "__" + C : Symbol.for(C);
       SET = typeof Symbol == "undefined" ? "__styleSet" + Math.floor(Math.random() * 1e8) : Symbol("styleSet");
@@ -3605,7 +3605,7 @@
     }
   });
 
-  // node_modules/w3c-keyname/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/w3c-keyname/index.js
   function keyName(event) {
     var ignoreKey = mac && event.metaKey && event.shiftKey && !event.ctrlKey && !event.altKey || ie && event.shiftKey && event.key && event.key.length == 1 || event.key == "Unidentified";
     var name2 = !ignoreKey && event.key || (event.shiftKey ? shift : base)[event.keyCode] || event.key || "Unidentified";
@@ -3619,7 +3619,7 @@
   }
   var base, shift, mac, ie, i, i, i, code2;
   var init_w3c_keyname = __esm({
-    "node_modules/w3c-keyname/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/w3c-keyname/index.js"() {
       base = {
         8: "Backspace",
         9: "Tab",
@@ -3712,7 +3712,7 @@
     }
   });
 
-  // node_modules/crelt/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/crelt/index.js
   function crelt() {
     var elt2 = arguments[0];
     if (typeof elt2 == "string") elt2 = document.createElement(elt2);
@@ -3741,11 +3741,11 @@
     }
   }
   var init_crelt = __esm({
-    "node_modules/crelt/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/crelt/index.js"() {
     }
   });
 
-  // node_modules/@codemirror/view/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/view/dist/index.js
   function combineAttrs(source, target) {
     for (let name2 in source) {
       if (name2 == "class" && target.class)
@@ -6313,7 +6313,7 @@
   }
   var nav, doc, ie_edge, ie_upto10, ie_11up, ie2, gecko, chrome, webkit, safari, ios, browser, noAttrs, WidgetType, BlockType, Decoration, MarkDecoration, LineDecoration, PointDecoration, BlockWrapper, DOMSelectionState, preventScrollSupported, scratchRange, DOMPos, Direction, LTR, RTL, LowTypes, ArabicTypes, Brackets, BracketStack, BidiRE, BidiSpan, types, movedOver, clickAddsSelectionRange, dragMovesSelection$1, mouseSelectionStyle, exceptionSink, updateListener, inputHandler, focusChangeEffect, clipboardInputFilter, clipboardOutputFilter, perLineTextDirection, nativeSelectionHidden, scrollHandler, ScrollTarget, scrollIntoView, setEditContextFormatting, editable, nextPluginID, viewPlugin, ViewPlugin, PluginInstance, editorAttributes, contentAttributes, decorations, blockWrappers, outerDecorations, atomicRanges, bidiIsolatedRanges, scrollMargins, styleModule, ChangedRange, ViewUpdate, noChildren, Tile, CompositeTile, DocTile, BlockWrapperTile, LineTile, MarkTile, TextTile, WidgetTile, WidgetBufferTile, TilePointer, OpenWrapper, TileBuilder, TextStream, buckets, TileCache, TileUpdate, lineBaseAttrs, NullWidget, BreakWidget, DocView, DecorationComparator$1, WrapperComparator, BlockGapWidget, PosAssoc, InlineCoordsScan, LineBreakPlaceholder, DOMReader, DOMPoint, DOMChange, InputState, PendingKeys, EmacsyPendingKeys, modifierCodes, dragScrollMargin, MouseSelection, handlers, observers, brokenClipboardAPI, BadMouseDetail, lastMouseDown, lastMouseDownCount, lastMouseDownTime, lastLinewiseCopy, isFocusChange, appliedFirefoxHack, wrappingWhiteSpace, heightChangeFlag, HeightOracle, MeasuredHeights, BlockInfo, QueryType, Epsilon, HeightMap, SpaceDeco, HeightMapBlock, HeightMapText, HeightMapGap, HeightMapBranch, relevantWidgetHeight, NodeBuilder, DecorationComparator2, LineGap, LineGapWidget, ViewState, Viewport, IdScaler, BigScaler, theme, darkTheme, baseThemeID, baseLightID, baseDarkID, lightDarkIDs, baseTheme$1, observeOptions, useCharData, DOMObserver, EditContextManager, EditorView, MaxBidiLine, BadMeasure, CachedOrder, currentPlatform, handleKeyEvents, keymap, Keymaps, storedPrefix, PrefixTimeout, currentKeyEvent, RectangleMarker, LayerView, layerOrder, selectionConfig, cursorLayer, selectionLayer, hideNativeSelection, setDropCursorPos, dropCursorPos, drawDropCursor, MatchDecorator, UnicodeRegexpSupport, Specials, Names, _supportsTabSize, specialCharConfig, _plugin, DefaultPlaceholder, SpecialCharWidget, TabWidget, lineDeco, activeLineHighlighter, MaxOff, keys, showCrosshair, Outside, TooltipViewManager, tooltipConfig, knownHeight, tooltipPlugin, baseTheme, noOffset, showTooltip, showHoverTooltip, HoverTooltipHost, showHoverTooltipHost, hoverPlugin, HoverPlugin, tooltipMargin, closeHoverTooltipEffect, panelConfig, panelPlugin, PanelGroup, showPanel, dialogField, openDialogEffect, closeDialogEffect, GutterMarker, gutterLineClass, gutterWidgetClass, defaults, activeGutters, unfixGutters, gutterView, UpdateContext, SingleGutterView, GutterElement, lineNumberMarkers, lineNumberWidgetMarker, lineNumberConfig, NumberMarker, lineNumberGutter, activeLineGutterMarker, activeLineGutterHighlighter;
   var init_dist2 = __esm({
-    "node_modules/@codemirror/view/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/view/dist/index.js"() {
       init_dist();
       init_style_mod();
       init_w3c_keyname();
@@ -14305,7 +14305,7 @@
     }
   });
 
-  // node_modules/@lezer/common/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/common/dist/index.js
   function checkSide(side, pos, from3, to) {
     switch (side) {
       case -2:
@@ -14799,7 +14799,7 @@
   }
   var DefaultBufferLength, nextPropID, Range2, NodeProp, MountedTree, noProps, NodeType, NodeSet, CachedNode, CachedInnerNode, IterMode, Tree, FlatBufferCursor, TreeBuffer, BaseNode, TreeNode, BufferContext, BufferNode, StackIterator, TreeCursor, nodeSizeCache, NodeWeakMap, TreeFragment, Parser, StringInput, InnerParse, ActiveOverlay, stoppedInner, MixedParse, StructureCursor, FragmentCursor;
   var init_dist3 = __esm({
-    "node_modules/@lezer/common/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/common/dist/index.js"() {
       DefaultBufferLength = 1024;
       nextPropID = 0;
       Range2 = class {
@@ -16360,7 +16360,7 @@
     }
   });
 
-  // node_modules/@lezer/highlight/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/highlight/dist/index.js
   function sameArray2(a2, b) {
     return a2.length == b.length && a2.every((x, i) => x == b[i]);
   }
@@ -16461,7 +16461,7 @@
   }
   var nextTagID, Tag, nextModifierID, Modifier, ruleNodeProp, Rule, HighlightBuilder, t, comment, name, typeName, propertyName, literal, string, number, content, heading, keyword, operator, punctuation, bracket, meta, tags, classHighlighter;
   var init_dist4 = __esm({
-    "node_modules/@lezer/highlight/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/highlight/dist/index.js"() {
       init_dist3();
       nextTagID = 0;
       Tag = class _Tag {
@@ -17090,7 +17090,7 @@
     }
   });
 
-  // node_modules/@codemirror/language/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/language/dist/index.js
   function defineLanguageFacet(baseData) {
     return Facet.define({
       combine: baseData ? (values2) => values2.concat(baseData) : void 0
@@ -17684,7 +17684,7 @@
   }
   var _a, languageDataProp, sublanguageProp, Language, LRLanguage, DocInput, currentContext, ParseContext, LanguageState, requestIdle, isInputPending, parseWorker, language, LanguageSupport, LanguageDescription, indentService, indentUnit, IndentContext, indentNodeProp, TreeIndentContext, flatIndent, DontIndentBeyond, foldService, foldNodeProp, foldEffect, unfoldEffect, foldState, foldCode, unfoldCode, foldAll, unfoldAll, foldKeymap, defaultConfig, foldConfig, foldWidget, PreparedFoldWidget, foldGutterDefaults, FoldMarker, baseTheme$12, HighlightStyle, highlighterFacet, fallbackHighlighter, TreeHighlighter, treeHighlighter, defaultHighlightStyle, baseTheme2, DefaultScanDist, DefaultBrackets, bracketMatchingConfig, matchingMark, nonmatchingMark, bracketMatcher, bracketMatchingUnique, bracketMatchingHandle, StringStream, IndentedFrom, StreamLanguage, Parse, noTokens, typeArray, nodeSet, warned, byTag, defaultTable, TokenTable, defaultTokenTable, marks;
   var init_dist5 = __esm({
-    "node_modules/@codemirror/language/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/language/dist/index.js"() {
       init_dist3();
       init_dist();
       init_dist2();
@@ -19212,7 +19212,7 @@
     }
   });
 
-  // node_modules/@codemirror/autocomplete/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/autocomplete/dist/index.js
   function toSet(chars2) {
     let flat = Object.keys(chars2).join("");
     let words22 = /\w/.test(flat);
@@ -19744,7 +19744,7 @@
   }
   var CompletionContext, Option, pickedCompletion, SourceCache, startCompletionEffect, closeCompletionEffect, FuzzyMatcher, StrictMatcher, completionConfig, setSelectedEffect, CompletionTooltip, CompletionDialog, CompletionState, baseAttrs, noAttrs2, none3, ActiveSource, ActiveResult, setActiveEffect, completionState, createTooltip, acceptCompletion, startCompletion, closeCompletion, RunningQuery, MaxUpdateCount, MinAbortTime, completionPlugin, windows, commitCharacters, baseTheme4, FieldPos, FieldRange, Snippet, fieldMarker, fieldRange, ActiveSnippet, setActive, moveToField, snippetState, clearSnippet, nextSnippetField, prevSnippetField, defaultSnippetKeymap, snippetKeymap, addSnippetKeymap, snippetPointerHandler, defaults2, closeBracketEffect, closedBracket, bracketState, definedClosing, android, inputHandler2, deleteBracketPair, closeBracketsKeymap, completionKeymap, completionKeymapExt;
   var init_dist6 = __esm({
-    "node_modules/@codemirror/autocomplete/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/autocomplete/dist/index.js"() {
       init_dist();
       init_dist2();
       init_dist5();
@@ -21035,7 +21035,7 @@
     }
   });
 
-  // node_modules/@lezer/markdown/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/markdown/dist/index.js
   function skipForList(bl, cx2, line) {
     if (line.pos == line.text.length || bl != cx2.block && line.indent >= cx2.stack[line.depth + 1].value + line.baseIndent)
       return true;
@@ -21482,7 +21482,7 @@
   }
   var CompositeBlock, Type, LeafBlock, Line2, DefaultSkipMarkup, EmptyLine, CommentEnd, ProcessingEnd, HTMLBlockStyle, DefaultBlockParsers, LinkReferenceParser, SetextHeadingParser, DefaultLeafBlocks, DefaultEndLeaf, scanLineResult, BlockContext, MarkdownParser, nodeTypes, none4, Buffer2, Element, TreeElement, EmphasisUnderscore, EmphasisAsterisk, LinkStart, ImageStart, InlineDelimiter, Escapable, Punctuation, DefaultInline, InlineContext, NotLast, FragmentCursor2, markdownHighlighting, parser, StrikethroughDelim, Strikethrough, delimiterLine, TableParser, Table, TaskParser, TaskList, autolinkRE, urlRE, lastTwoDomainWords, emailRE, xmppResourceRE, Autolink, GFM, Superscript, Subscript, Emoji;
   var init_dist7 = __esm({
-    "node_modules/@lezer/markdown/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/markdown/dist/index.js"() {
       init_dist3();
       init_dist4();
       CompositeBlock = class _CompositeBlock {
@@ -23102,7 +23102,7 @@
     }
   });
 
-  // node_modules/@lezer/lr/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/lr/dist/index.js
   function decodeArray(input, Type3 = Uint16Array) {
     if (typeof input != "string")
       return input;
@@ -23241,7 +23241,7 @@
   }
   var Stack, StackContext, SimulatedStack, StackBufferCursor, CachedToken, nullToken, InputStream, TokenGroup, LocalTokenGroup, ExternalTokenizer, verbose, stackIDs, FragmentCursor3, TokenCache, Parse2, Dialect, id, ContextTracker, LRParser;
   var init_dist8 = __esm({
-    "node_modules/@lezer/lr/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/lr/dist/index.js"() {
       init_dist3();
       Stack = class _Stack {
         /**
@@ -24870,7 +24870,7 @@
     }
   });
 
-  // node_modules/@lezer/html/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/html/dist/index.js
   function nameChar(ch2) {
     return ch2 == 45 || ch2 == 46 || ch2 == 58 || ch2 >= 65 && ch2 <= 90 || ch2 == 95 || ch2 >= 97 && ch2 <= 122 || ch2 >= 161;
   }
@@ -24989,7 +24989,7 @@
   }
   var scriptText, StartCloseScriptTag, styleText, StartCloseStyleTag, textareaText, StartCloseTextareaTag, EndTag, SelfClosingEndTag, StartTag, StartScriptTag, StartStyleTag, StartTextareaTag, StartSelfClosingTag, StartCloseTag, NoMatchStartCloseTag, MismatchedStartCloseTag, missingCloseTag, IncompleteTag, IncompleteCloseTag, commentContent$1, Element2, TagName, Attribute, AttributeName, AttributeValue, UnquotedAttributeValue, ScriptText, StyleText, TextareaText, OpenTag, CloseTag, Dialect_noMatch, Dialect_selfClosing, selfClosers, implicitlyClosed, closeOnOpen, cachedName, cachedInput, cachedPos, lessThan, greaterThan, slash, question, bang, dash, startTagTerms, elementContext, tagStart, commentContent, endTag, scriptTokens, styleTokens, textareaTokens, htmlHighlighting, parser2;
   var init_dist9 = __esm({
-    "node_modules/@lezer/html/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/html/dist/index.js"() {
       init_dist8();
       init_dist4();
       init_dist3();
@@ -25222,7 +25222,7 @@
     }
   });
 
-  // node_modules/@lezer/css/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/css/dist/index.js
   function isAlpha(ch2) {
     return ch2 >= 65 && ch2 <= 90 || ch2 >= 97 && ch2 <= 122 || ch2 >= 161;
   }
@@ -25234,7 +25234,7 @@
   }
   var descendantOp, Unit, identifier, callee, VariableName, queryIdentifier, queryVariableName, QueryCallee, space2, colon, parenL, underscore, bracketL, dash2, period, hash, percent, ampersand, backslash, newline, asterisk, identifierTokens, identifiers, queryIdentifiers, descendant, unitToken, cssHighlighting, spec_callee, spec_queryIdentifier, spec_QueryCallee, spec_AtKeyword, spec_identifier, parser3;
   var init_dist10 = __esm({
-    "node_modules/@lezer/css/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/css/dist/index.js"() {
       init_dist8();
       init_dist4();
       descendantOp = 135;
@@ -25404,7 +25404,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-css/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-css/dist/index.js
   var dist_exports = {};
   __export(dist_exports, {
     css: () => css,
@@ -25485,7 +25485,7 @@
   }
   var _properties, pseudoClasses, values, tags2, atRules, identifier2, variable, VariablesByNode, declSelector, defineCSSCompletionSource, cssCompletionSource, cssLanguage;
   var init_dist11 = __esm({
-    "node_modules/@codemirror/lang-css/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-css/dist/index.js"() {
       init_dist10();
       init_dist5();
       init_dist3();
@@ -26280,13 +26280,13 @@
     }
   });
 
-  // node_modules/@lezer/javascript/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/javascript/dist/index.js
   function identifierChar(ch2, start2) {
     return ch2 >= 65 && ch2 <= 90 || ch2 >= 97 && ch2 <= 122 || ch2 == 95 || ch2 >= 192 || !start2 && ch2 >= 48 && ch2 <= 57;
   }
   var noSemi, noSemiType, incdec, incdecPrefix, questionDot, JSXStartTag, insertSemi, spaces, newline2, LineComment, BlockComment, Dialect_jsx, space3, braceR, semicolon, slash2, star, plus, minus, lt, comma, question2, dot, bracketL2, trackNewline, insertSemicolon, noSemicolon, noSemicolonType, operatorToken, jsx, jsHighlight, spec_identifier2, spec_word, spec_LessThan, parser4;
   var init_dist12 = __esm({
-    "node_modules/@lezer/javascript/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/javascript/dist/index.js"() {
       init_dist8();
       init_dist4();
       noSemi = 316;
@@ -26499,7 +26499,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-javascript/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-javascript/dist/index.js
   var dist_exports2 = {};
   __export(dist_exports2, {
     autoCloseTags: () => autoCloseTags,
@@ -26724,7 +26724,7 @@
   }
   var snippets, typescriptSnippets, cache, ScopeNodes, functionContext, gatherCompletions, Identifier, dontComplete, javascriptLanguage, jsxSublanguage, typescriptLanguage, jsxLanguage, tsxLanguage, kwCompletion, keywords, typescriptKeywords, android2, autoCloseTags;
   var init_dist13 = __esm({
-    "node_modules/@codemirror/lang-javascript/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-javascript/dist/index.js"() {
       init_dist12();
       init_dist5();
       init_dist();
@@ -26964,7 +26964,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-html/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-html/dist/index.js
   var dist_exports3 = {};
   __export(dist_exports3, {
     autoCloseTags: () => autoCloseTags2,
@@ -27127,7 +27127,7 @@
   }
   var Targets, Charsets, Methods, Encs, Bool, S, Tags, GlobalAttrs, eventAttributes, Schema, identifier3, jsonParser, defaultNesting, defaultAttrs, htmlPlain, htmlLanguage, selfClosers2, autoCloseTags2;
   var init_dist14 = __esm({
-    "node_modules/@codemirror/lang-html/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-html/dist/index.js"() {
       init_dist9();
       init_dist11();
       init_dist13();
@@ -27712,7 +27712,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-markdown/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-markdown/dist/index.js
   var dist_exports4 = {};
   __export(dist_exports4, {
     commonmarkLanguage: () => commonmarkLanguage,
@@ -27919,7 +27919,7 @@
   }
   var data, headingProp, commonmark, headerIndent, commonmarkLanguage, extended, markdownLanguage, Context, insertNewlineContinueMarkupCommand, insertNewlineContinueMarkup, deleteMarkupBackward, markdownKeymap, htmlNoMatch, _tagCompletions, nonPlainText, pasteURLAsLink;
   var init_dist15 = __esm({
-    "node_modules/@codemirror/lang-markdown/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-markdown/dist/index.js"() {
       init_dist();
       init_dist2();
       init_dist5();
@@ -28154,7 +28154,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-sql/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-sql/dist/index.js
   var dist_exports5 = {};
   __export(dist_exports5, {
     Cassandra: () => Cassandra,
@@ -28616,7 +28616,7 @@
   }
   var whitespace, LineComment2, BlockComment2, String$1, Number2, Bool2, Null, ParenL, ParenR, BraceL, BraceR, BracketL, BracketR, Semi, Dot, Operator, Punctuation2, SpecialVar, Identifier2, QuotedIdentifier, Keyword, Type2, Bits, Bytes, Builtin, Space, SQLTypes, SQLKeywords, defaults3, tokens, parser$1, EndFrom, Span, QuotedSpan, CompletionLevel, parser5, SQLDialect, StandardSQL, PostgreSQL, MySQLKeywords, MySQLTypes, MySQLBuiltin, MySQL, MariaSQL, MSSQLBuiltin, MSSQL, SQLite, Cassandra, PLSQL;
   var init_dist16 = __esm({
-    "node_modules/@codemirror/lang-sql/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-sql/dist/index.js"() {
       init_dist5();
       init_dist4();
       init_dist8();
@@ -28891,10 +28891,10 @@
     }
   });
 
-  // node_modules/@lezer/cpp/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/cpp/dist/index.js
   var RawString, templateArgsEndFallback, MacroName, R, L, u, U, a, z, A, Z, Underscore, Zero, Quote, ParenL2, ParenR2, Space2, GreaterThan, rawString, fallback, cppHighlighting, spec_identifier3, spec_, spec_templateArgsEnd, spec_scopedIdentifier, parser6;
   var init_dist17 = __esm({
-    "node_modules/@lezer/cpp/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/cpp/dist/index.js"() {
       init_dist8();
       init_dist4();
       RawString = 1;
@@ -29037,7 +29037,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-cpp/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-cpp/dist/index.js
   var dist_exports6 = {};
   __export(dist_exports6, {
     cpp: () => cpp,
@@ -29048,7 +29048,7 @@
   }
   var cppLanguage;
   var init_dist18 = __esm({
-    "node_modules/@codemirror/lang-cpp/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-cpp/dist/index.js"() {
       init_dist17();
       init_dist5();
       cppLanguage = /* @__PURE__ */ LRLanguage.define({
@@ -29081,10 +29081,10 @@
     }
   });
 
-  // node_modules/@lezer/go/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/go/dist/index.js
   var insertedSemi, space$1, identifier4, String2, closeParen$1, Number3, Rune, closeBrace$1, closeBracket, IncDecOp, _return, _break, _continue, fallthrough, newline3, carriageReturn, space4, tab, slash3, closeParen, closeBrace, semicolon2, trackedTokens, trackTokens, goHighlighting, spec_identifier4, parser7;
   var init_dist19 = __esm({
-    "node_modules/@lezer/go/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/go/dist/index.js"() {
       init_dist8();
       init_dist4();
       insertedSemi = 177;
@@ -29197,7 +29197,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-go/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-go/dist/index.js
   var dist_exports7 = {};
   __export(dist_exports7, {
     go: () => go,
@@ -29266,7 +29266,7 @@
   }
   var snippets2, cache2, ScopeNodes2, gatherCompletions2, Identifier3, dontComplete2, localCompletionSource2, goLanguage, kwCompletion2, keywords3;
   var init_dist20 = __esm({
-    "node_modules/@codemirror/lang-go/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-go/dist/index.js"() {
       init_dist19();
       init_dist5();
       init_dist6();
@@ -29431,10 +29431,10 @@
     }
   });
 
-  // node_modules/@lezer/java/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/java/dist/index.js
   var javaHighlighting, spec_identifier5, parser8;
   var init_dist21 = __esm({
-    "node_modules/@lezer/java/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/java/dist/index.js"() {
       init_dist8();
       init_dist4();
       javaHighlighting = styleTags({
@@ -29499,7 +29499,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-java/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-java/dist/index.js
   var dist_exports8 = {};
   __export(dist_exports8, {
     java: () => java,
@@ -29510,7 +29510,7 @@
   }
   var javaLanguage;
   var init_dist22 = __esm({
-    "node_modules/@codemirror/lang-java/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-java/dist/index.js"() {
       init_dist21();
       init_dist5();
       javaLanguage = /* @__PURE__ */ LRLanguage.define({
@@ -29545,7 +29545,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-jinja/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-jinja/dist/index.js
   var dist_exports9 = {};
   __export(dist_exports9, {
     closePercentBrace: () => closePercentBrace,
@@ -29693,7 +29693,7 @@
   }
   var interpolationStart, commentTagStart, tagStart2, text, endrawTagStart, rawText, base2, raw, spec_identifier6, spec_TagName, parser9, Filters, Functions, Globals, Expressions, Tags2, closePercentBrace, tagLanguage, baseHTML, jinjaLanguage;
   var init_dist23 = __esm({
-    "node_modules/@codemirror/lang-jinja/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-jinja/dist/index.js"() {
       init_dist5();
       init_dist14();
       init_dist4();
@@ -29851,10 +29851,10 @@
     }
   });
 
-  // node_modules/@lezer/json/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/json/dist/index.js
   var jsonHighlighting, parser10;
   var init_dist24 = __esm({
-    "node_modules/@lezer/json/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/json/dist/index.js"() {
       init_dist8();
       init_dist4();
       jsonHighlighting = styleTags({
@@ -29890,7 +29890,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-json/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-json/dist/index.js
   var dist_exports10 = {};
   __export(dist_exports10, {
     json: () => json,
@@ -29910,7 +29910,7 @@
   }
   var jsonParseLinter, jsonLanguage;
   var init_dist25 = __esm({
-    "node_modules/@codemirror/lang-json/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-json/dist/index.js"() {
       init_dist24();
       init_dist5();
       jsonParseLinter = () => (view) => {
@@ -29950,7 +29950,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-less/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-less/dist/index.js
   var dist_exports11 = {};
   __export(dist_exports11, {
     less: () => less,
@@ -29968,7 +29968,7 @@
   }
   var descendantOp2, Unit2, openArgList, space5, argList, descendant2, unitToken2, lessHighlighting, spec_identifier7, spec_AtKeyword2, parser11, lessLanguage, lessCompletionSource;
   var init_dist26 = __esm({
-    "node_modules/@codemirror/lang-less/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-less/dist/index.js"() {
       init_dist5();
       init_dist11();
       init_dist8();
@@ -30112,7 +30112,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-liquid/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-liquid/dist/index.js
   var dist_exports12 = {};
   __export(dist_exports12, {
     closePercentBrace: () => closePercentBrace2,
@@ -30268,7 +30268,7 @@
   }
   var interpolationStart2, tagStart3, endTagStart, text2, endrawTagStart2, rawText2, endcommentTagStart, commentText, InlineComment, base3, comment2, raw2, inlineComment, spec_identifier8, spec_TagName2, parser12, Filters2, Tags3, Expressions2, forloop, tablerowloop, closePercentBrace2, tagLanguage2, baseHTML2, liquidLanguage;
   var init_dist27 = __esm({
-    "node_modules/@codemirror/lang-liquid/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-liquid/dist/index.js"() {
       init_dist5();
       init_dist14();
       init_dist4();
@@ -30441,7 +30441,7 @@
     }
   });
 
-  // node_modules/@lezer/php/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/php/dist/index.js
   function keywords4(name2) {
     let found = keywordMap[name2.toLowerCase()];
     return found == null ? -1 : found;
@@ -30481,7 +30481,7 @@
   }
   var castOpen, HeredocString, interpolatedStringContent, EscapeSequence, afterInterpolation, automaticSemicolon, eof, abstract, and, array, as, Boolean2, _break2, _case, _catch, clone, _const, _continue2, _default, declare, _do, echo, _else, elseif, enddeclare, endfor, endforeach, endif, endswitch, endwhile, _enum, _extends, final, _finally, fn, _for, foreach, from, _function, global, goto, _if, _implements, include, include_once, _instanceof, insteadof, _interface, list, match, namespace, _new, _null, or, print, readonly, _require, require_once, _return2, _switch, _throw, trait, _try, unset, use, _var, Visibility, _while, xor, _yield, keywordMap, castTypes, expression, eofToken, semicolon3, interpolated, phpHighlighting, spec_name, parser13;
   var init_dist28 = __esm({
-    "node_modules/@lezer/php/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/php/dist/index.js"() {
       init_dist8();
       init_dist4();
       castOpen = 1;
@@ -30785,7 +30785,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-php/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-php/dist/index.js
   var dist_exports13 = {};
   __export(dist_exports13, {
     php: () => php,
@@ -30815,7 +30815,7 @@
   }
   var phpLanguage;
   var init_dist29 = __esm({
-    "node_modules/@codemirror/lang-php/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-php/dist/index.js"() {
       init_dist28();
       init_dist3();
       init_dist14();
@@ -30858,7 +30858,7 @@
     }
   });
 
-  // node_modules/@lezer/python/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/python/dist/index.js
   function isLineBreak(ch2) {
     return ch2 == newline4 || ch2 == carriageReturn2;
   }
@@ -30896,7 +30896,7 @@
   }
   var printKeyword, indent, dedent, newline$1, blankLineStart, newlineBracketed, eof2, stringContent, Escape, replacementStart, stringEnd, ParenL3, ParenthesizedExpression, TupleExpression, ComprehensionExpression, BracketL2, ArrayExpression, ArrayComprehensionExpression, BraceL2, DictionaryExpression, DictionaryComprehensionExpression, SetExpression, SetComprehensionExpression, ArgList, subscript, String$12, stringStart, stringStartD, stringStartL, stringStartLD, stringStartR, stringStartRD, stringStartRL, stringStartRLD, FormatString, stringStartF, stringStartFD, stringStartFL, stringStartFLD, stringStartFR, stringStartFRD, stringStartFRL, stringStartFRLD, FormatReplacement, nestedFormatReplacement, importList, TypeParamList, ParamList, SequencePattern, MappingPattern, PatternArgList, newline4, carriageReturn2, space6, tab2, hash2, parenOpen, dot2, braceOpen, braceClose, singleQuote, doubleQuote, backslash2, letter_o, letter_x, letter_N, letter_u, letter_U, bracketed, newlines, indentation, cx_Bracketed, cx_String, cx_DoubleQuote, cx_Long, cx_Raw, cx_Format, topIndent2, stringFlags, trackIndent, legacyPrint, strings, pythonHighlighting, spec_identifier9, parser14;
   var init_dist30 = __esm({
-    "node_modules/@lezer/python/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/python/dist/index.js"() {
       init_dist8();
       init_dist4();
       printKeyword = 1;
@@ -31201,7 +31201,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-python/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-python/dist/index.js
   var dist_exports14 = {};
   __export(dist_exports14, {
     globalCompletion: () => globalCompletion,
@@ -31302,7 +31302,7 @@
   }
   var cache3, ScopeNodes3, gatherCompletions3, Identifier4, dontComplete3, globals, snippets3, globalCompletion, pythonLanguage;
   var init_dist31 = __esm({
-    "node_modules/@codemirror/lang-python/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-python/dist/index.js"() {
       init_dist30();
       init_dist5();
       init_dist3();
@@ -31637,7 +31637,7 @@
     }
   });
 
-  // node_modules/@lezer/rust/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/rust/dist/index.js
   function isNum(ch2) {
     return ch2 >= 48 && ch2 <= 57;
   }
@@ -31646,7 +31646,7 @@
   }
   var closureParamDelim, tpOpen, tpClose, RawString2, Float, _b, _e, _f, _r, _E, Zero2, Dot2, Plus, Minus, Hash, Quote2, Pipe, LessThan, GreaterThan2, literalTokens, closureParam, tpDelim, rustHighlighting, spec_identifier10, parser15;
   var init_dist32 = __esm({
-    "node_modules/@lezer/rust/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/rust/dist/index.js"() {
       init_dist8();
       init_dist4();
       closureParamDelim = 1;
@@ -31807,7 +31807,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-rust/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-rust/dist/index.js
   var dist_exports15 = {};
   __export(dist_exports15, {
     rust: () => rust,
@@ -31818,7 +31818,7 @@
   }
   var rustLanguage;
   var init_dist33 = __esm({
-    "node_modules/@codemirror/lang-rust/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-rust/dist/index.js"() {
       init_dist32();
       init_dist5();
       rustLanguage = /* @__PURE__ */ LRLanguage.define({
@@ -31849,7 +31849,7 @@
     }
   });
 
-  // node_modules/@lezer/sass/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/sass/dist/index.js
   function isAlpha4(ch2) {
     return ch2 >= 65 && ch2 <= 90 || ch2 >= 97 && ch2 <= 122 || ch2 >= 161;
   }
@@ -31867,7 +31867,7 @@
   }
   var indent2, dedent2, descendantOp3, InterpolationEnd, InterpolationContinue, Unit3, callee2, identifier5, VariableName2, queryIdentifier2, InterpolationStart, newline5, blankLineStart2, eof3, whitespace2, LineComment3, Comment, IndentedMixin, IndentedInclude, Dialect_indented, space7, colon2, parenL2, underscore2, bracketL3, dash3, period2, hash3, percent2, braceL, braceR2, slash4, asterisk2, newlineChar, equals, plus2, and2, spaces2, comments, indentedMixins, indentation2, identifiers2, interpolationEnd, descendant3, unitToken3, topIndent3, trackIndent2, cssHighlighting2, spec_identifier11, spec_callee2, spec_AtKeyword3, spec_queryIdentifier2, parser16;
   var init_dist34 = __esm({
-    "node_modules/@lezer/sass/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/sass/dist/index.js"() {
       init_dist8();
       init_dist4();
       indent2 = 168;
@@ -32175,7 +32175,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-sass/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-sass/dist/index.js
   var dist_exports16 = {};
   __export(dist_exports16, {
     sass: () => sass,
@@ -32187,7 +32187,7 @@
   }
   var sassLanguage, indentedSassLanguage, sassCompletionSource;
   var init_dist35 = __esm({
-    "node_modules/@codemirror/lang-sass/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-sass/dist/index.js"() {
       init_dist34();
       init_dist5();
       init_dist11();
@@ -32227,7 +32227,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-wast/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-wast/dist/index.js
   var dist_exports17 = {};
   __export(dist_exports17, {
     wast: () => wast,
@@ -32238,7 +32238,7 @@
   }
   var spec_Keyword, parser17, wastLanguage;
   var init_dist36 = __esm({
-    "node_modules/@codemirror/lang-wast/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-wast/dist/index.js"() {
       init_dist5();
       init_dist4();
       init_dist8();
@@ -32297,7 +32297,7 @@
     }
   });
 
-  // node_modules/@lezer/xml/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/xml/dist/index.js
   function nameChar2(ch2) {
     return ch2 == 45 || ch2 == 46 || ch2 == 58 || ch2 >= 65 && ch2 <= 90 || ch2 == 95 || ch2 >= 97 && ch2 <= 122 || ch2 >= 161;
   }
@@ -32339,7 +32339,7 @@
   }
   var StartTag2, StartCloseTag2, MissingCloseTag, mismatchedStartCloseTag, incompleteStartCloseTag, commentContent$12, piContent$1, cdataContent$1, Element3, OpenTag2, cachedName2, cachedInput2, cachedPos2, elementContext2, startTag, commentContent2, piContent, cdataContent, xmlHighlighting, parser18;
   var init_dist37 = __esm({
-    "node_modules/@lezer/xml/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/xml/dist/index.js"() {
       init_dist8();
       init_dist4();
       StartTag2 = 1;
@@ -32424,7 +32424,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-xml/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-xml/dist/index.js
   var dist_exports18 = {};
   __export(dist_exports18, {
     autoCloseTags: () => autoCloseTags3,
@@ -32619,7 +32619,7 @@
   }
   var Element4, Identifier5, xmlLanguage, autoCloseTags3;
   var init_dist38 = __esm({
-    "node_modules/@codemirror/lang-xml/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-xml/dist/index.js"() {
       init_dist37();
       init_dist5();
       init_dist();
@@ -32712,7 +32712,7 @@
     }
   });
 
-  // node_modules/@lezer/yaml/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/yaml/dist/index.js
   function findColumn2(input, pos) {
     for (let col = 0, p = pos - input.pos - 1; ; p--, col++) {
       let ch2 = input.peek(p);
@@ -32853,7 +32853,7 @@
   }
   var blockEnd, eof4, DirectiveEnd, DocEnd, sequenceStartMark, sequenceContinueMark, explicitMapStartMark, explicitMapContinueMark, flowMapMark, mapStartMark, mapContinueMark, Literal, QuotedLiteral, Anchor, Alias, Tag2, BlockLiteralContent, BracketL3, FlowSequence, Colon, BraceL3, FlowMapping, BlockLiteralHeader, type_Top, type_Seq, type_Map, type_Flow, type_Lit, Context3, indentation3, newlines2, blockMark, charTable, literals, blockLiteral, yamlHighlighting, parser19;
   var init_dist39 = __esm({
-    "node_modules/@lezer/yaml/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@lezer/yaml/dist/index.js"() {
       init_dist8();
       init_dist4();
       blockEnd = 63;
@@ -33076,7 +33076,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-yaml/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-yaml/dist/index.js
   var dist_exports19 = {};
   __export(dist_exports19, {
     yaml: () => yaml,
@@ -33096,7 +33096,7 @@
   }
   var parser20, yamlLanguage, frontmatterLanguage;
   var init_dist40 = __esm({
-    "node_modules/@codemirror/lang-yaml/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-yaml/dist/index.js"() {
       init_dist39();
       init_dist5();
       init_dist3();
@@ -33164,14 +33164,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/apl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/apl.js
   var apl_exports = {};
   __export(apl_exports, {
     apl: () => apl
   });
   var builtInFuncs, isOperator, isNiladic, isFunction, isArrow, isComment, stringEater, apl;
   var init_apl = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/apl.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/apl.js"() {
       builtInFuncs = {
         "+": ["conjugate", "add"],
         "\u2212": ["negate", "subtract"],
@@ -33312,7 +33312,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/asciiarmor.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/asciiarmor.js
   var asciiarmor_exports = {};
   __export(asciiarmor_exports, {
     asciiArmor: () => asciiArmor
@@ -33324,7 +33324,7 @@
   }
   var asciiArmor;
   var init_asciiarmor = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/asciiarmor.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/asciiarmor.js"() {
       asciiArmor = {
         name: "asciiarmor",
         token: function(stream, state) {
@@ -33376,7 +33376,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/asn1.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/asn1.js
   var asn1_exports = {};
   __export(asn1_exports, {
     asn1: () => asn1
@@ -33511,7 +33511,7 @@
   }
   var defaults4;
   var init_asn1 = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/asn1.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/asn1.js"() {
       defaults4 = {
         keywords: words("DEFINITIONS OBJECTS IF DERIVED INFORMATION ACTION REPLY ANY NAMED CHARACTERIZED BEHAVIOUR REGISTERED WITH AS IDENTIFIED CONSTRAINED BY PRESENT BEGIN IMPORTS FROM UNITS SYNTAX MIN-ACCESS MAX-ACCESS MINACCESS MAXACCESS REVISION STATUS DESCRIPTION SEQUENCE SET COMPONENTS OF CHOICE DistinguishedName ENUMERATED SIZE MODULE END INDEX AUGMENTS EXTENSIBILITY IMPLIED EXPORTS"),
         cmipVerbs: words("ACTIONS ADD GET NOTIFICATIONS REPLACE REMOVE"),
@@ -33526,7 +33526,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/asterisk.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/asterisk.js
   var asterisk_exports = {};
   __export(asterisk_exports, {
     asterisk: () => asterisk3
@@ -33607,7 +33607,7 @@
   }
   var atoms, dpcmd, apps, asterisk3;
   var init_asterisk = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/asterisk.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/asterisk.js"() {
       atoms = ["exten", "same", "include", "ignorepat", "switch"];
       dpcmd = ["#include", "#exec"];
       apps = [
@@ -33883,14 +33883,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/brainfuck.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/brainfuck.js
   var brainfuck_exports = {};
   __export(brainfuck_exports, {
     brainfuck: () => brainfuck
   });
   var reserve, brainfuck;
   var init_brainfuck = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/brainfuck.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/brainfuck.js"() {
       reserve = "><+-.,[]".split("");
       brainfuck = {
         name: "brainfuck",
@@ -33944,7 +33944,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/cobol.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/cobol.js
   var cobol_exports = {};
   __export(cobol_exports, {
     cobol: () => cobol
@@ -33980,7 +33980,7 @@
   }
   var BUILTIN, COMMENT, STRING, ATOM, NUMBER, KEYWORD, MODTAG, COBOLLINENUM, PERIOD, atoms2, keywords5, builtins, tests, cobol;
   var init_cobol = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/cobol.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/cobol.js"() {
       BUILTIN = "builtin";
       COMMENT = "comment";
       STRING = "string";
@@ -34081,7 +34081,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/clike.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/clike.js
   var clike_exports = {};
   __export(clike_exports, {
     c: () => c,
@@ -34517,7 +34517,7 @@
   }
   var cKeywords, cppKeywords, objCKeywords, objCBuiltins, basicCTypes, basicObjCTypes, cBlockKeywords, cDefKeywords, c, cpp2, java2, csharp, scala, kotlin, shader, nesC, objectiveC, objectiveCpp, squirrel, stringTokenizer, ceylon, dart;
   var init_clike = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/clike.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/clike.js"() {
       cKeywords = "auto if break case register continue return default do sizeof static else struct switch extern typedef union for goto while enum const volatile inline restrict asm fortran";
       cppKeywords = "alignas alignof and and_eq audit axiom bitand bitor catch class compl concept constexpr const_cast decltype delete dynamic_cast explicit export final friend import module mutable namespace new noexcept not not_eq operator or or_eq override private protected public reinterpret_cast requires static_assert static_cast template this thread_local throw try typeid typename using virtual xor xor_eq";
       objCKeywords = "bycopy byref in inout oneway out self super atomic nonatomic retain copy readwrite readonly strong weak assign typeof nullable nonnull null_resettable _cmd @interface @implementation @end @protocol @encode @property @synthesize @dynamic @class @public @package @private @protected @required @optional @try @catch @finally @import @selector @encode @defs @synchronized @autoreleasepool @compatibility_alias @available";
@@ -34895,7 +34895,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/clojure.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/clojure.js
   var clojure_exports = {};
   __export(clojure_exports, {
     clojure: () => clojure
@@ -34964,7 +34964,7 @@
   }
   var atoms3, specialForms, coreSymbols, haveBodyParameter, atom, specialForm, coreSymbol, hasBodyParameter, delimiter, numberLiteral, characterLiteral, qualifiedSymbol, clojure;
   var init_clojure = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/clojure.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/clojure.js"() {
       atoms3 = ["false", "nil", "true"];
       specialForms = [
         ".",
@@ -35752,7 +35752,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/css.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/css.js
   var css_exports = {};
   __export(css_exports, {
     css: () => css2,
@@ -36136,7 +36136,7 @@
   }
   var documentTypes_, documentTypes, mediaTypes_, mediaTypes, mediaFeatures_, mediaFeatures, mediaValueKeywords_, mediaValueKeywords, propertyKeywords_, propertyKeywords, nonStandardPropertyKeywords_, nonStandardPropertyKeywords, fontProperties_, fontProperties, counterDescriptors_, counterDescriptors, colorKeywords_, colorKeywords, valueKeywords_, valueKeywords, allWords, keywords6, defaults5, css2, sCSS, less2, gss;
   var init_css = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/css.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/css.js"() {
       documentTypes_ = [
         "domain",
         "regexp",
@@ -37553,7 +37553,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/cmake.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/cmake.js
   var cmake_exports = {};
   __export(cmake_exports, {
     cmake: () => cmake
@@ -37612,7 +37612,7 @@
   }
   var variable_regex, cmake;
   var init_cmake = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/cmake.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/cmake.js"() {
       variable_regex = /({)?[a-zA-Z0-9_]+(})?/;
       cmake = {
         name: "cmake",
@@ -37632,7 +37632,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/coffeescript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/coffeescript.js
   var coffeescript_exports = {};
   __export(coffeescript_exports, {
     coffeeScript: () => coffeeScript
@@ -37856,7 +37856,7 @@
   }
   var ERRORCLASS, operators, delimiters, identifiers3, atProp, wordOperators, indentKeywords, commonKeywords, keywords7, stringPrefixes, regexPrefixes, commonConstants, constants, coffeeScript;
   var init_coffeescript = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/coffeescript.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/coffeescript.js"() {
       ERRORCLASS = "error";
       operators = /^(?:->|=>|\+[+=]?|-[\-=]?|\*[\*=]?|\/[\/=]?|[=!]=|<[><]?=?|>>?=?|%=?|&=?|\|=?|\^=?|\~|!|\?|(or|and|\|\||&&|\?)=)/;
       delimiters = /^(?:[()\[\]{},:`=;]|\.\.?\.?)/;
@@ -37948,7 +37948,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/commonlisp.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/commonlisp.js
   var commonlisp_exports = {};
   __export(commonlisp_exports, {
     commonLisp: () => commonLisp
@@ -38043,7 +38043,7 @@
   }
   var specialForm2, assumeBody, numLiteral, symbol, type, commonLisp;
   var init_commonlisp = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/commonlisp.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/commonlisp.js"() {
       specialForm2 = /^(block|let*|return-from|catch|load-time-value|setq|eval-when|locally|symbol-macrolet|flet|macrolet|tagbody|function|multiple-value-call|the|go|multiple-value-prog1|throw|if|progn|unwind-protect|labels|progv|let|quote)$/;
       assumeBody = /^with|^def|^do|^prog|case$|^cond$|bind$|when$|unless$/;
       numLiteral = /^(?:[+\-]?(?:\d+|\d*\.\d+)(?:[efd][+\-]?\d+)?|[+\-]?\d+(?:\/[+\-]?\d+)?|#b[+\-]?[01]+|#o[+\-]?[0-7]+|#x[+\-]?[\da-f]+)/;
@@ -38085,14 +38085,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/cypher.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/cypher.js
   var cypher_exports = {};
   __export(cypher_exports, {
     cypher: () => cypher
   });
   var wordRegexp2, tokenBase2, pushContext2, popContext2, curPunc, funcs, preds, keywords8, systemKeywords, operatorChars, cypher;
   var init_cypher = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/cypher.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/cypher.js"() {
       wordRegexp2 = function(words22) {
         return new RegExp("^(?:" + words22.join("|") + ")$", "i");
       };
@@ -38213,7 +38213,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/python.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/python.js
   var python_exports = {};
   __export(python_exports, {
     cython: () => cython,
@@ -38538,7 +38538,7 @@
   }
   var wordOperators2, commonKeywords2, commonBuiltins, words3, python2, cython;
   var init_python = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/python.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/python.js"() {
       wordOperators2 = wordRegexp3(["and", "or", "not", "is"]);
       commonKeywords2 = [
         "as",
@@ -38648,7 +38648,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/crystal.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/crystal.js
   var crystal_exports = {};
   __export(crystal_exports, {
     crystal: () => crystal
@@ -38925,7 +38925,7 @@
   }
   var operators2, conditionalOperators, indexingOperators, anotherOperators, idents, types2, keywords9, atomWords, indentKeywordsArray, indentKeywords2, indentExpressionKeywordsArray, indentExpressionKeywords, dedentKeywordsArray, dedentKeywords, dedentPunctualsArray, dedentPunctuals, nextTokenizer, matching, crystal;
   var init_crystal = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/crystal.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/crystal.js"() {
       operators2 = /^(?:[-+/%|&^]|\*\*?|[<>]{2})/;
       conditionalOperators = /^(?:[=!]~|===|<=>|[<>=!]=?|[|&]{2}|~)/;
       indexingOperators = /^(?:\[\][?=]?)/;
@@ -39054,7 +39054,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/d.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/d.js
   var d_exports = {};
   __export(d_exports, {
     d: () => d
@@ -39171,7 +39171,7 @@
   }
   var blockKeywordsStr, parserConfig, statementIndentUnit, keywords10, builtin, blockKeywords, atoms4, hooks, multiLineStrings, isOperatorChar, curPunc2, d;
   var init_d = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/d.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/d.js"() {
       blockKeywordsStr = "body catch class do else enum for foreach foreach_reverse if in interface mixin out scope struct switch try union unittest version while with";
       parserConfig = {
         keywords: words4("abstract alias align asm assert auto break case cast cdouble cent cfloat const continue debug default delegate delete deprecated export extern final finally function goto immutable import inout invariant is lazy macro module new nothrow override package pragma private protected public pure ref return shared short static super synchronized template this throw typedef typeid typeof volatile __FILE__ __LINE__ __gshared __traits __vector __parameters " + blockKeywordsStr),
@@ -39246,14 +39246,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/diff.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/diff.js
   var diff_exports = {};
   __export(diff_exports, {
     diff: () => diff
   });
   var TOKEN_NAMES, diff;
   var init_diff = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/diff.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/diff.js"() {
       TOKEN_NAMES = {
         "+": "inserted",
         "-": "deleted",
@@ -39279,7 +39279,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/simple-mode.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/simple-mode.js
   function simpleMode(states2) {
     ensureState(states2, "start");
     var states_ = {}, meta2 = states2.languageData || {}, hasIndentation = false;
@@ -39408,18 +39408,18 @@
     };
   }
   var init_simple_mode = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/simple-mode.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/simple-mode.js"() {
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/dockerfile.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/dockerfile.js
   var dockerfile_exports = {};
   __export(dockerfile_exports, {
     dockerFile: () => dockerFile
   });
   var from2, fromRegex, shells, shellsAsArrayRegex, expose, exposeRegex, others, instructions, instructionRegex, instructionOnlyLine, instructionWithArguments, dockerFile;
   var init_dockerfile = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/dockerfile.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/dockerfile.js"() {
       init_simple_mode();
       from2 = "from";
       fromRegex = new RegExp("^(\\s*)\\b(" + from2 + ")\\b", "i");
@@ -39624,7 +39624,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/dtd.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/dtd.js
   var dtd_exports = {};
   __export(dtd_exports, {
     dtd: () => dtd
@@ -39698,7 +39698,7 @@
   }
   var type2, dtd;
   var init_dtd = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/dtd.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/dtd.js"() {
       dtd = {
         name: "dtd",
         startState: function() {
@@ -39745,7 +39745,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/dylan.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/dylan.js
   var dylan_exports = {};
   __export(dylan_exports, {
     dylan: () => dylan
@@ -39904,7 +39904,7 @@
   }
   var words5, symbolPattern, symbol2, patterns, patternStyles, patternName, styles, wordLookup, styleLookup, dylan;
   var init_dylan = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/dylan.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/dylan.js"() {
       words5 = {
         // Words that introduce unnamed definitions like "define interface"
         unnamedDefinition: ["interface"],
@@ -40067,14 +40067,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/ebnf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ebnf.js
   var ebnf_exports = {};
   __export(ebnf_exports, {
     ebnf: () => ebnf
   });
   var commentType, stateType, ebnf;
   var init_ebnf = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/ebnf.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ebnf.js"() {
       commentType = { slash: 0, parenthesis: 1 };
       stateType = { comment: 0, _string: 1, characterClass: 2 };
       ebnf = {
@@ -40215,7 +40215,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/ecl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ecl.js
   var ecl_exports = {};
   __export(ecl_exports, {
     ecl: () => ecl
@@ -40338,7 +40338,7 @@
   }
   var keyword2, variable2, variable_2, variable_3, builtin2, blockKeywords2, atoms5, hooks2, isOperatorChar2, curPunc3, ecl;
   var init_ecl = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/ecl.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ecl.js"() {
       keyword2 = words6("abs acos allnodes ascii asin asstring atan atan2 ave case choose choosen choosesets clustersize combine correlation cos cosh count covariance cron dataset dedup define denormalize distribute distributed distribution ebcdic enth error evaluate event eventextra eventname exists exp failcode failmessage fetch fromunicode getisvalid global graph group hash hash32 hash64 hashcrc hashmd5 having if index intformat isvalid iterate join keyunicode length library limit ln local log loop map matched matchlength matchposition matchtext matchunicode max merge mergejoin min nolocal nonempty normalize parse pipe power preload process project pull random range rank ranked realformat recordof regexfind regexreplace regroup rejected rollup round roundup row rowdiff sample set sin sinh sizeof soapcall sort sorted sqrt stepped stored sum table tan tanh thisnode topn tounicode transfer trim truncate typeof ungroup unicodeorder variance which workunit xmldecode xmlencode xmltext xmlunicode");
       variable2 = words6("apply assert build buildindex evaluate fail keydiff keypatch loadxml nothor notify output parallel sequential soapcall wait");
       variable_2 = words6("__compressed__ all and any as atmost before beginc++ best between case const counter csv descend encrypt end endc++ endmacro except exclusive expire export extend false few first flat from full function group header heading hole ifblock import in interface joined keep keyed last left limit load local locale lookup macro many maxcount maxlength min skew module named nocase noroot noscan nosort not of only opt or outer overwrite packed partition penalty physicallength pipe quote record relationship repeat return right scan self separator service shared skew skip sql store terminator thor threshold token transform trim true type unicodeorder unsorted validate virtual whole wild within xml xpath");
@@ -40400,7 +40400,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/eiffel.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/eiffel.js
   var eiffel_exports = {};
   __export(eiffel_exports, {
     eiffel: () => eiffel
@@ -40454,7 +40454,7 @@
   }
   var keywords11, operators3, eiffel;
   var init_eiffel = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/eiffel.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/eiffel.js"() {
       keywords11 = wordObj([
         "note",
         "across",
@@ -40542,7 +40542,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/elm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/elm.js
   var elm_exports = {};
   __export(elm_exports, {
     elm: () => elm
@@ -40678,7 +40678,7 @@
   }
   var lowerRE, upperRE, innerRE, digitRE, hexRE, symbolRE, specialRE, spacesRE, wellKnownWords, elm;
   var init_elm = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/elm.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/elm.js"() {
       lowerRE = /[a-z]/;
       upperRE = /[A-Z]/;
       innerRE = /[a-zA-Z0-9_]/;
@@ -40726,7 +40726,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/erlang.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/erlang.js
   var erlang_exports = {};
   __export(erlang_exports, {
     erlang: () => erlang
@@ -41172,7 +41172,7 @@
   }
   var typeWords, keywordWords, separatorRE, separatorWords, operatorAtomWords, operatorSymbolRE, operatorSymbolWords, openParenRE, openParenWords, closeParenRE, closeParenWords, guardWords, bifWords, anumRE, escapesRE, erlang;
   var init_erlang = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/erlang.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/erlang.js"() {
       typeWords = [
         "-type",
         "-spec",
@@ -41408,7 +41408,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/sql.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/sql.js
   var sql_exports = {};
   __export(sql_exports, {
     cassandra: () => cassandra,
@@ -41616,7 +41616,7 @@
   }
   var sqlKeywords, defaultBuiltin, standardSQL, msSQL, mySQL, mariaDB, sqlite, cassandra, plSQL, hive, pgSQL, gql, gpSQL, sparkSQL, esper;
   var init_sql = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/sql.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/sql.js"() {
       sqlKeywords = "alter and as asc between by count create delete desc distinct drop from group having in insert into is join like not on or order select set table union update values where limit ";
       defaultBuiltin = "bool boolean bit blob enum long longblob longtext medium mediumblob mediumint mediumtext time timestamp tinyblob tinyint tinytext text bigint int int1 int2 int3 int4 int8 integer float float4 float8 double char varbinary varchar varcharacter precision real date datetime year unsigned signed decimal numeric";
       standardSQL = sql2({
@@ -41772,14 +41772,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/factor.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/factor.js
   var factor_exports = {};
   __export(factor_exports, {
     factor: () => factor
   });
   var factor;
   var init_factor = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/factor.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/factor.js"() {
       init_simple_mode();
       factor = simpleMode({
         start: [
@@ -41845,7 +41845,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/fcl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/fcl.js
   var fcl_exports = {};
   __export(fcl_exports, {
     fcl: () => fcl
@@ -41914,7 +41914,7 @@
   }
   var keywords12, start_blocks, end_blocks, atoms6, isOperatorChar3, fcl;
   var init_fcl = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/fcl.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/fcl.js"() {
       keywords12 = {
         "term": true,
         "method": true,
@@ -41994,7 +41994,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/forth.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/forth.js
   var forth_exports = {};
   __export(forth_exports, {
     forth: () => forth
@@ -42017,7 +42017,7 @@
   }
   var coreWordList, immediateWordList, forth;
   var init_forth = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/forth.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/forth.js"() {
       coreWordList = toWordList(
         "INVERT AND OR XOR 2* 2/ LSHIFT RSHIFT 0= = 0< < > U< MIN MAX 2DROP 2DUP 2OVER 2SWAP ?DUP DEPTH DROP DUP OVER ROT SWAP >R R> R@ + - 1+ 1- ABS NEGATE S>D * M* UM* FM/MOD SM/REM UM/MOD */ */MOD / /MOD MOD HERE , @ ! CELL+ CELLS C, C@ C! CHARS 2@ 2! ALIGN ALIGNED +! ALLOT CHAR [CHAR] [ ] BL FIND EXECUTE IMMEDIATE COUNT LITERAL STATE ; DOES> >BODY EVALUATE SOURCE >IN <# # #S #> HOLD SIGN BASE >NUMBER HEX DECIMAL FILL MOVE . CR EMIT SPACE SPACES TYPE U. .R U.R ACCEPT TRUE FALSE <> U> 0<> 0> NIP TUCK ROLL PICK 2>R 2R@ 2R> WITHIN UNUSED MARKER I J TO COMPILE, [COMPILE] SAVE-INPUT RESTORE-INPUT PAD ERASE 2LITERAL DNEGATE D- D+ D0< D0= D2* D2/ D< D= DMAX DMIN D>S DABS M+ M*/ D. D.R 2ROT DU< CATCH THROW FREE RESIZE ALLOCATE CS-PICK CS-ROLL GET-CURRENT SET-CURRENT FORTH-WORDLIST GET-ORDER SET-ORDER PREVIOUS SEARCH-WORDLIST WORDLIST FIND ALSO ONLY FORTH DEFINITIONS ORDER -TRAILING /STRING SEARCH COMPARE CMOVE CMOVE> BLANK SLITERAL"
       );
@@ -42118,7 +42118,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/fortran.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/fortran.js
   var fortran_exports = {};
   __export(fortran_exports, {
     fortran: () => fortran
@@ -42180,7 +42180,7 @@
   }
   var keywords13, builtins2, dataTypes, isOperatorChar4, litOperator, fortran;
   var init_fortran = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/fortran.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/fortran.js"() {
       keywords13 = words7([
         "abstract",
         "accept",
@@ -42593,7 +42593,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/mllike.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mllike.js
   var mllike_exports = {};
   __export(mllike_exports, {
     fSharp: () => fSharp,
@@ -42752,7 +42752,7 @@
   }
   var oCaml, fSharp, sml;
   var init_mllike = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/mllike.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mllike.js"() {
       oCaml = mlLike({
         name: "ocaml",
         extraWords: {
@@ -42939,7 +42939,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/gas.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/gas.js
   var gas_exports = {};
   __export(gas_exports, {
     gas: () => gas,
@@ -43235,20 +43235,20 @@
   }
   var gas, gasArm;
   var init_gas = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/gas.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/gas.js"() {
       gas = mkGas("x86");
       gasArm = mkGas("arm");
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/gherkin.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/gherkin.js
   var gherkin_exports = {};
   __export(gherkin_exports, {
     gherkin: () => gherkin
   });
   var gherkin;
   var init_gherkin = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/gherkin.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/gherkin.js"() {
       gherkin = {
         name: "gherkin",
         startState: function() {
@@ -43364,7 +43364,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/groovy.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/groovy.js
   var groovy_exports = {};
   __export(groovy_exports, {
     groovy: () => groovy
@@ -43523,7 +43523,7 @@
   }
   var keywords14, blockKeywords3, standaloneKeywords, atoms7, curPunc4, groovy;
   var init_groovy = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/groovy.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/groovy.js"() {
       keywords14 = words8(
         "abstract as assert boolean break byte case catch char class const continue def default do double else enum extends final finally float for goto if implements import in instanceof int interface long native new package private protected public return short static strictfp super switch synchronized threadsafe throw throws trait transient try void volatile while"
       );
@@ -43594,7 +43594,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/haskell.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/haskell.js
   var haskell_exports = {};
   __export(haskell_exports, {
     haskell: () => haskell
@@ -43734,7 +43734,7 @@
   }
   var smallRE, largeRE, digitRE2, hexitRE, octitRE, idRE, symbolRE2, specialRE2, whiteCharRE, wellKnownWords2, haskell;
   var init_haskell = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/haskell.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/haskell.js"() {
       smallRE = /[a-z_]/;
       largeRE = /[A-Z]/;
       digitRE2 = /\d/;
@@ -44061,7 +44061,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/haxe.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/haxe.js
   var haxe_exports = {};
   __export(haxe_exports, {
     haxe: () => haxe,
@@ -44426,7 +44426,7 @@
   }
   var A2, B, C2, operator2, atom2, attribute, type3, keywords15, isOperatorChar5, type3, content2, atomicTypes, cx, defaultVars, haxe, hxml;
   var init_haxe = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/haxe.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/haxe.js"() {
       A2 = kw("keyword a");
       B = kw("keyword b");
       C2 = kw("keyword c");
@@ -44586,7 +44586,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/http.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/http.js
   var http_exports = {};
   __export(http_exports, {
     http: () => http
@@ -44655,7 +44655,7 @@
   }
   var http;
   var init_http = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/http.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/http.js"() {
       http = {
         name: "http",
         token: function(stream, state) {
@@ -44673,7 +44673,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/idl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/idl.js
   var idl_exports = {};
   __export(idl_exports, {
     idl: () => idl
@@ -44718,7 +44718,7 @@
   }
   var builtinArray, builtins3, keywordArray, keywords16, identifiers4, singleOperators, boolOperators, idl;
   var init_idl = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/idl.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/idl.js"() {
       builtinArray = [
         "a_correlate",
         "abs",
@@ -45666,7 +45666,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/javascript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/javascript.js
   var javascript_exports = {};
   __export(javascript_exports, {
     javascript: () => javascript2,
@@ -46661,7 +46661,7 @@
   }
   var javascript2, json2, jsonld, typescript;
   var init_javascript = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/javascript.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/javascript.js"() {
       javascript2 = mkJavaScript({ name: "javascript" });
       json2 = mkJavaScript({ name: "json", json: true });
       jsonld = mkJavaScript({ name: "json", jsonld: true });
@@ -46669,7 +46669,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/julia.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/julia.js
   var julia_exports = {};
   __export(julia_exports, {
     julia: () => julia
@@ -46917,7 +46917,7 @@
   }
   var octChar, hexChar2, sChar, uChar, asciiOperatorsList, operators4, delimiters2, identifiers5, chars, openersList, closersList, keywordsList, builtinsList, openers, closers, keywords17, builtins4, macro, symbol3, stringPrefixes2, macroOperators, symbolOperators, julia;
   var init_julia = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/julia.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/julia.js"() {
       octChar = "\\\\[0-7]{1,3}";
       hexChar2 = "\\\\x[A-Fa-f0-9]{1,2}";
       sChar = `\\\\[abefnrtv0%?'"\\\\]`;
@@ -47084,14 +47084,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/livescript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/livescript.js
   var livescript_exports = {};
   __export(livescript_exports, {
     liveScript: () => liveScript
   });
   var tokenBase14, identifier6, indenter2, keywordend, stringfill, Rules, r2, rr, i, len, idx, liveScript;
   var init_livescript = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/livescript.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/livescript.js"() {
       tokenBase14 = function(stream, state) {
         var next_rule = state.next || "start";
         if (next_rule) {
@@ -47388,7 +47388,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/lua.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/lua.js
   var lua_exports = {};
   __export(lua_exports, {
     lua: () => lua
@@ -47455,7 +47455,7 @@
   }
   var builtins5, keywords18, indentTokens, dedentTokens, dedentPartial, lua;
   var init_lua = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/lua.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/lua.js"() {
       builtins5 = wordRE([
         "_G",
         "_VERSION",
@@ -47652,7 +47652,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/mirc.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mirc.js
   var mirc_exports = {};
   __export(mirc_exports, {
     mirc: () => mirc
@@ -47745,7 +47745,7 @@
   }
   var specials, keywords19, functions, isOperatorChar6, mirc;
   var init_mirc = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/mirc.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mirc.js"() {
       specials = parseWords("$! $$ $& $? $+ $abook $abs $active $activecid $activewid $address $addtok $agent $agentname $agentstat $agentver $alias $and $anick $ansi2mirc $aop $appactive $appstate $asc $asctime $asin $atan $avoice $away $awaymsg $awaytime $banmask $base $bfind $binoff $biton $bnick $bvar $bytes $calc $cb $cd $ceil $chan $chanmodes $chantypes $chat $chr $cid $clevel $click $cmdbox $cmdline $cnick $color $com $comcall $comchan $comerr $compact $compress $comval $cos $count $cr $crc $creq $crlf $ctime $ctimer $ctrlenter $date $day $daylight $dbuh $dbuw $dccignore $dccport $dde $ddename $debug $decode $decompress $deltok $devent $dialog $did $didreg $didtok $didwm $disk $dlevel $dll $dllcall $dname $dns $duration $ebeeps $editbox $emailaddr $encode $error $eval $event $exist $feof $ferr $fgetc $file $filename $filtered $finddir $finddirn $findfile $findfilen $findtok $fline $floor $fopen $fread $fserve $fulladdress $fulldate $fullname $fullscreen $get $getdir $getdot $gettok $gmt $group $halted $hash $height $hfind $hget $highlight $hnick $hotline $hotlinepos $ial $ialchan $ibl $idle $iel $ifmatch $ignore $iif $iil $inelipse $ini $inmidi $inpaste $inpoly $input $inrect $inroundrect $insong $instok $int $inwave $ip $isalias $isbit $isdde $isdir $isfile $isid $islower $istok $isupper $keychar $keyrpt $keyval $knick $lactive $lactivecid $lactivewid $left $len $level $lf $line $lines $link $lock $lock $locked $log $logstamp $logstampfmt $longfn $longip $lower $ltimer $maddress $mask $matchkey $matchtok $md5 $me $menu $menubar $menucontext $menutype $mid $middir $mircdir $mircexe $mircini $mklogfn $mnick $mode $modefirst $modelast $modespl $mouse $msfile $network $newnick $nick $nofile $nopath $noqt $not $notags $notify $null $numeric $numok $oline $onpoly $opnick $or $ord $os $passivedcc $pic $play $pnick $port $portable $portfree $pos $prefix $prop $protect $puttok $qt $query $rand $r $rawmsg $read $readomo $readn $regex $regml $regsub $regsubex $remove $remtok $replace $replacex $reptok $result $rgb $right $round $scid $scon $script $scriptdir $scriptline $sdir $send $server $serverip $sfile $sha1 $shortfn $show $signal $sin $site $sline $snick $snicks $snotify $sock $sockbr $sockerr $sockname $sorttok $sound $sqrt $ssl $sreq $sslready $status $strip $str $stripped $syle $submenu $switchbar $tan $target $ticks $time $timer $timestamp $timestampfmt $timezone $tip $titlebar $toolbar $treebar $trust $ulevel $ulist $upper $uptime $url $usermode $v1 $v2 $var $vcmd $vcmdstat $vcmdver $version $vnick $vol $wid $width $wildsite $wildtok $window $wrap $xor");
       keywords19 = parseWords("abook ajinvite alias aline ame amsg anick aop auser autojoin avoice away background ban bcopy beep bread break breplace bset btrunc bunset bwrite channel clear clearall cline clipboard close cnick color comclose comopen comreg continue copy creq ctcpreply ctcps dcc dccserver dde ddeserver debug dec describe dialog did didtok disable disconnect dlevel dline dll dns dqwindow drawcopy drawdot drawfill drawline drawpic drawrect drawreplace drawrot drawsave drawscroll drawtext ebeeps echo editbox emailaddr enable events exit fclose filter findtext finger firewall flash flist flood flush flushini font fopen fseek fsend fserve fullname fwrite ghide gload gmove gopts goto gplay gpoint gqreq groups gshow gsize gstop gtalk gunload hadd halt haltdef hdec hdel help hfree hinc hload hmake hop hsave ial ialclear ialmark identd if ignore iline inc invite iuser join kick linesep links list load loadbuf localinfo log mdi me menubar mkdir mnick mode msg nick noop notice notify omsg onotice part partall pdcc perform play playctrl pop protect pvoice qme qmsg query queryn quit raw reload remini remote remove rename renwin reseterror resetidle return rlevel rline rmdir run ruser save savebuf saveini say scid scon server set showmirc signam sline sockaccept sockclose socklist socklisten sockmark sockopen sockpause sockread sockrename sockudp sockwrite sound speak splay sreq strip switchbar timer timestamp titlebar tnick tokenize toolbar topic tray treebar ulist unload unset unsetall updatenl url uwho var vcadd vcmd vcrem vol while whois window winhelp write writeint if isalnum isalpha isaop isavoice isban ischan ishop isignore isin isincs isletter islower isnotify isnum ison isop isprotect isreg isupper isvoice iswm iswmcs elseif else goto menu nicklist status title icon size option text edit button check radio box scroll list combo link tab item");
       functions = parseWords("if elseif else and not or eq ne in ni for foreach while switch");
@@ -47767,7 +47767,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/mathematica.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mathematica.js
   var mathematica_exports = {};
   __export(mathematica_exports, {
     mathematica: () => mathematica
@@ -47860,7 +47860,7 @@
   }
   var Identifier6, pBase, pFloat, pFloatBase, pPrecision, reBaseForm, reFloatForm, reIdInContext, mathematica;
   var init_mathematica = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/mathematica.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mathematica.js"() {
       Identifier6 = "[a-zA-Z\\$][a-zA-Z0-9\\$]*";
       pBase = "(?:\\d+)";
       pFloat = "(?:\\.\\d+|\\d+\\.\\d*|\\d+)";
@@ -47885,7 +47885,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/modelica.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/modelica.js
   var modelica_exports = {};
   __export(modelica_exports, {
     modelica: () => modelica
@@ -47964,7 +47964,7 @@
   }
   var keywords20, builtin3, atoms8, completions3, isSingleOperatorChar, isDoubleOperatorChar, isDigit4, isNonDigit, modelica;
   var init_modelica = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/modelica.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/modelica.js"() {
       keywords20 = words9("algorithm and annotation assert block break class connect connector constant constrainedby der discrete each else elseif elsewhen encapsulated end enumeration equation expandable extends external false final flow for function if import impure in initial inner input loop model not operator or outer output package parameter partial protected public pure record redeclare replaceable return stream then true type when while within");
       builtin3 = words9("abs acos actualStream asin atan atan2 cardinality ceil cos cosh delay div edge exp floor getInstanceName homotopy inStream integer log log10 mod pre reinit rem semiLinear sign sin sinh spatialDistribution sqrt tan tanh");
       atoms8 = words9("Real Boolean Integer String");
@@ -48040,7 +48040,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/mumps.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mumps.js
   var mumps_exports = {};
   __export(mumps_exports, {
     mumps: () => mumps
@@ -48114,7 +48114,7 @@
   }
   var singleOperators2, doubleOperators, singleDelimiters, brackets, identifiers6, commandKeywords, intrinsicFuncsWords, intrinsicFuncs, command2, mumps;
   var init_mumps = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/mumps.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mumps.js"() {
       singleOperators2 = new RegExp("^[\\+\\-\\*/&#!_?\\\\<>=\\'\\[\\]]");
       doubleOperators = new RegExp("^(('=)|(<=)|(>=)|('>)|('<)|([[)|(]])|(^$))");
       singleDelimiters = new RegExp("^[\\.,:]");
@@ -48141,7 +48141,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/mbox.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mbox.js
   var mbox_exports = {};
   __export(mbox_exports, {
     mbox: () => mbox
@@ -48203,7 +48203,7 @@
   }
   var rfc2822, rfc2822NoEmail, whitespace3, separator, rfc2822Header, rfc2822HeaderNoEmail, header2, email, untilEmail, bracketedEmail, untilBracketedEmail, mbox;
   var init_mbox = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/mbox.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mbox.js"() {
       rfc2822 = [
         "From",
         "Sender",
@@ -48266,7 +48266,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/nginx.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/nginx.js
   var nginx_exports = {};
   __export(nginx_exports, {
     nginx: () => nginx
@@ -48359,7 +48359,7 @@
   }
   var keywords21, keywords_block, keywords_important, type4, nginx;
   var init_nginx = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/nginx.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/nginx.js"() {
       keywords21 = words10(
         /* ngxDirectiveControl */
         "break return rewrite set accept_mutex accept_mutex_delay access_log add_after_body add_before_body add_header addition_types aio alias allow ancient_browser ancient_browser_value auth_basic auth_basic_user_file auth_http auth_http_header auth_http_timeout autoindex autoindex_exact_size autoindex_localtime charset charset_types client_body_buffer_size client_body_in_file_only client_body_in_single_buffer client_body_temp_path client_body_timeout client_header_buffer_size client_header_timeout client_max_body_size connection_pool_size create_full_put_path daemon dav_access dav_methods debug_connection debug_points default_type degradation degrade deny devpoll_changes devpoll_events directio directio_alignment empty_gif env epoll_events error_log eventport_events expires fastcgi_bind fastcgi_buffer_size fastcgi_buffers fastcgi_busy_buffers_size fastcgi_cache fastcgi_cache_key fastcgi_cache_methods fastcgi_cache_min_uses fastcgi_cache_path fastcgi_cache_use_stale fastcgi_cache_valid fastcgi_catch_stderr fastcgi_connect_timeout fastcgi_hide_header fastcgi_ignore_client_abort fastcgi_ignore_headers fastcgi_index fastcgi_intercept_errors fastcgi_max_temp_file_size fastcgi_next_upstream fastcgi_param fastcgi_pass_header fastcgi_pass_request_body fastcgi_pass_request_headers fastcgi_read_timeout fastcgi_send_lowat fastcgi_send_timeout fastcgi_split_path_info fastcgi_store fastcgi_store_access fastcgi_temp_file_write_size fastcgi_temp_path fastcgi_upstream_fail_timeout fastcgi_upstream_max_fails flv geoip_city geoip_country google_perftools_profiles gzip gzip_buffers gzip_comp_level gzip_disable gzip_hash gzip_http_version gzip_min_length gzip_no_buffer gzip_proxied gzip_static gzip_types gzip_vary gzip_window if_modified_since ignore_invalid_headers image_filter image_filter_buffer image_filter_jpeg_quality image_filter_transparency imap_auth imap_capabilities imap_client_buffer index ip_hash keepalive_requests keepalive_timeout kqueue_changes kqueue_events large_client_header_buffers limit_conn limit_conn_log_level limit_rate limit_rate_after limit_req limit_req_log_level limit_req_zone limit_zone lingering_time lingering_timeout lock_file log_format log_not_found log_subrequest map_hash_bucket_size map_hash_max_size master_process memcached_bind memcached_buffer_size memcached_connect_timeout memcached_next_upstream memcached_read_timeout memcached_send_timeout memcached_upstream_fail_timeout memcached_upstream_max_fails merge_slashes min_delete_depth modern_browser modern_browser_value msie_padding msie_refresh multi_accept open_file_cache open_file_cache_errors open_file_cache_events open_file_cache_min_uses open_file_cache_valid open_log_file_cache output_buffers override_charset perl perl_modules perl_require perl_set pid pop3_auth pop3_capabilities port_in_redirect postpone_gzipping postpone_output protocol proxy proxy_bind proxy_buffer proxy_buffer_size proxy_buffering proxy_buffers proxy_busy_buffers_size proxy_cache proxy_cache_key proxy_cache_methods proxy_cache_min_uses proxy_cache_path proxy_cache_use_stale proxy_cache_valid proxy_connect_timeout proxy_headers_hash_bucket_size proxy_headers_hash_max_size proxy_hide_header proxy_ignore_client_abort proxy_ignore_headers proxy_intercept_errors proxy_max_temp_file_size proxy_method proxy_next_upstream proxy_pass_error_message proxy_pass_header proxy_pass_request_body proxy_pass_request_headers proxy_read_timeout proxy_redirect proxy_send_lowat proxy_send_timeout proxy_set_body proxy_set_header proxy_ssl_session_reuse proxy_store proxy_store_access proxy_temp_file_write_size proxy_temp_path proxy_timeout proxy_upstream_fail_timeout proxy_upstream_max_fails random_index read_ahead real_ip_header recursive_error_pages request_pool_size reset_timedout_connection resolver resolver_timeout rewrite_log rtsig_overflow_events rtsig_overflow_test rtsig_overflow_threshold rtsig_signo satisfy secure_link_secret send_lowat send_timeout sendfile sendfile_max_chunk server_name_in_redirect server_names_hash_bucket_size server_names_hash_max_size server_tokens set_real_ip_from smtp_auth smtp_capabilities smtp_client_buffer smtp_greeting_delay so_keepalive source_charset ssi ssi_ignore_recycled_buffers ssi_min_file_chunk ssi_silent_errors ssi_types ssi_value_length ssl ssl_certificate ssl_certificate_key ssl_ciphers ssl_client_certificate ssl_crl ssl_dhparam ssl_engine ssl_prefer_server_ciphers ssl_protocols ssl_session_cache ssl_session_timeout ssl_verify_client ssl_verify_depth starttls stub_status sub_filter sub_filter_once sub_filter_types tcp_nodelay tcp_nopush thread_stack_size timeout timer_resolution types_hash_bucket_size types_hash_max_size underscores_in_headers uninitialized_variable_warn use user userid userid_domain userid_expires userid_mark userid_name userid_p3p userid_path userid_service valid_referers variables_hash_bucket_size variables_hash_max_size worker_connections worker_cpu_affinity worker_priority worker_processes worker_rlimit_core worker_rlimit_nofile worker_rlimit_sigpending worker_threads working_directory xclient xml_entities xslt_stylesheet xslt_typesdrew@li229-23"
@@ -48414,14 +48414,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/nsis.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/nsis.js
   var nsis_exports = {};
   __export(nsis_exports, {
     nsis: () => nsis
   });
   var nsis;
   var init_nsis = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/nsis.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/nsis.js"() {
       init_simple_mode();
       nsis = simpleMode({
         start: [
@@ -48484,7 +48484,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/ntriples.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ntriples.js
   var ntriples_exports = {};
   __export(ntriples_exports, {
     ntriples: () => ntriples
@@ -48515,7 +48515,7 @@
   }
   var Location, ntriples;
   var init_ntriples = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/ntriples.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ntriples.js"() {
       Location = {
         PRE_SUBJECT: 0,
         WRITING_SUB_URI: 1,
@@ -48645,7 +48645,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/octave.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/octave.js
   var octave_exports = {};
   __export(octave_exports, {
     octave: () => octave
@@ -48735,7 +48735,7 @@
   }
   var singleOperators3, singleDelimiters2, doubleOperators2, doubleDelimiters, tripleDelimiters, expressionEnd, identifiers7, builtins6, keywords22, octave;
   var init_octave = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/octave.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/octave.js"() {
       singleOperators3 = new RegExp("^[\\+\\-\\*/&|\\^~<>!@'\\\\]");
       singleDelimiters2 = new RegExp("^[\\(\\[\\{\\},:=;\\.]");
       doubleOperators2 = new RegExp("^((==)|(~=)|(<=)|(>=)|(<<)|(>>)|(\\.[\\+\\-\\*/\\^\\\\]))");
@@ -48864,7 +48864,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/oz.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/oz.js
   var oz_exports = {};
   __export(oz_exports, {
     oz: () => oz
@@ -49005,7 +49005,7 @@
   }
   var singleOperators4, doubleOperators3, tripleOperators, middle, end, atoms9, commonKeywords3, openingKeywords, middleKeywords, endKeywords, oz;
   var init_oz = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/oz.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/oz.js"() {
       singleOperators4 = /[\^@!\|<>#~\.\*\-\+\\/,=]/;
       doubleOperators3 = /(<-)|(:=)|(=<)|(>=)|(<=)|(<:)|(>:)|(=:)|(\\=)|(\\=:)|(!!)|(==)|(::)/;
       tripleOperators = /(:::)|(\.\.\.)|(=<:)|(>=:)/;
@@ -49103,7 +49103,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/pascal.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/pascal.js
   var pascal_exports = {};
   __export(pascal_exports, {
     pascal: () => pascal
@@ -49191,7 +49191,7 @@
   }
   var keywords23, atoms10, isOperatorChar7, pascal;
   var init_pascal = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/pascal.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/pascal.js"() {
       keywords23 = words11(
         "absolute and array asm begin case const constructor destructor div do downto else end file for function goto if implementation in inherited inline interface label mod nil not object of operator or packed procedure program record reintroduce repeat self set shl shr string then to type unit until uses var while with xor as class dispinterface except exports finalization finally initialization inline is library on out packed property raise resourcestring threadvar try absolute abstract alias assembler bitpacked break cdecl continue cppdecl cvar default deprecated dynamic enumerator experimental export external far far16 forward generic helper implements index interrupt iocheck local message name near nodefault noreturn nostackframe oldfpccall otherwise overload override pascal platform private protected public published read register reintroduce result safecall saveregisters softfloat specialize static stdcall stored strict unaligned unimplemented varargs virtual write"
       );
@@ -49216,7 +49216,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/perl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/perl.js
   var perl_exports = {};
   __export(perl_exports, {
     perl: () => perl
@@ -49620,7 +49620,7 @@
   }
   var PERL, RXstyle, RXmodifiers, perl;
   var init_perl = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/perl.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/perl.js"() {
       PERL = {
         //   null - magic touch
         //   1 - keyword
@@ -50329,7 +50329,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/pig.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/pig.js
   var pig_exports = {};
   __export(pig_exports, {
     pig: () => pig
@@ -50412,7 +50412,7 @@
   }
   var pBuiltins, pKeywords, pTypes, builtins7, keywords24, types3, isOperatorChar8, pig;
   var init_pig = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/pig.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/pig.js"() {
       pBuiltins = "ABS ACOS ARITY ASIN ATAN AVG BAGSIZE BINSTORAGE BLOOM BUILDBLOOM CBRT CEIL CONCAT COR COS COSH COUNT COUNT_STAR COV CONSTANTSIZE CUBEDIMENSIONS DIFF DISTINCT DOUBLEABS DOUBLEAVG DOUBLEBASE DOUBLEMAX DOUBLEMIN DOUBLEROUND DOUBLESUM EXP FLOOR FLOATABS FLOATAVG FLOATMAX FLOATMIN FLOATROUND FLOATSUM GENERICINVOKER INDEXOF INTABS INTAVG INTMAX INTMIN INTSUM INVOKEFORDOUBLE INVOKEFORFLOAT INVOKEFORINT INVOKEFORLONG INVOKEFORSTRING INVOKER ISEMPTY JSONLOADER JSONMETADATA JSONSTORAGE LAST_INDEX_OF LCFIRST LOG LOG10 LOWER LONGABS LONGAVG LONGMAX LONGMIN LONGSUM MAX MIN MAPSIZE MONITOREDUDF NONDETERMINISTIC OUTPUTSCHEMA  PIGSTORAGE PIGSTREAMING RANDOM REGEX_EXTRACT REGEX_EXTRACT_ALL REPLACE ROUND SIN SINH SIZE SQRT STRSPLIT SUBSTRING SUM STRINGCONCAT STRINGMAX STRINGMIN STRINGSIZE TAN TANH TOBAG TOKENIZE TOMAP TOP TOTUPLE TRIM TEXTLOADER TUPLESIZE UCFIRST UPPER UTF8STORAGECONVERTER ";
       pKeywords = "VOID IMPORT RETURNS DEFINE LOAD FILTER FOREACH ORDER CUBE DISTINCT COGROUP JOIN CROSS UNION SPLIT INTO IF OTHERWISE ALL AS BY USING INNER OUTER ONSCHEMA PARALLEL PARTITION GROUP AND OR NOT GENERATE FLATTEN ASC DESC IS STREAM THROUGH STORE MAPREDUCE SHIP CACHE INPUT OUTPUT STDERROR STDIN STDOUT LIMIT SAMPLE LEFT RIGHT FULL EQ GT LT GTE LTE NEQ MATCHES TRUE FALSE DUMP";
       pTypes = "BOOLEAN INT LONG FLOAT DOUBLE CHARARRAY BYTEARRAY BAG TUPLE MAP ";
@@ -50440,7 +50440,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/powershell.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/powershell.js
   var powershell_exports = {};
   __export(powershell_exports, {
     powerShell: () => powerShell
@@ -50639,7 +50639,7 @@
   }
   var notCharacterOrDash, varNames, keywords25, punctuation2, wordOperators3, symbolOperators2, operators5, numbers, identifiers8, symbolBuiltins, namedBuiltins, variableBuiltins, builtins8, grammar, powerShell;
   var init_powershell = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/powershell.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/powershell.js"() {
       notCharacterOrDash = "(?=[^A-Za-z\\d\\-_]|$)";
       varNames = /[\w\-:]/;
       keywords25 = buildRegexp([
@@ -50776,14 +50776,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/properties.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/properties.js
   var properties_exports = {};
   __export(properties_exports, {
     properties: () => properties2
   });
   var properties2;
   var init_properties = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/properties.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/properties.js"() {
       properties2 = {
         name: "properties",
         token: function(stream, state) {
@@ -50842,7 +50842,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/protobuf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/protobuf.js
   var protobuf_exports = {};
   __export(protobuf_exports, {
     protobuf: () => protobuf
@@ -50882,7 +50882,7 @@
   }
   var keywordArray2, keywords26, identifiers9, protobuf;
   var init_protobuf = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/protobuf.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/protobuf.js"() {
       keywordArray2 = [
         "package",
         "message",
@@ -50928,7 +50928,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/pug.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/pug.js
   var pug_exports = {};
   __export(pug_exports, {
     pug: () => pug
@@ -51281,7 +51281,7 @@
   }
   var ATTRS_NEST, State, pug;
   var init_pug = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/pug.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/pug.js"() {
       init_javascript();
       ATTRS_NEST = {
         "{": "}",
@@ -51341,7 +51341,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/puppet.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/puppet.js
   var puppet_exports = {};
   __export(puppet_exports, {
     puppet: () => puppet
@@ -51461,7 +51461,7 @@
   }
   var words13, variable_regex2, puppet;
   var init_puppet = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/puppet.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/puppet.js"() {
       words13 = {};
       variable_regex2 = /({)?([a-z][a-z0-9_]*)?((::[a-z][a-z0-9_]*)*::)?[a-zA-Z0-9_]+(})?/;
       define("keyword", "class define site node include import inherits");
@@ -51486,7 +51486,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/q.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/q.js
   var q_exports = {};
   __export(q_exports, {
     q: () => q
@@ -51564,7 +51564,7 @@
   }
   var curPunc5, keywords27, E, q;
   var init_q = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/q.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/q.js"() {
       keywords27 = buildRE(["abs", "acos", "aj", "aj0", "all", "and", "any", "asc", "asin", "asof", "atan", "attr", "avg", "avgs", "bin", "by", "ceiling", "cols", "cor", "cos", "count", "cov", "cross", "csv", "cut", "delete", "deltas", "desc", "dev", "differ", "distinct", "div", "do", "each", "ej", "enlist", "eval", "except", "exec", "exit", "exp", "fby", "fills", "first", "fkeys", "flip", "floor", "from", "get", "getenv", "group", "gtime", "hclose", "hcount", "hdel", "hopen", "hsym", "iasc", "idesc", "if", "ij", "in", "insert", "inter", "inv", "key", "keys", "last", "like", "list", "lj", "load", "log", "lower", "lsq", "ltime", "ltrim", "mavg", "max", "maxs", "mcount", "md5", "mdev", "med", "meta", "min", "mins", "mmax", "mmin", "mmu", "mod", "msum", "neg", "next", "not", "null", "or", "over", "parse", "peach", "pj", "plist", "prd", "prds", "prev", "prior", "rand", "rank", "ratios", "raze", "read0", "read1", "reciprocal", "reverse", "rload", "rotate", "rsave", "rtrim", "save", "scan", "select", "set", "setenv", "show", "signum", "sin", "sqrt", "ss", "ssr", "string", "sublist", "sum", "sums", "sv", "system", "tables", "tan", "til", "trim", "txf", "type", "uj", "ungroup", "union", "update", "upper", "upsert", "value", "var", "view", "views", "vs", "wavg", "where", "where", "while", "within", "wj", "wj1", "wsum", "xasc", "xbar", "xcol", "xcols", "xdesc", "xexp", "xgroup", "xkey", "xlog", "xprev", "xrank"]);
       E = /[|/&^!+:\\\-*%$=~#;@><,?_\'\"\[\(\]\)\s{}]/;
       q = {
@@ -51626,7 +51626,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/r.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/r.js
   var r_exports = {};
   __export(r_exports, {
     r: () => r
@@ -51740,7 +51740,7 @@
   }
   var commonAtoms, commonBuiltins2, commonKeywords4, commonBlockKeywords, atoms11, builtins9, keywords28, blockkeywords, opChars, curPunc6, ALIGN_YES, ALIGN_NO, BRACELESS, r;
   var init_r = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/r.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/r.js"() {
       commonAtoms = ["NULL", "NA", "Inf", "NaN", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_", "TRUE", "FALSE"];
       commonBuiltins2 = ["list", "quote", "bquote", "eval", "return", "call", "parse", "deparse"];
       commonKeywords4 = ["if", "else", "repeat", "while", "function", "for", "in", "next", "break"];
@@ -51805,7 +51805,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/rpm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/rpm.js
   var rpm_exports = {};
   __export(rpm_exports, {
     rpmChanges: () => rpmChanges,
@@ -51813,7 +51813,7 @@
   });
   var headerSeparator, headerLine, simpleEmail, rpmChanges, arch, preamble, section, control_flow_complex, control_flow_simple, operators6, rpmSpec;
   var init_rpm = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/rpm.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/rpm.js"() {
       headerSeparator = /^-+$/;
       headerLine = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)  ?\d{1,2} \d{2}:\d{2}(:\d{2})? [A-Z]{3,4} \d{4} - /;
       simpleEmail = /^[\w+.-]+@[\w.-]+/;
@@ -51922,7 +51922,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/ruby.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ruby.js
   var ruby_exports = {};
   __export(ruby_exports, {
     ruby: () => ruby
@@ -52125,7 +52125,7 @@
   }
   var keywordList, keywords29, indentWords, dedentWords, opening, closing2, curPunc7, ruby;
   var init_ruby = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/ruby.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ruby.js"() {
       keywordList = [
         "alias",
         "and",
@@ -52260,7 +52260,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/sas.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/sas.js
   var sas_exports = {};
   __export(sas_exports, {
     sas: () => sas
@@ -52420,7 +52420,7 @@
   }
   var words14, isDoubleOperatorSym, isDoubleOperatorChar2, isSingleOperatorChar2, sas;
   var init_sas = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/sas.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/sas.js"() {
       words14 = {};
       isDoubleOperatorSym = {
         eq: "operator",
@@ -52475,7 +52475,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/scheme.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/scheme.js
   var scheme_exports = {};
   __export(scheme_exports, {
     scheme: () => scheme
@@ -52523,7 +52523,7 @@
   }
   var BUILTIN2, COMMENT2, STRING2, SYMBOL, ATOM2, NUMBER2, BRACKET, INDENT_WORD_SKIP, keywords30, indentKeys, binaryMatcher, octalMatcher, hexMatcher, decimalMatcher, scheme;
   var init_scheme = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/scheme.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/scheme.js"() {
       BUILTIN2 = "builtin";
       COMMENT2 = "comment";
       STRING2 = "string";
@@ -52711,7 +52711,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/shell.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/shell.js
   var shell_exports = {};
   __export(shell_exports, {
     shell: () => shell
@@ -52817,7 +52817,7 @@
   }
   var words15, commonAtoms2, commonKeywords5, commonCommands, tokenDollar, shell;
   var init_shell = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/shell.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/shell.js"() {
       words15 = {};
       commonAtoms2 = ["true", "false"];
       commonKeywords5 = [
@@ -52941,7 +52941,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/sieve.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/sieve.js
   var sieve_exports = {};
   __export(sieve_exports, {
     sieve: () => sieve
@@ -53052,7 +53052,7 @@
   }
   var keywords31, atoms12, sieve;
   var init_sieve = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/sieve.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/sieve.js"() {
       keywords31 = words16("if elsif else stop require");
       atoms12 = words16("true false not");
       sieve = {
@@ -53084,14 +53084,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/smalltalk.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/smalltalk.js
   var smalltalk_exports = {};
   __export(smalltalk_exports, {
     smalltalk: () => smalltalk
   });
   var specialChars, keywords32, Context9, Token, State2, next, nextComment, nextString, nextSymbol, nextTemporaries, smalltalk;
   var init_smalltalk = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/smalltalk.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/smalltalk.js"() {
       specialChars = /[+\-\/\\*~<>=@%|&?!.,:;^]/;
       keywords32 = /true|false|nil|self|super|thisContext/;
       Context9 = function(tokenizer2, parent) {
@@ -53213,7 +53213,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/solr.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/solr.js
   var solr_exports = {};
   __export(solr_exports, {
     solr: () => solr
@@ -53271,7 +53271,7 @@
   }
   var isStringChar, isOperatorChar9, isOperatorString, solr;
   var init_solr = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/solr.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/solr.js"() {
       isStringChar = /[^\s\|\!\+\-\*\?\~\^\&\:\(\)\[\]\{\}\"\\]/;
       isOperatorChar9 = /[\|\!\+\-\*\?\~\^\&]/;
       isOperatorString = /^(OR|AND|NOT|TO)$/;
@@ -53290,7 +53290,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/sparql.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/sparql.js
   var sparql_exports = {};
   __export(sparql_exports, {
     sparql: () => sparql
@@ -53365,7 +53365,7 @@
   }
   var curPunc8, ops, keywords33, operatorChars2, PN_CHARS, PREFIX_START, PREFIX_REMAINDER, sparql;
   var init_sparql = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/sparql.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/sparql.js"() {
       ops = wordRegexp10([
         "str",
         "lang",
@@ -53546,14 +53546,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/spreadsheet.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/spreadsheet.js
   var spreadsheet_exports = {};
   __export(spreadsheet_exports, {
     spreadsheet: () => spreadsheet
   });
   var spreadsheet;
   var init_spreadsheet = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/spreadsheet.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/spreadsheet.js"() {
       spreadsheet = {
         name: "spreadsheet",
         startState: function() {
@@ -53641,7 +53641,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/stylus.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/stylus.js
   var stylus_exports = {};
   __export(stylus_exports, {
     stylus: () => stylus
@@ -53855,7 +53855,7 @@
   }
   var tagKeywords_, documentTypes_2, mediaTypes_2, mediaFeatures_2, propertyKeywords_2, nonStandardPropertyKeywords_2, fontProperties_2, colorKeywords_2, valueKeywords_2, wordOperatorKeywords_, blockKeywords_, commonAtoms_, commonDef_, hintWords, tagKeywords, tagVariablesRegexp, propertyKeywords2, nonStandardPropertyKeywords2, valueKeywords2, colorKeywords2, documentTypes2, documentTypesRegexp, mediaFeatures2, mediaTypes2, fontProperties2, operatorsRegexp, wordOperatorKeywordsRegexp, blockKeywords4, vendorPrefixesRegexp, commonAtoms3, firstWordMatch, states, ch, style, type5, override, stylus;
   var init_stylus = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/stylus.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/stylus.js"() {
       tagKeywords_ = ["a", "abbr", "address", "area", "article", "aside", "audio", "b", "base", "bdi", "bdo", "bgsound", "blockquote", "body", "br", "button", "canvas", "caption", "cite", "code", "col", "colgroup", "data", "datalist", "dd", "del", "details", "dfn", "div", "dl", "dt", "em", "embed", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "legend", "li", "link", "main", "map", "mark", "marquee", "menu", "menuitem", "meta", "meter", "nav", "nobr", "noframes", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "tr", "track", "u", "ul", "var", "video"];
       documentTypes_2 = ["domain", "regexp", "url-prefix", "url"];
       mediaTypes_2 = ["all", "aural", "braille", "handheld", "print", "projection", "screen", "tty", "tv", "embossed"];
@@ -54234,7 +54234,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/swift.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/swift.js
   var swift_exports = {};
   __export(swift_exports, {
     swift: () => swift
@@ -54365,7 +54365,7 @@
   }
   var keywords34, definingKeywords, atoms13, types4, operators7, punc, binary, octal, hexadecimal, decimal, identifier7, property2, instruction, attribute2, swift;
   var init_swift = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/swift.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/swift.js"() {
       keywords34 = wordSet([
         "_",
         "var",
@@ -54533,7 +54533,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/stex.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/stex.js
   var stex_exports = {};
   __export(stex_exports, {
     stex: () => stex,
@@ -54766,13 +54766,13 @@
   }
   var stex, stexMath;
   var init_stex = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/stex.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/stex.js"() {
       stex = mkStex(false);
       stexMath = mkStex(true);
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/verilog.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/verilog.js
   var verilog_exports = {};
   __export(verilog_exports, {
     tlv: () => tlv,
@@ -55047,7 +55047,7 @@
   }
   var verilog, tlvIdentifierStyle, tlvScopePrefixChars, tlvIndentUnit, tlvTrackStatements, tlvIdentMatch, tlvLineIndentationMatch, tlvCommentMatch, tlv;
   var init_verilog = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/verilog.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/verilog.js"() {
       verilog = mkVerilog({});
       tlvIdentifierStyle = {
         "|": "link",
@@ -55234,7 +55234,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/tcl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/tcl.js
   var tcl_exports = {};
   __export(tcl_exports, {
     tcl: () => tcl
@@ -55332,7 +55332,7 @@
   }
   var keywords35, functions2, isOperatorChar10, tcl;
   var init_tcl = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/tcl.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/tcl.js"() {
       keywords35 = parseWords2("Tcl safe after append array auto_execok auto_import auto_load auto_mkindex auto_mkindex_old auto_qualify auto_reset bgerror binary break catch cd close concat continue dde eof encoding error eval exec exit expr fblocked fconfigure fcopy file fileevent filename filename flush for foreach format gets glob global history http if incr info interp join lappend lindex linsert list llength load lrange lreplace lsearch lset lsort memory msgcat namespace open package parray pid pkg::create pkg_mkIndex proc puts pwd re_syntax read regex regexp registry regsub rename resource return scan seek set socket source split string subst switch tcl_endOfWord tcl_findLibrary tcl_startOfNextWord tcl_wordBreakAfter tcl_startOfPreviousWord tcl_wordBreakBefore tcltest tclvars tell time trace unknown unset update uplevel upvar variable vwait");
       functions2 = parseWords2("if elseif else and not or eq ne in ni for foreach while switch");
       isOperatorChar10 = /[+\-*&%=<>!?^\/\|]/;
@@ -55356,7 +55356,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/textile.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/textile.js
   var textile_exports = {};
   __export(textile_exports, {
     textile: () => textile
@@ -55493,7 +55493,7 @@
   }
   var TOKEN_STYLES, REs, Modes, textile;
   var init_textile = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/textile.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/textile.js"() {
       TOKEN_STYLES = {
         addition: "inserted",
         attributes: "propertyName",
@@ -55778,7 +55778,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/tiddlywiki.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/tiddlywiki.js
   var tiddlywiki_exports = {};
   __export(tiddlywiki_exports, {
     tiddlyWiki: () => tiddlyWiki
@@ -55965,7 +55965,7 @@
   }
   var textwords, keywords36, isSpaceName, reHR, reWikiCommentStart, reWikiCommentStop, reBlockQuote, reJsCodeStart, reJsCodeStop, reXmlCodeStart, reXmlCodeStop, reCodeBlockStart, reCodeBlockStop, reUntilCodeStop, tiddlyWiki;
   var init_tiddlywiki = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/tiddlywiki.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/tiddlywiki.js"() {
       textwords = {};
       keywords36 = {
         "allTags": true,
@@ -56015,7 +56015,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/tiki.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/tiki.js
   var tiki_exports = {};
   __export(tiki_exports, {
     tiki: () => tiki
@@ -56255,7 +56255,7 @@
   }
   var pluginName, type6, curState, setStyle, tiki;
   var init_tiki = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/tiki.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/tiki.js"() {
       tiki = {
         name: "tiki",
         startState: function() {
@@ -56293,14 +56293,14 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/toml.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/toml.js
   var toml_exports = {};
   __export(toml_exports, {
     toml: () => toml
   });
   var toml;
   var init_toml = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/toml.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/toml.js"() {
       toml = {
         name: "toml",
         startState: function() {
@@ -56377,7 +56377,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/troff.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/troff.js
   var troff_exports = {};
   __export(troff_exports, {
     troff: () => troff
@@ -56432,7 +56432,7 @@
   }
   var words17, troff;
   var init_troff = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/troff.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/troff.js"() {
       words17 = {};
       troff = {
         name: "troff",
@@ -56446,7 +56446,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/ttcn.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ttcn.js
   var ttcn_exports = {};
   __export(ttcn_exports, {
     ttcn: () => ttcn
@@ -56575,7 +56575,7 @@
   }
   var parserConfig2, wordList, keywords37, builtin4, timerOps, portOps, configOps, verdictOps, sutOps, functionOps, verdictConsts, booleanConsts, otherConsts, types5, visibilityModifiers, templateMatch, multiLineStrings2, indentStatements, isOperatorChar11, curPunc9, ttcn;
   var init_ttcn = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/ttcn.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ttcn.js"() {
       parserConfig2 = {
         name: "ttcn",
         keywords: words18("activate address alive all alt altstep and and4b any break case component const continue control deactivate display do else encode enumerated except exception execute extends extension external for from function goto group if import in infinity inout interleave label language length log match message mixed mod modifies module modulepar mtc noblock not not4b nowait of on optional or or4b out override param pattern port procedure record recursive rem repeat return runs select self sender set signature system template testcase to type union value valueof var variant while with xor xor4b"),
@@ -56662,7 +56662,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/ttcn-cfg.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ttcn-cfg.js
   var ttcn_cfg_exports = {};
   __export(ttcn_cfg_exports, {
     ttcnCfg: () => ttcnCfg
@@ -56749,7 +56749,7 @@
   }
   var parserConfig3, keywords38, fileNCtrlMaskOptions, externalCommands, multiLineStrings3, indentStatements2, isOperatorChar12, curPunc10, ttcnCfg;
   var init_ttcn_cfg = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/ttcn-cfg.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/ttcn-cfg.js"() {
       parserConfig3 = {
         name: "ttcn-cfg",
         keywords: words19("Yes No LogFile FileMask ConsoleMask AppendFile TimeStampFormat LogEventTypes SourceInfoFormat LogEntityName LogSourceInfo DiskFullAction LogFileNumber LogFileSize MatchingHints Detailed Compact SubCategories Stack Single None Seconds DateTime Time Stop Error Retry Delete TCPPort KillTimer NumHCs UnixSocketsEnabled LocalAddress"),
@@ -56808,7 +56808,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/turtle.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/turtle.js
   var turtle_exports = {};
   __export(turtle_exports, {
     turtle: () => turtle
@@ -56882,7 +56882,7 @@
   }
   var curPunc11, ops2, keywords39, operatorChars3, turtle;
   var init_turtle = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/turtle.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/turtle.js"() {
       ops2 = wordRegexp12([]);
       keywords39 = wordRegexp12(["@prefix", "@base", "a"]);
       operatorChars3 = /[*+\-<>=&|]/;
@@ -56945,7 +56945,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/webidl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/webidl.js
   var webidl_exports = {};
   __export(webidl_exports, {
     webIDL: () => webIDL
@@ -57000,7 +57000,7 @@
   }
   var builtinArray2, builtins10, typeArray2, types6, keywordArray3, keywords40, atomArray, atoms14, startDefArray, startDefs, endDefArray, endDefs, singleOperators5, integers, floats, identifiers10, identifiersEnd, strings2, multilineComments, multilineCommentsStart, multilineCommentsEnd, webIDL;
   var init_webidl = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/webidl.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/webidl.js"() {
       builtinArray2 = [
         "Clamp",
         "Constructor",
@@ -57157,7 +57157,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/vb.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/vb.js
   var vb_exports = {};
   __export(vb_exports, {
     vb: () => vb
@@ -57307,7 +57307,7 @@
   }
   var ERRORCLASS2, singleOperators6, singleDelimiters3, doubleOperators4, doubleDelimiters2, tripleDelimiters2, identifiers11, openingKeywords2, middleKeywords2, endKeywords2, operatorKeywords, wordOperators4, commonKeywords6, commontypes, keywords41, types7, stringPrefixes3, opening2, middle2, closing3, doubleClosing, doOpening, indentInfo, vb;
   var init_vb = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/vb.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/vb.js"() {
       ERRORCLASS2 = "error";
       singleOperators6 = new RegExp("^[\\+\\-\\*/%&\\\\|\\^~<>!]");
       singleDelimiters3 = new RegExp("^[\\(\\)\\[\\]\\{\\}@,:`=;\\.]");
@@ -57367,7 +57367,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/vbscript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/vbscript.js
   var vbscript_exports = {};
   __export(vbscript_exports, {
     vbScript: () => vbScript,
@@ -57849,13 +57849,13 @@
   }
   var vbScript, vbScriptASP;
   var init_vbscript = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/vbscript.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/vbscript.js"() {
       vbScript = mkVBScript({});
       vbScriptASP = mkVBScript({ isASP: true });
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/velocity.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/velocity.js
   var velocity_exports = {};
   __export(velocity_exports, {
     velocity: () => velocity
@@ -57985,7 +57985,7 @@
   }
   var keywords42, functions3, specials2, isOperatorChar13, velocity;
   var init_velocity = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/velocity.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/velocity.js"() {
       keywords42 = parseWords3("#end #else #break #stop #[[ #]] #{end} #{else} #{break} #{stop}");
       functions3 = parseWords3("#if #elseif #foreach #set #include #parse #macro #define #evaluate #{if} #{elseif} #{foreach} #{set} #{include} #{parse} #{macro} #{define} #{evaluate}");
       specials2 = parseWords3("$foreach.count $foreach.hasNext $foreach.first $foreach.last $foreach.topmost $foreach.parent.count $foreach.parent.hasNext $foreach.parent.first $foreach.parent.last $foreach.parent $velocityCount $!bodyContent $bodyContent");
@@ -58012,7 +58012,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/vhdl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/vhdl.js
   var vhdl_exports = {};
   __export(vhdl_exports, {
     vhdl: () => vhdl
@@ -58121,7 +58121,7 @@
   }
   var atoms15, hooks3, multiLineStrings4, keywords43, blockKeywords5, isOperatorChar14, curPunc12, vhdl;
   var init_vhdl = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/vhdl.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/vhdl.js"() {
       atoms15 = words20("null");
       hooks3 = { "`": metaHook2, "$": metaHook2 };
       multiLineStrings4 = false;
@@ -58179,7 +58179,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/xquery.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/xquery.js
   var xquery_exports = {};
   __export(xquery_exports, {
     xQuery: () => xQuery
@@ -58425,7 +58425,7 @@
   }
   var keywords44, xQuery;
   var init_xquery = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/xquery.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/xquery.js"() {
       keywords44 = (function() {
         function kw2(type7) {
           return { type: type7, style: "keyword" };
@@ -58717,7 +58717,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/yacas.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/yacas.js
   var yacas_exports = {};
   __export(yacas_exports, {
     yacas: () => yacas
@@ -58819,7 +58819,7 @@
   }
   var bodiedOps, pFloatForm, pIdentifier, reFloatForm2, reIdentifier, rePattern, reFunctionLike, yacas;
   var init_yacas = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/yacas.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/yacas.js"() {
       bodiedOps = words21("Assert BackQuote D Defun Deriv For ForEach FromFile FromString Function Integrate InverseTaylor Limit LocalSymbols Macro MacroRule MacroRulePattern NIntegrate Rule RulePattern Subst TD TExplicitSum TSum Taylor Taylor1 Taylor2 Taylor3 ToFile ToStdout ToString TraceRule Until While");
       pFloatForm = "(?:(?:\\.\\d+|\\d+\\.\\d*|\\d+)(?:[eE][+-]?\\d+)?)";
       pIdentifier = "(?:[a-zA-Z\\$'][a-zA-Z0-9\\$']*)";
@@ -58855,7 +58855,7 @@
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/z80.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/z80.js
   var z80_exports = {};
   __export(z80_exports, {
     ez80: () => ez80,
@@ -58950,13 +58950,13 @@
   }
   var z80, ez80;
   var init_z80 = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/z80.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/z80.js"() {
       z80 = mkZ80(false);
       ez80 = mkZ80(true);
     }
   });
 
-  // node_modules/@codemirror/legacy-modes/mode/mscgen.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mscgen.js
   var mscgen_exports = {};
   __export(mscgen_exports, {
     mscgen: () => mscgen,
@@ -59060,7 +59060,7 @@
   }
   var mscgen, msgenny, xu;
   var init_mscgen = __esm({
-    "node_modules/@codemirror/legacy-modes/mode/mscgen.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/legacy-modes/mode/mscgen.js"() {
       mscgen = mkParser({
         "keywords": ["msc"],
         "options": ["hscale", "width", "arcgradient", "wordwraparcs"],
@@ -59099,7 +59099,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-vue/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-vue/dist/index.js
   var dist_exports20 = {};
   __export(dist_exports20, {
     vue: () => vue,
@@ -59134,7 +59134,7 @@
   }
   var parser21, exprParser, baseParser, exprMixed, textParser, attrParser, textMixed, attrMixed, baseHTML3, vueLanguage;
   var init_dist41 = __esm({
-    "node_modules/@codemirror/lang-vue/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-vue/dist/index.js"() {
       init_dist5();
       init_dist14();
       init_dist13();
@@ -59191,7 +59191,7 @@
     }
   });
 
-  // node_modules/@codemirror/lang-angular/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-angular/dist/index.js
   var dist_exports21 = {};
   __export(dist_exports21, {
     angular: () => angular,
@@ -59232,7 +59232,7 @@
   }
   var Text2, attributeContentSingle, attributeContentDouble, scriptAttributeContentSingle, scriptAttributeContentDouble, text4, attrSingle, attrDouble, scriptAttrSingle, scriptAttrDouble, parser22, exprParser2, baseParser2, exprMixed2, statementMixed, textParser2, attrParser2, textMixed2, attrMixed2, baseHTML4, angularLanguage;
   var init_dist42 = __esm({
-    "node_modules/@codemirror/lang-angular/dist/index.js"() {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lang-angular/dist/index.js"() {
       init_dist5();
       init_dist14();
       init_dist13();
@@ -59323,9 +59323,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/core.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/core.js
   var require_core = __commonJS({
-    "node_modules/highlight.js/lib/core.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/core.js"(exports, module) {
       function deepFreeze(obj) {
         if (obj instanceof Map) {
           obj.clear = obj.delete = obj.set = function() {
@@ -60861,9 +60861,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/1c.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/1c.js
   var require_c = __commonJS({
-    "node_modules/highlight.js/lib/languages/1c.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/1c.js"(exports, module) {
       function _1c(hljs) {
         const UNDERSCORE_IDENT_RE = "[A-Za-z\u0410-\u042F\u0430-\u044F\u0451\u0401_][A-Za-z\u0410-\u042F\u0430-\u044F\u0451\u0401_0-9]+";
         const v7_keywords = "\u0434\u0430\u043B\u0435\u0435 ";
@@ -61014,9 +61014,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/abnf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/abnf.js
   var require_abnf = __commonJS({
-    "node_modules/highlight.js/lib/languages/abnf.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/abnf.js"(exports, module) {
       function abnf(hljs) {
         const regex = hljs.regex;
         const IDENT = /^[a-zA-Z][a-zA-Z0-9-]*/;
@@ -61084,9 +61084,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/accesslog.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/accesslog.js
   var require_accesslog = __commonJS({
-    "node_modules/highlight.js/lib/languages/accesslog.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/accesslog.js"(exports, module) {
       function accesslog(hljs) {
         const regex = hljs.regex;
         const HTTP_VERBS = [
@@ -61170,9 +61170,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/actionscript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/actionscript.js
   var require_actionscript = __commonJS({
-    "node_modules/highlight.js/lib/languages/actionscript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/actionscript.js"(exports, module) {
       function actionscript(hljs) {
         const regex = hljs.regex;
         const IDENT_RE = /[a-zA-Z_$][a-zA-Z0-9_$]*/;
@@ -61317,9 +61317,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/ada.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ada.js
   var require_ada = __commonJS({
-    "node_modules/highlight.js/lib/languages/ada.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ada.js"(exports, module) {
       function ada(hljs) {
         const INTEGER_RE = "\\d(_|\\d)*";
         const EXPONENT_RE = "[eE][-+]?" + INTEGER_RE;
@@ -61544,9 +61544,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/angelscript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/angelscript.js
   var require_angelscript = __commonJS({
-    "node_modules/highlight.js/lib/languages/angelscript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/angelscript.js"(exports, module) {
       function angelscript(hljs) {
         const builtInTypeMode = {
           className: "built_in",
@@ -61715,9 +61715,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/apache.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/apache.js
   var require_apache = __commonJS({
-    "node_modules/highlight.js/lib/languages/apache.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/apache.js"(exports, module) {
       function apache(hljs) {
         const NUMBER_REF = {
           className: "number",
@@ -61814,9 +61814,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/applescript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/applescript.js
   var require_applescript = __commonJS({
-    "node_modules/highlight.js/lib/languages/applescript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/applescript.js"(exports, module) {
       function applescript(hljs) {
         const regex = hljs.regex;
         const STRING3 = hljs.inherit(
@@ -61940,9 +61940,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/arcade.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/arcade.js
   var require_arcade = __commonJS({
-    "node_modules/highlight.js/lib/languages/arcade.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/arcade.js"(exports, module) {
       function arcade(hljs) {
         const regex = hljs.regex;
         const IDENT_RE = "[A-Za-z_][0-9A-Za-z_]*";
@@ -62367,9 +62367,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/arduino.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/arduino.js
   var require_arduino = __commonJS({
-    "node_modules/highlight.js/lib/languages/arduino.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/arduino.js"(exports, module) {
       function cPlusPlus(hljs) {
         const regex = hljs.regex;
         const C_LINE_COMMENT_MODE = hljs.COMMENT("//", "$", { contains: [{ begin: /\\\n/ }] });
@@ -63305,9 +63305,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/armasm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/armasm.js
   var require_armasm = __commonJS({
-    "node_modules/highlight.js/lib/languages/armasm.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/armasm.js"(exports, module) {
       function armasm(hljs) {
         const COMMENT3 = { variants: [
           hljs.COMMENT("^[ \\t]*(?=#)", "$", {
@@ -63398,9 +63398,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/xml.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/xml.js
   var require_xml = __commonJS({
-    "node_modules/highlight.js/lib/languages/xml.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/xml.js"(exports, module) {
       function xml3(hljs) {
         const regex = hljs.regex;
         const TAG_NAME_RE = regex.concat(/[\p{L}_]/u, regex.optional(/[\p{L}0-9_.-]*:/u), /[\p{L}0-9_.-]*/u);
@@ -63629,9 +63629,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/asciidoc.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/asciidoc.js
   var require_asciidoc = __commonJS({
-    "node_modules/highlight.js/lib/languages/asciidoc.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/asciidoc.js"(exports, module) {
       function asciidoc(hljs) {
         const regex = hljs.regex;
         const HORIZONTAL_RULE = {
@@ -63882,9 +63882,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/aspectj.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/aspectj.js
   var require_aspectj = __commonJS({
-    "node_modules/highlight.js/lib/languages/aspectj.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/aspectj.js"(exports, module) {
       function aspectj(hljs) {
         const regex = hljs.regex;
         const KEYWORDS = [
@@ -64107,9 +64107,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/autohotkey.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/autohotkey.js
   var require_autohotkey = __commonJS({
-    "node_modules/highlight.js/lib/languages/autohotkey.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/autohotkey.js"(exports, module) {
       function autohotkey(hljs) {
         const BACKTICK_ESCAPE = { begin: "`[\\s\\S]" };
         return {
@@ -64179,9 +64179,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/autoit.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/autoit.js
   var require_autoit = __commonJS({
-    "node_modules/highlight.js/lib/languages/autoit.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/autoit.js"(exports, module) {
       function autoit(hljs) {
         const KEYWORDS = "ByRef Case Const ContinueCase ContinueLoop Dim Do Else ElseIf EndFunc EndIf EndSelect EndSwitch EndWith Enum Exit ExitLoop For Func Global If In Local Next ReDim Return Select Static Step Switch Then To Until Volatile WEnd While With";
         const DIRECTIVES = [
@@ -64338,9 +64338,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/avrasm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/avrasm.js
   var require_avrasm = __commonJS({
-    "node_modules/highlight.js/lib/languages/avrasm.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/avrasm.js"(exports, module) {
       function avrasm(hljs) {
         return {
           name: "AVR Assembly",
@@ -64401,9 +64401,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/awk.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/awk.js
   var require_awk = __commonJS({
-    "node_modules/highlight.js/lib/languages/awk.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/awk.js"(exports, module) {
       function awk(hljs) {
         const VARIABLE = {
           className: "variable",
@@ -64465,9 +64465,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/axapta.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/axapta.js
   var require_axapta = __commonJS({
-    "node_modules/highlight.js/lib/languages/axapta.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/axapta.js"(exports, module) {
       function axapta(hljs) {
         const IDENT_RE = hljs.UNDERSCORE_IDENT_RE;
         const BUILT_IN_KEYWORDS = [
@@ -64644,9 +64644,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/bash.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/bash.js
   var require_bash = __commonJS({
-    "node_modules/highlight.js/lib/languages/bash.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/bash.js"(exports, module) {
       function bash(hljs) {
         const regex = hljs.regex;
         const VAR = {};
@@ -65043,9 +65043,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/basic.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/basic.js
   var require_basic = __commonJS({
-    "node_modules/highlight.js/lib/languages/basic.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/basic.js"(exports, module) {
       function basic(hljs) {
         const KEYWORDS = [
           "ABS",
@@ -65274,9 +65274,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/bnf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/bnf.js
   var require_bnf = __commonJS({
-    "node_modules/highlight.js/lib/languages/bnf.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/bnf.js"(exports, module) {
       function bnf(hljs) {
         return {
           name: "Backus\u2013Naur Form",
@@ -65310,9 +65310,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/brainfuck.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/brainfuck.js
   var require_brainfuck = __commonJS({
-    "node_modules/highlight.js/lib/languages/brainfuck.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/brainfuck.js"(exports, module) {
       function brainfuck2(hljs) {
         const LITERAL = {
           className: "literal",
@@ -65362,9 +65362,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/c.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/c.js
   var require_c2 = __commonJS({
-    "node_modules/highlight.js/lib/languages/c.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/c.js"(exports, module) {
       function c2(hljs) {
         const regex = hljs.regex;
         const C_LINE_COMMENT_MODE = hljs.COMMENT("//", "$", { contains: [{ begin: /\\\n/ }] });
@@ -65661,9 +65661,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/cal.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/cal.js
   var require_cal = __commonJS({
-    "node_modules/highlight.js/lib/languages/cal.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/cal.js"(exports, module) {
       function cal(hljs) {
         const regex = hljs.regex;
         const KEYWORDS = [
@@ -65814,9 +65814,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/capnproto.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/capnproto.js
   var require_capnproto = __commonJS({
-    "node_modules/highlight.js/lib/languages/capnproto.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/capnproto.js"(exports, module) {
       function capnproto(hljs) {
         const KEYWORDS = [
           "struct",
@@ -65909,9 +65909,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/ceylon.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ceylon.js
   var require_ceylon = __commonJS({
-    "node_modules/highlight.js/lib/languages/ceylon.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ceylon.js"(exports, module) {
       function ceylon2(hljs) {
         const KEYWORDS = [
           "assembly",
@@ -66042,9 +66042,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/clean.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/clean.js
   var require_clean = __commonJS({
-    "node_modules/highlight.js/lib/languages/clean.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/clean.js"(exports, module) {
       function clean(hljs) {
         const KEYWORDS = [
           "if",
@@ -66106,9 +66106,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/clojure.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/clojure.js
   var require_clojure = __commonJS({
-    "node_modules/highlight.js/lib/languages/clojure.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/clojure.js"(exports, module) {
       function clojure2(hljs) {
         const SYMBOLSTART = "a-zA-Z_\\-!.?+*=<>&'";
         const SYMBOL_RE = "[#]?[" + SYMBOLSTART + "][" + SYMBOLSTART + "0-9/;:$#]*";
@@ -66266,9 +66266,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/clojure-repl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/clojure-repl.js
   var require_clojure_repl = __commonJS({
-    "node_modules/highlight.js/lib/languages/clojure-repl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/clojure-repl.js"(exports, module) {
       function clojureRepl(hljs) {
         return {
           name: "Clojure REPL",
@@ -66288,9 +66288,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/cmake.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/cmake.js
   var require_cmake = __commonJS({
-    "node_modules/highlight.js/lib/languages/cmake.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/cmake.js"(exports, module) {
       function cmake2(hljs) {
         return {
           name: "CMake",
@@ -66317,9 +66317,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/coffeescript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/coffeescript.js
   var require_coffeescript = __commonJS({
-    "node_modules/highlight.js/lib/languages/coffeescript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/coffeescript.js"(exports, module) {
       var KEYWORDS = [
         "as",
         // for exports
@@ -66672,9 +66672,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/coq.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/coq.js
   var require_coq = __commonJS({
-    "node_modules/highlight.js/lib/languages/coq.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/coq.js"(exports, module) {
       function coq(hljs) {
         const KEYWORDS = [
           "_|0",
@@ -67116,9 +67116,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/cos.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/cos.js
   var require_cos = __commonJS({
-    "node_modules/highlight.js/lib/languages/cos.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/cos.js"(exports, module) {
       function cos(hljs) {
         const STRINGS = {
           className: "string",
@@ -67212,9 +67212,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/cpp.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/cpp.js
   var require_cpp = __commonJS({
-    "node_modules/highlight.js/lib/languages/cpp.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/cpp.js"(exports, module) {
       function cpp3(hljs) {
         const regex = hljs.regex;
         const C_LINE_COMMENT_MODE = hljs.COMMENT("//", "$", { contains: [{ begin: /\\\n/ }] });
@@ -67760,9 +67760,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/crmsh.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/crmsh.js
   var require_crmsh = __commonJS({
-    "node_modules/highlight.js/lib/languages/crmsh.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/crmsh.js"(exports, module) {
       function crmsh(hljs) {
         const RESOURCES = "primitive rsc_template";
         const COMMANDS = "group clone ms master location colocation order fencing_topology rsc_ticket acl_target acl_group user role tag xml";
@@ -67851,9 +67851,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/crystal.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/crystal.js
   var require_crystal = __commonJS({
-    "node_modules/highlight.js/lib/languages/crystal.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/crystal.js"(exports, module) {
       function crystal2(hljs) {
         const INT_SUFFIX = "(_?[ui](8|16|32|64|128))?";
         const FLOAT_SUFFIX = "(_?f(32|64))?";
@@ -68154,9 +68154,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/csharp.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/csharp.js
   var require_csharp = __commonJS({
-    "node_modules/highlight.js/lib/languages/csharp.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/csharp.js"(exports, module) {
       function csharp2(hljs) {
         const BUILT_IN_KEYWORDS = [
           "bool",
@@ -68559,9 +68559,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/csp.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/csp.js
   var require_csp = __commonJS({
-    "node_modules/highlight.js/lib/languages/csp.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/csp.js"(exports, module) {
       function csp(hljs) {
         const KEYWORDS = [
           "base-uri",
@@ -68611,9 +68611,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/css.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/css.js
   var require_css = __commonJS({
-    "node_modules/highlight.js/lib/languages/css.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/css.js"(exports, module) {
       var MODES = (hljs) => {
         return {
           IMPORTANT: {
@@ -69553,9 +69553,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/d.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/d.js
   var require_d = __commonJS({
-    "node_modules/highlight.js/lib/languages/d.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/d.js"(exports, module) {
       function d3(hljs) {
         const D_KEYWORDS = {
           $pattern: hljs.UNDERSCORE_IDENT_RE,
@@ -69670,9 +69670,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/markdown.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/markdown.js
   var require_markdown = __commonJS({
-    "node_modules/highlight.js/lib/languages/markdown.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/markdown.js"(exports, module) {
       function markdown2(hljs) {
         const regex = hljs.regex;
         const INLINE_HTML = {
@@ -69907,9 +69907,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/dart.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dart.js
   var require_dart = __commonJS({
-    "node_modules/highlight.js/lib/languages/dart.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dart.js"(exports, module) {
       function dart2(hljs) {
         const SUBST = {
           className: "subst",
@@ -70166,9 +70166,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/delphi.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/delphi.js
   var require_delphi = __commonJS({
-    "node_modules/highlight.js/lib/languages/delphi.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/delphi.js"(exports, module) {
       function delphi(hljs) {
         const KEYWORDS = [
           "exports",
@@ -70416,9 +70416,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/diff.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/diff.js
   var require_diff = __commonJS({
-    "node_modules/highlight.js/lib/languages/diff.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/diff.js"(exports, module) {
       function diff2(hljs) {
         const regex = hljs.regex;
         return {
@@ -70474,9 +70474,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/django.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/django.js
   var require_django = __commonJS({
-    "node_modules/highlight.js/lib/languages/django.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/django.js"(exports, module) {
       function django(hljs) {
         const FILTER = {
           begin: /\|[A-Za-z]+:?/,
@@ -70525,9 +70525,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/dns.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dns.js
   var require_dns = __commonJS({
-    "node_modules/highlight.js/lib/languages/dns.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dns.js"(exports, module) {
       function dns(hljs) {
         const KEYWORDS = [
           "IN",
@@ -70600,9 +70600,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/dockerfile.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dockerfile.js
   var require_dockerfile = __commonJS({
-    "node_modules/highlight.js/lib/languages/dockerfile.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dockerfile.js"(exports, module) {
       function dockerfile(hljs) {
         const KEYWORDS = [
           "from",
@@ -70639,9 +70639,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/dos.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dos.js
   var require_dos = __commonJS({
-    "node_modules/highlight.js/lib/languages/dos.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dos.js"(exports, module) {
       function dos(hljs) {
         const COMMENT3 = hljs.COMMENT(
           /^\s*@?rem\b/,
@@ -70803,9 +70803,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/dsconfig.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dsconfig.js
   var require_dsconfig = __commonJS({
-    "node_modules/highlight.js/lib/languages/dsconfig.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dsconfig.js"(exports, module) {
       function dsconfig(hljs) {
         const QUOTED_PROPERTY = {
           className: "string",
@@ -70865,9 +70865,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/dts.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dts.js
   var require_dts = __commonJS({
-    "node_modules/highlight.js/lib/languages/dts.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dts.js"(exports, module) {
       function dts(hljs) {
         const STRINGS = {
           className: "string",
@@ -71005,9 +71005,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/dust.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dust.js
   var require_dust = __commonJS({
-    "node_modules/highlight.js/lib/languages/dust.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/dust.js"(exports, module) {
       function dust(hljs) {
         const EXPRESSION_KEYWORDS = "if eq ne lt lte gt gte select default math sep";
         return {
@@ -71047,9 +71047,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/ebnf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ebnf.js
   var require_ebnf = __commonJS({
-    "node_modules/highlight.js/lib/languages/ebnf.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ebnf.js"(exports, module) {
       function ebnf2(hljs) {
         const commentMode = hljs.COMMENT(/\(\*/, /\*\)/);
         const nonTerminalMode = {
@@ -71094,9 +71094,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/elixir.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/elixir.js
   var require_elixir = __commonJS({
-    "node_modules/highlight.js/lib/languages/elixir.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/elixir.js"(exports, module) {
       function elixir(hljs) {
         const regex = hljs.regex;
         const ELIXIR_IDENT_RE = "[a-zA-Z_][a-zA-Z0-9_.]*(!|\\?)?";
@@ -71371,9 +71371,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/elm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/elm.js
   var require_elm = __commonJS({
-    "node_modules/highlight.js/lib/languages/elm.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/elm.js"(exports, module) {
       function elm2(hljs) {
         const COMMENT3 = { variants: [
           hljs.COMMENT("--", "$"),
@@ -71504,9 +71504,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/ruby.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ruby.js
   var require_ruby = __commonJS({
-    "node_modules/highlight.js/lib/languages/ruby.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ruby.js"(exports, module) {
       function ruby2(hljs) {
         const regex = hljs.regex;
         const RUBY_METHOD_RE = "([a-zA-Z_]\\w*[!?=]?|[-+~]@|<<|>>|=~|===?|<=>|[<>]=?|\\*\\*|[-/+%^&*~`|]|\\[\\]=?)";
@@ -71922,9 +71922,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/erb.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/erb.js
   var require_erb = __commonJS({
-    "node_modules/highlight.js/lib/languages/erb.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/erb.js"(exports, module) {
       function erb(hljs) {
         return {
           name: "ERB",
@@ -71945,9 +71945,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/erlang-repl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/erlang-repl.js
   var require_erlang_repl = __commonJS({
-    "node_modules/highlight.js/lib/languages/erlang-repl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/erlang-repl.js"(exports, module) {
       function erlangRepl(hljs) {
         const regex = hljs.regex;
         return {
@@ -71995,9 +71995,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/erlang.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/erlang.js
   var require_erlang = __commonJS({
-    "node_modules/highlight.js/lib/languages/erlang.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/erlang.js"(exports, module) {
       function erlang2(hljs) {
         const BASIC_ATOM_RE = "[a-z'][a-zA-Z0-9_']*";
         const FUNCTION_NAME_RE = "(" + BASIC_ATOM_RE + ":" + BASIC_ATOM_RE + "|" + BASIC_ATOM_RE + ")";
@@ -72217,9 +72217,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/excel.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/excel.js
   var require_excel = __commonJS({
-    "node_modules/highlight.js/lib/languages/excel.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/excel.js"(exports, module) {
       function excel(hljs) {
         const BUILT_INS = [
           "ABS",
@@ -72796,9 +72796,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/fix.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/fix.js
   var require_fix = __commonJS({
-    "node_modules/highlight.js/lib/languages/fix.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/fix.js"(exports, module) {
       function fix(hljs) {
         return {
           name: "FIX",
@@ -72834,9 +72834,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/flix.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/flix.js
   var require_flix = __commonJS({
-    "node_modules/highlight.js/lib/languages/flix.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/flix.js"(exports, module) {
       function flix(hljs) {
         const CHAR = {
           className: "string",
@@ -72906,9 +72906,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/fortran.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/fortran.js
   var require_fortran = __commonJS({
-    "node_modules/highlight.js/lib/languages/fortran.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/fortran.js"(exports, module) {
       function fortran2(hljs) {
         const regex = hljs.regex;
         const PARAMS = {
@@ -73471,9 +73471,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/fsharp.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/fsharp.js
   var require_fsharp = __commonJS({
-    "node_modules/highlight.js/lib/languages/fsharp.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/fsharp.js"(exports, module) {
       function escape3(value) {
         return new RegExp(value.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"), "m");
       }
@@ -74042,9 +74042,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/gams.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gams.js
   var require_gams = __commonJS({
-    "node_modules/highlight.js/lib/languages/gams.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gams.js"(exports, module) {
       function gams(hljs) {
         const regex = hljs.regex;
         const KEYWORDS = {
@@ -74200,9 +74200,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/gauss.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gauss.js
   var require_gauss = __commonJS({
-    "node_modules/highlight.js/lib/languages/gauss.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gauss.js"(exports, module) {
       function gauss(hljs) {
         const KEYWORDS = {
           keyword: "bool break call callexe checkinterrupt clear clearg closeall cls comlog compile continue create debug declare delete disable dlibrary dllcall do dos ed edit else elseif enable end endfor endif endp endo errorlog errorlogat expr external fn for format goto gosub graph if keyword let lib library line load loadarray loadexe loadf loadk loadm loadp loads loadx local locate loopnextindex lprint lpwidth lshow matrix msym ndpclex new open output outwidth plot plotsym pop prcsn print printdos proc push retp return rndcon rndmod rndmult rndseed run save saveall screen scroll setarray show sparse stop string struct system trace trap threadfor threadendfor threadbegin threadjoin threadstat threadend until use while winprint ne ge le gt lt and xor or not eq eqv",
@@ -74392,9 +74392,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/gcode.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gcode.js
   var require_gcode = __commonJS({
-    "node_modules/highlight.js/lib/languages/gcode.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gcode.js"(exports, module) {
       function gcode(hljs) {
         const regex = hljs.regex;
         const GCODE_KEYWORDS = {
@@ -74559,9 +74559,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/gherkin.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gherkin.js
   var require_gherkin = __commonJS({
-    "node_modules/highlight.js/lib/languages/gherkin.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gherkin.js"(exports, module) {
       function gherkin2(hljs) {
         return {
           name: "Gherkin",
@@ -74606,9 +74606,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/glsl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/glsl.js
   var require_glsl = __commonJS({
-    "node_modules/highlight.js/lib/languages/glsl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/glsl.js"(exports, module) {
       function glsl(hljs) {
         return {
           name: "GLSL",
@@ -74641,9 +74641,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/gml.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gml.js
   var require_gml = __commonJS({
-    "node_modules/highlight.js/lib/languages/gml.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gml.js"(exports, module) {
       function gml(hljs) {
         const KEYWORDS = [
           "#endregion",
@@ -77769,9 +77769,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/go.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/go.js
   var require_go = __commonJS({
-    "node_modules/highlight.js/lib/languages/go.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/go.js"(exports, module) {
       function go2(hljs) {
         const LITERALS = [
           "true",
@@ -77928,9 +77928,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/golo.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/golo.js
   var require_golo = __commonJS({
-    "node_modules/highlight.js/lib/languages/golo.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/golo.js"(exports, module) {
       function golo(hljs) {
         const KEYWORDS = [
           "println",
@@ -78005,9 +78005,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/gradle.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gradle.js
   var require_gradle = __commonJS({
-    "node_modules/highlight.js/lib/languages/gradle.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/gradle.js"(exports, module) {
       function gradle(hljs) {
         const KEYWORDS = [
           "task",
@@ -78191,9 +78191,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/graphql.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/graphql.js
   var require_graphql = __commonJS({
-    "node_modules/highlight.js/lib/languages/graphql.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/graphql.js"(exports, module) {
       function graphql(hljs) {
         const regex = hljs.regex;
         const GQL_NAME = /[_A-Za-z][_0-9A-Za-z]*/;
@@ -78266,9 +78266,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/groovy.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/groovy.js
   var require_groovy = __commonJS({
-    "node_modules/highlight.js/lib/languages/groovy.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/groovy.js"(exports, module) {
       function variants(variants2, obj = {}) {
         obj.variants = variants2;
         return obj;
@@ -78451,9 +78451,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/haml.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/haml.js
   var require_haml = __commonJS({
-    "node_modules/highlight.js/lib/languages/haml.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/haml.js"(exports, module) {
       function haml(hljs) {
         return {
           name: "HAML",
@@ -78560,9 +78560,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/handlebars.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/handlebars.js
   var require_handlebars = __commonJS({
-    "node_modules/highlight.js/lib/languages/handlebars.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/handlebars.js"(exports, module) {
       function handlebars(hljs) {
         const regex = hljs.regex;
         const BUILT_INS = {
@@ -78795,9 +78795,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/haskell.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/haskell.js
   var require_haskell = __commonJS({
-    "node_modules/highlight.js/lib/languages/haskell.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/haskell.js"(exports, module) {
       function haskell2(hljs) {
         const decimalDigits = "([0-9]_*)+";
         const hexDigits = "([0-9a-fA-F]_*)+";
@@ -78990,9 +78990,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/haxe.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/haxe.js
   var require_haxe = __commonJS({
-    "node_modules/highlight.js/lib/languages/haxe.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/haxe.js"(exports, module) {
       function haxe2(hljs) {
         const IDENT_RE = "[a-zA-Z_$][a-zA-Z0-9_$]*";
         const HAXE_NUMBER_RE = /(-?)(\b0[xX][a-fA-F0-9_]+|(\b\d+(\.[\d_]*)?|\.[\d_]+)(([eE][-+]?\d+)|i32|u32|i64|f64)?)/;
@@ -79155,9 +79155,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/hsp.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/hsp.js
   var require_hsp = __commonJS({
-    "node_modules/highlight.js/lib/languages/hsp.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/hsp.js"(exports, module) {
       function hsp(hljs) {
         return {
           name: "HSP",
@@ -79207,9 +79207,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/http.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/http.js
   var require_http = __commonJS({
-    "node_modules/highlight.js/lib/languages/http.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/http.js"(exports, module) {
       function http2(hljs) {
         const regex = hljs.regex;
         const VERSION = "HTTP/([32]|1\\.[01])";
@@ -79300,9 +79300,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/hy.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/hy.js
   var require_hy = __commonJS({
-    "node_modules/highlight.js/lib/languages/hy.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/hy.js"(exports, module) {
       function hy(hljs) {
         const SYMBOLSTART = "a-zA-Z_\\-!.?+*=<>&#'";
         const SYMBOL_RE = "[" + SYMBOLSTART + "][" + SYMBOLSTART + "0-9/;:]*";
@@ -79403,9 +79403,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/inform7.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/inform7.js
   var require_inform7 = __commonJS({
-    "node_modules/highlight.js/lib/languages/inform7.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/inform7.js"(exports, module) {
       function inform7(hljs) {
         const START_BRACKET = "\\[";
         const END_BRACKET = "\\]";
@@ -79465,9 +79465,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/ini.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ini.js
   var require_ini = __commonJS({
-    "node_modules/highlight.js/lib/languages/ini.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ini.js"(exports, module) {
       function ini(hljs) {
         const regex = hljs.regex;
         const NUMBERS = {
@@ -79586,9 +79586,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/irpf90.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/irpf90.js
   var require_irpf90 = __commonJS({
-    "node_modules/highlight.js/lib/languages/irpf90.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/irpf90.js"(exports, module) {
       function irpf90(hljs) {
         const regex = hljs.regex;
         const PARAMS = {
@@ -79645,9 +79645,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/isbl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/isbl.js
   var require_isbl = __commonJS({
-    "node_modules/highlight.js/lib/languages/isbl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/isbl.js"(exports, module) {
       function isbl(hljs) {
         const UNDERSCORE_IDENT_RE = "[A-Za-z\u0410-\u042F\u0430-\u044F\u0451\u0401_!][A-Za-z\u0410-\u042F\u0430-\u044F\u0451\u0401_0-9]*";
         const FUNCTION_NAME_IDENT_RE = "[A-Za-z\u0410-\u042F\u0430-\u044F\u0451\u0401_][A-Za-z\u0410-\u042F\u0430-\u044F\u0451\u0401_0-9]*";
@@ -79907,9 +79907,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/java.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/java.js
   var require_java = __commonJS({
-    "node_modules/highlight.js/lib/languages/java.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/java.js"(exports, module) {
       var decimalDigits = "[0-9](_*[0-9])*";
       var frac = `\\.(${decimalDigits})`;
       var hexDigits = "[0-9a-fA-F](_*[0-9a-fA-F])*";
@@ -80166,9 +80166,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/javascript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/javascript.js
   var require_javascript = __commonJS({
-    "node_modules/highlight.js/lib/languages/javascript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/javascript.js"(exports, module) {
       var IDENT_RE = "[A-Za-z$_][0-9A-Za-z$_]*";
       var KEYWORDS = [
         "as",
@@ -80872,9 +80872,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/jboss-cli.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/jboss-cli.js
   var require_jboss_cli = __commonJS({
-    "node_modules/highlight.js/lib/languages/jboss-cli.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/jboss-cli.js"(exports, module) {
       function jbossCli(hljs) {
         const PARAM = {
           begin: /[\w-]+ *=/,
@@ -80930,9 +80930,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/json.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/json.js
   var require_json = __commonJS({
-    "node_modules/highlight.js/lib/languages/json.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/json.js"(exports, module) {
       function json3(hljs) {
         const ATTRIBUTE = {
           className: "attr",
@@ -80975,9 +80975,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/julia.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/julia.js
   var require_julia = __commonJS({
-    "node_modules/highlight.js/lib/languages/julia.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/julia.js"(exports, module) {
       function julia2(hljs) {
         const VARIABLE_NAME_RE = "[A-Za-z_\\u00A1-\\uFFFF][A-Za-z_0-9\\u00A1-\\uFFFF]*";
         const KEYWORD_LIST = [
@@ -81349,9 +81349,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/julia-repl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/julia-repl.js
   var require_julia_repl = __commonJS({
-    "node_modules/highlight.js/lib/languages/julia-repl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/julia-repl.js"(exports, module) {
       function juliaRepl(hljs) {
         return {
           name: "Julia REPL",
@@ -81380,9 +81380,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/kotlin.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/kotlin.js
   var require_kotlin = __commonJS({
-    "node_modules/highlight.js/lib/languages/kotlin.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/kotlin.js"(exports, module) {
       var decimalDigits = "[0-9](_*[0-9])*";
       var frac = `\\.(${decimalDigits})`;
       var hexDigits = "[0-9a-fA-F](_*[0-9a-fA-F])*";
@@ -81640,9 +81640,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/lasso.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/lasso.js
   var require_lasso = __commonJS({
-    "node_modules/highlight.js/lib/languages/lasso.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/lasso.js"(exports, module) {
       function lasso(hljs) {
         const LASSO_IDENT_RE = "[a-zA-Z_][\\w.]*";
         const LASSO_ANGLE_RE = "<\\?(lasso(script)?|=)";
@@ -81790,9 +81790,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/latex.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/latex.js
   var require_latex = __commonJS({
-    "node_modules/highlight.js/lib/languages/latex.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/latex.js"(exports, module) {
       function latex(hljs) {
         const regex = hljs.regex;
         const KNOWN_CONTROL_WORDS = regex.either(...[
@@ -82066,9 +82066,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/ldif.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ldif.js
   var require_ldif = __commonJS({
-    "node_modules/highlight.js/lib/languages/ldif.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ldif.js"(exports, module) {
       function ldif(hljs) {
         return {
           name: "LDIF",
@@ -82094,9 +82094,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/leaf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/leaf.js
   var require_leaf = __commonJS({
-    "node_modules/highlight.js/lib/languages/leaf.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/leaf.js"(exports, module) {
       function leaf(hljs) {
         const IDENT = /([A-Za-z_][A-Za-z_0-9]*)?/;
         const LITERALS = [
@@ -82189,9 +82189,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/less.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/less.js
   var require_less = __commonJS({
-    "node_modules/highlight.js/lib/languages/less.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/less.js"(exports, module) {
       var MODES = (hljs) => {
         return {
           IMPORTANT: {
@@ -83212,9 +83212,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/lisp.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/lisp.js
   var require_lisp = __commonJS({
-    "node_modules/highlight.js/lib/languages/lisp.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/lisp.js"(exports, module) {
       function lisp(hljs) {
         const LISP_IDENT_RE = "[a-zA-Z_\\-+\\*\\/<=>&#][a-zA-Z0-9_\\-+*\\/<=>&#!]*";
         const MEC_RE = "\\|[^]*?\\|";
@@ -83349,9 +83349,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/livecodeserver.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/livecodeserver.js
   var require_livecodeserver = __commonJS({
-    "node_modules/highlight.js/lib/languages/livecodeserver.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/livecodeserver.js"(exports, module) {
       function livecodeserver(hljs) {
         const VARIABLE = {
           className: "variable",
@@ -83448,9 +83448,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/livescript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/livescript.js
   var require_livescript = __commonJS({
-    "node_modules/highlight.js/lib/languages/livescript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/livescript.js"(exports, module) {
       var KEYWORDS = [
         "as",
         // for exports
@@ -83814,9 +83814,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/llvm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/llvm.js
   var require_llvm = __commonJS({
-    "node_modules/highlight.js/lib/languages/llvm.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/llvm.js"(exports, module) {
       function llvm(hljs) {
         const regex = hljs.regex;
         const IDENT_RE = /([-a-zA-Z$._][\w$.-]*)/;
@@ -83908,9 +83908,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/lsl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/lsl.js
   var require_lsl = __commonJS({
-    "node_modules/highlight.js/lib/languages/lsl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/lsl.js"(exports, module) {
       function lsl(hljs) {
         const LSL_STRING_ESCAPE_CHARS = {
           className: "subst",
@@ -83976,9 +83976,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/lua.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/lua.js
   var require_lua = __commonJS({
-    "node_modules/highlight.js/lib/languages/lua.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/lua.js"(exports, module) {
       function lua2(hljs) {
         const OPENING_LONG_BRACKET = "\\[=*\\[";
         const CLOSING_LONG_BRACKET = "\\]=*\\]";
@@ -84042,9 +84042,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/makefile.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/makefile.js
   var require_makefile = __commonJS({
-    "node_modules/highlight.js/lib/languages/makefile.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/makefile.js"(exports, module) {
       function makefile(hljs) {
         const VARIABLE = {
           className: "variable",
@@ -84118,9 +84118,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/mathematica.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mathematica.js
   var require_mathematica = __commonJS({
-    "node_modules/highlight.js/lib/languages/mathematica.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mathematica.js"(exports, module) {
       var SYSTEM_SYMBOLS = [
         "AASTriangle",
         "AbelianGroup",
@@ -91455,9 +91455,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/matlab.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/matlab.js
   var require_matlab = __commonJS({
-    "node_modules/highlight.js/lib/languages/matlab.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/matlab.js"(exports, module) {
       function matlab(hljs) {
         const TRANSPOSE_RE = "('|\\.')+";
         const TRANSPOSE = {
@@ -91536,9 +91536,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/maxima.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/maxima.js
   var require_maxima = __commonJS({
-    "node_modules/highlight.js/lib/languages/maxima.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/maxima.js"(exports, module) {
       function maxima(hljs) {
         const KEYWORDS = "if then else elseif for thru do while unless step in and or not";
         const LITERALS = "true false unknown inf minf ind und %e %i %pi %phi %gamma";
@@ -91595,9 +91595,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/mel.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mel.js
   var require_mel = __commonJS({
-    "node_modules/highlight.js/lib/languages/mel.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mel.js"(exports, module) {
       function mel(hljs) {
         return {
           name: "MEL",
@@ -91626,9 +91626,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/mercury.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mercury.js
   var require_mercury = __commonJS({
-    "node_modules/highlight.js/lib/languages/mercury.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mercury.js"(exports, module) {
       function mercury(hljs) {
         const KEYWORDS = {
           keyword: "module use_module import_module include_module end_module initialise mutable initialize finalize finalise interface implementation pred mode func type inst solver any_pred any_func is semidet det nondet multi erroneous failure cc_nondet cc_multi typeclass instance where pragma promise external trace atomic or_else require_complete_switch require_det require_semidet require_multi require_nondet require_cc_multi require_cc_nondet require_erroneous require_failure",
@@ -91709,9 +91709,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/mipsasm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mipsasm.js
   var require_mipsasm = __commonJS({
-    "node_modules/highlight.js/lib/languages/mipsasm.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mipsasm.js"(exports, module) {
       function mipsasm(hljs) {
         return {
           name: "MIPS Assembly",
@@ -91790,9 +91790,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/mizar.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mizar.js
   var require_mizar = __commonJS({
-    "node_modules/highlight.js/lib/languages/mizar.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mizar.js"(exports, module) {
       function mizar(hljs) {
         return {
           name: "Mizar",
@@ -91804,9 +91804,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/perl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/perl.js
   var require_perl = __commonJS({
-    "node_modules/highlight.js/lib/languages/perl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/perl.js"(exports, module) {
       function perl2(hljs) {
         const regex = hljs.regex;
         const KEYWORDS = [
@@ -92294,9 +92294,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/mojolicious.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mojolicious.js
   var require_mojolicious = __commonJS({
-    "node_modules/highlight.js/lib/languages/mojolicious.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/mojolicious.js"(exports, module) {
       function mojolicious(hljs) {
         return {
           name: "Mojolicious",
@@ -92327,9 +92327,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/monkey.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/monkey.js
   var require_monkey = __commonJS({
-    "node_modules/highlight.js/lib/languages/monkey.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/monkey.js"(exports, module) {
       function monkey(hljs) {
         const NUMBER3 = {
           className: "number",
@@ -92507,9 +92507,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/moonscript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/moonscript.js
   var require_moonscript = __commonJS({
-    "node_modules/highlight.js/lib/languages/moonscript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/moonscript.js"(exports, module) {
       function moonscript(hljs) {
         const KEYWORDS = {
           keyword: (
@@ -92647,9 +92647,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/n1ql.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/n1ql.js
   var require_n1ql = __commonJS({
-    "node_modules/highlight.js/lib/languages/n1ql.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/n1ql.js"(exports, module) {
       function n1ql(hljs) {
         const KEYWORDS = [
           "all",
@@ -93003,9 +93003,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/nestedtext.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nestedtext.js
   var require_nestedtext = __commonJS({
-    "node_modules/highlight.js/lib/languages/nestedtext.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nestedtext.js"(exports, module) {
       function nestedtext(hljs) {
         const NESTED = {
           match: [
@@ -93084,9 +93084,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/nginx.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nginx.js
   var require_nginx = __commonJS({
-    "node_modules/highlight.js/lib/languages/nginx.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nginx.js"(exports, module) {
       function nginx2(hljs) {
         const regex = hljs.regex;
         const VAR = {
@@ -93232,9 +93232,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/nim.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nim.js
   var require_nim = __commonJS({
-    "node_modules/highlight.js/lib/languages/nim.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nim.js"(exports, module) {
       function nim(hljs) {
         const TYPES = [
           "int",
@@ -93418,9 +93418,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/nix.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nix.js
   var require_nix = __commonJS({
-    "node_modules/highlight.js/lib/languages/nix.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nix.js"(exports, module) {
       function nix(hljs) {
         const regex = hljs.regex;
         const KEYWORDS = {
@@ -93770,9 +93770,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/node-repl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/node-repl.js
   var require_node_repl = __commonJS({
-    "node_modules/highlight.js/lib/languages/node-repl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/node-repl.js"(exports, module) {
       function nodeRepl(hljs) {
         return {
           name: "Node REPL",
@@ -93800,9 +93800,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/nsis.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nsis.js
   var require_nsis = __commonJS({
-    "node_modules/highlight.js/lib/languages/nsis.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/nsis.js"(exports, module) {
       function nsis2(hljs) {
         const regex = hljs.regex;
         const LANGUAGE_CONSTANTS = [
@@ -94335,9 +94335,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/objectivec.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/objectivec.js
   var require_objectivec = __commonJS({
-    "node_modules/highlight.js/lib/languages/objectivec.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/objectivec.js"(exports, module) {
       function objectivec(hljs) {
         const API_CLASS = {
           className: "built_in",
@@ -94583,9 +94583,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/ocaml.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ocaml.js
   var require_ocaml = __commonJS({
-    "node_modules/highlight.js/lib/languages/ocaml.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ocaml.js"(exports, module) {
       function ocaml(hljs) {
         return {
           name: "OCaml",
@@ -94654,9 +94654,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/openscad.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/openscad.js
   var require_openscad = __commonJS({
-    "node_modules/highlight.js/lib/languages/openscad.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/openscad.js"(exports, module) {
       function openscad(hljs) {
         const SPECIAL_VARS = {
           className: "keyword",
@@ -94728,9 +94728,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/oxygene.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/oxygene.js
   var require_oxygene = __commonJS({
-    "node_modules/highlight.js/lib/languages/oxygene.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/oxygene.js"(exports, module) {
       function oxygene(hljs) {
         const OXYGENE_KEYWORDS = {
           $pattern: /\.?\w+/,
@@ -94802,9 +94802,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/parser3.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/parser3.js
   var require_parser3 = __commonJS({
-    "node_modules/highlight.js/lib/languages/parser3.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/parser3.js"(exports, module) {
       function parser32(hljs) {
         const CURLY_SUBCOMMENT = hljs.COMMENT(
           /\{/,
@@ -94854,9 +94854,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/pf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/pf.js
   var require_pf = __commonJS({
-    "node_modules/highlight.js/lib/languages/pf.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/pf.js"(exports, module) {
       function pf(hljs) {
         const MACRO = {
           className: "variable",
@@ -94895,9 +94895,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/pgsql.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/pgsql.js
   var require_pgsql = __commonJS({
-    "node_modules/highlight.js/lib/languages/pgsql.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/pgsql.js"(exports, module) {
       function pgsql(hljs) {
         const COMMENT_MODE = hljs.COMMENT("--", "$");
         const UNQUOTED_IDENT = "[a-zA-Z_][a-zA-Z_0-9$]*";
@@ -95180,9 +95180,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/php.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/php.js
   var require_php = __commonJS({
-    "node_modules/highlight.js/lib/languages/php.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/php.js"(exports, module) {
       function php2(hljs) {
         const regex = hljs.regex;
         const NOT_PERL_ETC = /(?![A-Za-z0-9])(?![$])/;
@@ -95786,9 +95786,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/php-template.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/php-template.js
   var require_php_template = __commonJS({
-    "node_modules/highlight.js/lib/languages/php-template.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/php-template.js"(exports, module) {
       function phpTemplate(hljs) {
         return {
           name: "PHP template",
@@ -95837,9 +95837,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/plaintext.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/plaintext.js
   var require_plaintext = __commonJS({
-    "node_modules/highlight.js/lib/languages/plaintext.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/plaintext.js"(exports, module) {
       function plaintext(hljs) {
         return {
           name: "Plain text",
@@ -95854,9 +95854,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/pony.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/pony.js
   var require_pony = __commonJS({
-    "node_modules/highlight.js/lib/languages/pony.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/pony.js"(exports, module) {
       function pony(hljs) {
         const KEYWORDS = {
           keyword: "actor addressof and as be break class compile_error compile_intrinsic consume continue delegate digestof do else elseif embed end error for fun if ifdef in interface is isnt lambda let match new not object or primitive recover repeat return struct then trait try type until use var where while with xor",
@@ -95915,9 +95915,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/powershell.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/powershell.js
   var require_powershell = __commonJS({
-    "node_modules/highlight.js/lib/languages/powershell.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/powershell.js"(exports, module) {
       function powershell(hljs) {
         const TYPES = [
           "string",
@@ -96176,9 +96176,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/processing.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/processing.js
   var require_processing = __commonJS({
-    "node_modules/highlight.js/lib/languages/processing.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/processing.js"(exports, module) {
       function processing(hljs) {
         const regex = hljs.regex;
         const BUILT_INS = [
@@ -96607,9 +96607,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/profile.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/profile.js
   var require_profile = __commonJS({
-    "node_modules/highlight.js/lib/languages/profile.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/profile.js"(exports, module) {
       function profile(hljs) {
         return {
           name: "Python profiler",
@@ -96649,9 +96649,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/prolog.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/prolog.js
   var require_prolog = __commonJS({
-    "node_modules/highlight.js/lib/languages/prolog.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/prolog.js"(exports, module) {
       function prolog(hljs) {
         const ATOM3 = {
           begin: /[a-z][A-Za-z0-9_]*/,
@@ -96731,9 +96731,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/properties.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/properties.js
   var require_properties = __commonJS({
-    "node_modules/highlight.js/lib/languages/properties.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/properties.js"(exports, module) {
       function properties3(hljs) {
         const WS0 = "[ \\t\\f]*";
         const WS1 = "[ \\t\\f]+";
@@ -96792,9 +96792,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/protobuf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/protobuf.js
   var require_protobuf = __commonJS({
-    "node_modules/highlight.js/lib/languages/protobuf.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/protobuf.js"(exports, module) {
       function protobuf2(hljs) {
         const KEYWORDS = [
           "package",
@@ -96869,9 +96869,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/puppet.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/puppet.js
   var require_puppet = __commonJS({
-    "node_modules/highlight.js/lib/languages/puppet.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/puppet.js"(exports, module) {
       function puppet2(hljs) {
         const PUPPET_KEYWORDS = {
           keyword: (
@@ -96985,9 +96985,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/purebasic.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/purebasic.js
   var require_purebasic = __commonJS({
-    "node_modules/highlight.js/lib/languages/purebasic.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/purebasic.js"(exports, module) {
       function purebasic(hljs) {
         const STRINGS = {
           // PB IDE color: #0080FF (Azure Radiance)
@@ -97049,9 +97049,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/python.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/python.js
   var require_python = __commonJS({
-    "node_modules/highlight.js/lib/languages/python.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/python.js"(exports, module) {
       function python3(hljs) {
         const regex = hljs.regex;
         const IDENT_RE = /[\p{XID_Start}_]\p{XID_Continue}*/u;
@@ -97469,9 +97469,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/python-repl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/python-repl.js
   var require_python_repl = __commonJS({
-    "node_modules/highlight.js/lib/languages/python-repl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/python-repl.js"(exports, module) {
       function pythonRepl(hljs) {
         return {
           aliases: ["pycon"],
@@ -97499,9 +97499,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/q.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/q.js
   var require_q = __commonJS({
-    "node_modules/highlight.js/lib/languages/q.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/q.js"(exports, module) {
       function q2(hljs) {
         const KEYWORDS = {
           $pattern: /(`?)[A-Za-z0-9_]+\b/,
@@ -97528,9 +97528,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/qml.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/qml.js
   var require_qml = __commonJS({
-    "node_modules/highlight.js/lib/languages/qml.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/qml.js"(exports, module) {
       function qml(hljs) {
         const regex = hljs.regex;
         const KEYWORDS = {
@@ -97681,9 +97681,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/r.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/r.js
   var require_r = __commonJS({
-    "node_modules/highlight.js/lib/languages/r.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/r.js"(exports, module) {
       function r2(hljs) {
         const regex = hljs.regex;
         const IDENT_RE = /(?:(?:[a-zA-Z]|\.[._a-zA-Z])[._a-zA-Z0-9]*)|\.(?!\d)/;
@@ -97896,9 +97896,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/reasonml.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/reasonml.js
   var require_reasonml = __commonJS({
-    "node_modules/highlight.js/lib/languages/reasonml.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/reasonml.js"(exports, module) {
       function reasonml(hljs) {
         const BUILT_IN_TYPES = [
           "array",
@@ -98040,9 +98040,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/rib.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/rib.js
   var require_rib = __commonJS({
-    "node_modules/highlight.js/lib/languages/rib.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/rib.js"(exports, module) {
       function rib(hljs) {
         return {
           name: "RenderMan RIB",
@@ -98060,9 +98060,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/roboconf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/roboconf.js
   var require_roboconf = __commonJS({
-    "node_modules/highlight.js/lib/languages/roboconf.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/roboconf.js"(exports, module) {
       function roboconf(hljs) {
         const IDENTIFIER = "[a-zA-Z-_][^\\n{]+\\{";
         const PROPERTY = {
@@ -98134,9 +98134,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/routeros.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/routeros.js
   var require_routeros = __commonJS({
-    "node_modules/highlight.js/lib/languages/routeros.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/routeros.js"(exports, module) {
       function routeros(hljs) {
         const STATEMENTS = "foreach do while for if from to step else on-error and or not in";
         const GLOBAL_COMMANDS = "global local beep delay put len typeof pick log time set find environment terminal error execute parse resolve toarray tobool toid toip toip6 tonum tostr totime";
@@ -98285,9 +98285,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/rsl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/rsl.js
   var require_rsl = __commonJS({
-    "node_modules/highlight.js/lib/languages/rsl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/rsl.js"(exports, module) {
       function rsl(hljs) {
         const BUILT_INS = [
           "abs",
@@ -98427,9 +98427,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/ruleslanguage.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ruleslanguage.js
   var require_ruleslanguage = __commonJS({
-    "node_modules/highlight.js/lib/languages/ruleslanguage.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/ruleslanguage.js"(exports, module) {
       function ruleslanguage(hljs) {
         return {
           name: "Oracle Rules Language",
@@ -98461,9 +98461,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/rust.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/rust.js
   var require_rust = __commonJS({
-    "node_modules/highlight.js/lib/languages/rust.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/rust.js"(exports, module) {
       function rust2(hljs) {
         const regex = hljs.regex;
         const RAW_IDENTIFIER = /(r#)?/;
@@ -98779,9 +98779,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/sas.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/sas.js
   var require_sas = __commonJS({
-    "node_modules/highlight.js/lib/languages/sas.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/sas.js"(exports, module) {
       function sas2(hljs) {
         const regex = hljs.regex;
         const SAS_KEYWORDS = [
@@ -99327,9 +99327,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/scala.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/scala.js
   var require_scala = __commonJS({
-    "node_modules/highlight.js/lib/languages/scala.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/scala.js"(exports, module) {
       function scala2(hljs) {
         const regex = hljs.regex;
         const ANNOTATION = {
@@ -99523,9 +99523,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/scheme.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/scheme.js
   var require_scheme = __commonJS({
-    "node_modules/highlight.js/lib/languages/scheme.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/scheme.js"(exports, module) {
       function scheme2(hljs) {
         const SCHEME_IDENT_RE = "[^\\(\\)\\[\\]\\{\\}\",'`;#|\\\\\\s]+";
         const SCHEME_SIMPLE_NUMBER_RE = "(-|\\+)?\\d+([./]\\d+)?";
@@ -99667,9 +99667,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/scilab.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/scilab.js
   var require_scilab = __commonJS({
-    "node_modules/highlight.js/lib/languages/scilab.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/scilab.js"(exports, module) {
       function scilab(hljs) {
         const COMMON_CONTAINS = [
           hljs.C_NUMBER_MODE,
@@ -99730,9 +99730,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/scss.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/scss.js
   var require_scss = __commonJS({
-    "node_modules/highlight.js/lib/languages/scss.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/scss.js"(exports, module) {
       var MODES = (hljs) => {
         return {
           IMPORTANT: {
@@ -100657,9 +100657,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/shell.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/shell.js
   var require_shell = __commonJS({
-    "node_modules/highlight.js/lib/languages/shell.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/shell.js"(exports, module) {
       function shell2(hljs) {
         return {
           name: "Shell Session",
@@ -100686,9 +100686,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/smali.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/smali.js
   var require_smali = __commonJS({
-    "node_modules/highlight.js/lib/languages/smali.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/smali.js"(exports, module) {
       function smali(hljs) {
         const smali_instr_low_prio = [
           "add",
@@ -100809,9 +100809,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/smalltalk.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/smalltalk.js
   var require_smalltalk = __commonJS({
-    "node_modules/highlight.js/lib/languages/smalltalk.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/smalltalk.js"(exports, module) {
       function smalltalk2(hljs) {
         const VAR_IDENT_RE = "[a-z][a-zA-Z0-9_]*";
         const CHAR = {
@@ -100875,9 +100875,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/sml.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/sml.js
   var require_sml = __commonJS({
-    "node_modules/highlight.js/lib/languages/sml.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/sml.js"(exports, module) {
       function sml2(hljs) {
         return {
           name: "SML (Standard ML)",
@@ -100948,9 +100948,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/sqf.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/sqf.js
   var require_sqf = __commonJS({
-    "node_modules/highlight.js/lib/languages/sqf.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/sqf.js"(exports, module) {
       function sqf(hljs) {
         const VARIABLE = {
           className: "variable",
@@ -103563,9 +103563,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/sql.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/sql.js
   var require_sql = __commonJS({
-    "node_modules/highlight.js/lib/languages/sql.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/sql.js"(exports, module) {
       function sql4(hljs) {
         const regex = hljs.regex;
         const COMMENT_MODE = hljs.COMMENT("--", "$");
@@ -104211,9 +104211,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/stan.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/stan.js
   var require_stan = __commonJS({
-    "node_modules/highlight.js/lib/languages/stan.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/stan.js"(exports, module) {
       function stan(hljs) {
         const regex = hljs.regex;
         const BLOCKS = [
@@ -104711,9 +104711,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/stata.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/stata.js
   var require_stata = __commonJS({
-    "node_modules/highlight.js/lib/languages/stata.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/stata.js"(exports, module) {
       function stata(hljs) {
         return {
           name: "Stata",
@@ -104754,9 +104754,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/step21.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/step21.js
   var require_step21 = __commonJS({
-    "node_modules/highlight.js/lib/languages/step21.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/step21.js"(exports, module) {
       function step21(hljs) {
         const STEP21_IDENT_RE = "[A-Z_][A-Z0-9_.]*";
         const STEP21_KEYWORDS = {
@@ -104818,9 +104818,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/stylus.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/stylus.js
   var require_stylus = __commonJS({
-    "node_modules/highlight.js/lib/languages/stylus.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/stylus.js"(exports, module) {
       var MODES = (hljs) => {
         return {
           IMPORTANT: {
@@ -105794,9 +105794,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/subunit.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/subunit.js
   var require_subunit = __commonJS({
-    "node_modules/highlight.js/lib/languages/subunit.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/subunit.js"(exports, module) {
       function subunit(hljs) {
         const DETAILS = {
           className: "string",
@@ -105836,9 +105836,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/swift.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/swift.js
   var require_swift = __commonJS({
-    "node_modules/highlight.js/lib/languages/swift.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/swift.js"(exports, module) {
       function source(re) {
         if (!re) return null;
         if (typeof re === "string") return re;
@@ -106716,9 +106716,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/taggerscript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/taggerscript.js
   var require_taggerscript = __commonJS({
-    "node_modules/highlight.js/lib/languages/taggerscript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/taggerscript.js"(exports, module) {
       function taggerscript(hljs) {
         const NOOP = {
           className: "comment",
@@ -106768,9 +106768,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/yaml.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/yaml.js
   var require_yaml = __commonJS({
-    "node_modules/highlight.js/lib/languages/yaml.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/yaml.js"(exports, module) {
       function yaml2(hljs) {
         const LITERALS = "true false yes no null";
         const URI_CHARACTERS = "[\\w#;/?:@&=+$,.~*'()[\\]]+";
@@ -106974,9 +106974,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/tap.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/tap.js
   var require_tap = __commonJS({
-    "node_modules/highlight.js/lib/languages/tap.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/tap.js"(exports, module) {
       function tap(hljs) {
         return {
           name: "Test Anything Protocol",
@@ -107018,9 +107018,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/tcl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/tcl.js
   var require_tcl = __commonJS({
-    "node_modules/highlight.js/lib/languages/tcl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/tcl.js"(exports, module) {
       function tcl2(hljs) {
         const regex = hljs.regex;
         const TCL_IDENT = /[a-zA-Z_][a-zA-Z0-9_]*/;
@@ -107203,9 +107203,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/thrift.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/thrift.js
   var require_thrift = __commonJS({
-    "node_modules/highlight.js/lib/languages/thrift.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/thrift.js"(exports, module) {
       function thrift(hljs) {
         const TYPES = [
           "bool",
@@ -107278,9 +107278,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/tp.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/tp.js
   var require_tp = __commonJS({
-    "node_modules/highlight.js/lib/languages/tp.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/tp.js"(exports, module) {
       function tp(hljs) {
         const TPID = {
           className: "number",
@@ -107447,9 +107447,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/twig.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/twig.js
   var require_twig = __commonJS({
-    "node_modules/highlight.js/lib/languages/twig.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/twig.js"(exports, module) {
       function twig(hljs) {
         const regex = hljs.regex;
         const FUNCTION_NAMES = [
@@ -107691,9 +107691,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/typescript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/typescript.js
   var require_typescript = __commonJS({
-    "node_modules/highlight.js/lib/languages/typescript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/typescript.js"(exports, module) {
       var IDENT_RE = "[A-Za-z$_][0-9A-Za-z$_]*";
       var KEYWORDS = [
         "as",
@@ -108510,9 +108510,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/vala.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vala.js
   var require_vala = __commonJS({
-    "node_modules/highlight.js/lib/languages/vala.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vala.js"(exports, module) {
       function vala(hljs) {
         return {
           name: "Vala",
@@ -108556,9 +108556,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/vbnet.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vbnet.js
   var require_vbnet = __commonJS({
-    "node_modules/highlight.js/lib/languages/vbnet.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vbnet.js"(exports, module) {
       function vbnet(hljs) {
         const regex = hljs.regex;
         const CHARACTER = {
@@ -108694,9 +108694,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/vbscript.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vbscript.js
   var require_vbscript = __commonJS({
-    "node_modules/highlight.js/lib/languages/vbscript.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vbscript.js"(exports, module) {
       function vbscript(hljs) {
         const regex = hljs.regex;
         const BUILT_IN_FUNCTIONS = [
@@ -108905,9 +108905,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/vbscript-html.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vbscript-html.js
   var require_vbscript_html = __commonJS({
-    "node_modules/highlight.js/lib/languages/vbscript-html.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vbscript-html.js"(exports, module) {
       function vbscriptHtml(hljs) {
         return {
           name: "VBScript in HTML",
@@ -108925,9 +108925,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/verilog.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/verilog.js
   var require_verilog = __commonJS({
-    "node_modules/highlight.js/lib/languages/verilog.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/verilog.js"(exports, module) {
       function verilog2(hljs) {
         const regex = hljs.regex;
         const KEYWORDS = {
@@ -109471,9 +109471,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/vhdl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vhdl.js
   var require_vhdl = __commonJS({
-    "node_modules/highlight.js/lib/languages/vhdl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vhdl.js"(exports, module) {
       function vhdl2(hljs) {
         const INTEGER_RE = "\\d(_|\\d)*";
         const EXPONENT_RE = "[eE][-+]?" + INTEGER_RE;
@@ -109677,9 +109677,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/vim.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vim.js
   var require_vim = __commonJS({
-    "node_modules/highlight.js/lib/languages/vim.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/vim.js"(exports, module) {
       function vim(hljs) {
         return {
           name: "Vim Script",
@@ -109753,9 +109753,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/wasm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/wasm.js
   var require_wasm = __commonJS({
-    "node_modules/highlight.js/lib/languages/wasm.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/wasm.js"(exports, module) {
       function wasm(hljs) {
         hljs.regex;
         const BLOCK_COMMENT = hljs.COMMENT(/\(;/, /;\)/);
@@ -109879,9 +109879,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/wren.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/wren.js
   var require_wren = __commonJS({
-    "node_modules/highlight.js/lib/languages/wren.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/wren.js"(exports, module) {
       function wren(hljs) {
         const regex = hljs.regex;
         const IDENT_RE = /[a-zA-Z]\w*/;
@@ -110163,9 +110163,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/x86asm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/x86asm.js
   var require_x86asm = __commonJS({
-    "node_modules/highlight.js/lib/languages/x86asm.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/x86asm.js"(exports, module) {
       function x86asm(hljs) {
         return {
           name: "Intel x86 Assembly",
@@ -110255,9 +110255,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/xl.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/xl.js
   var require_xl = __commonJS({
-    "node_modules/highlight.js/lib/languages/xl.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/xl.js"(exports, module) {
       function xl(hljs) {
         const KWS = [
           "if",
@@ -110457,9 +110457,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/xquery.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/xquery.js
   var require_xquery = __commonJS({
-    "node_modules/highlight.js/lib/languages/xquery.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/xquery.js"(exports, module) {
       function xquery(_hljs) {
         const KEYWORDS = [
           "module",
@@ -110789,9 +110789,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/languages/zephir.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/zephir.js
   var require_zephir = __commonJS({
-    "node_modules/highlight.js/lib/languages/zephir.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/languages/zephir.js"(exports, module) {
       function zephir(hljs) {
         const STRING3 = {
           className: "string",
@@ -110893,9 +110893,9 @@
     }
   });
 
-  // node_modules/highlight.js/lib/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/index.js
   var require_lib = __commonJS({
-    "node_modules/highlight.js/lib/index.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/lib/index.js"(exports, module) {
       var hljs = require_core();
       hljs.registerLanguage("1c", require_c());
       hljs.registerLanguage("abnf", require_abnf());
@@ -111095,9 +111095,9 @@
     }
   });
 
-  // renderer/js/editCommands.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/editCommands.js
   var require_editCommands = __commonJS({
-    "renderer/js/editCommands.js"(exports, module) {
+    "D:/PY/program/rabbit/small-rabbit-editor/renderer/js/editCommands.js"(exports, module) {
       function duplicateLine2(state) {
         const { from: from3 } = state.selection.main;
         const line = state.doc.lineAt(from3);
@@ -111142,12 +111142,12 @@
     }
   });
 
-  // node_modules/codemirror/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/codemirror/dist/index.js
   init_dist2();
   init_dist();
   init_dist5();
 
-  // node_modules/@codemirror/commands/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/commands/dist/index.js
   init_dist();
   init_dist2();
   init_dist5();
@@ -112231,7 +112231,7 @@
     { key: "Ctrl-m", mac: "Shift-Alt-m", run: toggleTabFocusMode }
   ].concat(standardKeymap);
 
-  // node_modules/@codemirror/search/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/search/dist/index.js
   init_dist2();
   init_dist();
   init_crelt();
@@ -113315,10 +113315,10 @@
     baseTheme3
   ];
 
-  // node_modules/codemirror/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/codemirror/dist/index.js
   init_dist6();
 
-  // node_modules/@codemirror/lint/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/lint/dist/index.js
   init_dist2();
   init_dist();
   init_crelt();
@@ -113930,7 +113930,7 @@
     baseTheme5
   ];
 
-  // node_modules/codemirror/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/codemirror/dist/index.js
   var basicSetup = /* @__PURE__ */ (() => [
     lineNumbers(),
     highlightActiveLineGutter(),
@@ -113960,12 +113960,12 @@
     ])
   ])();
 
-  // renderer/js/editor.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/editor.js
   init_dist2();
   init_dist();
   init_dist15();
 
-  // node_modules/@codemirror/language-data/dist/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/@codemirror/language-data/dist/index.js
   init_dist5();
   function legacy(parser24) {
     return new LanguageSupport(StreamLanguage.define(parser24));
@@ -114993,7 +114993,7 @@
     })
   ];
 
-  // node_modules/marked/lib/marked.esm.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/marked/lib/marked.esm.js
   function _getDefaults() {
     return {
       async: false,
@@ -117129,11 +117129,11 @@ ${text6}</tr>
   var parser23 = _Parser.parse;
   var lexer = _Lexer.lex;
 
-  // node_modules/highlight.js/es/index.js
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/highlight.js/es/index.js
   var import_lib = __toESM(require_lib(), 1);
   var es_default = import_lib.default;
 
-  // node_modules/dompurify/dist/purify.es.mjs
+  // D:/PY/program/rabbit/small-rabbit-editor/node_modules/dompurify/dist/purify.es.mjs
   function _arrayLikeToArray(r2, a2) {
     (null == a2 || a2 > r2.length) && (a2 = r2.length);
     for (var e = 0, n = Array(a2); e < a2; e++) n[e] = r2[e];
@@ -118642,7 +118642,7 @@ ${text6}</tr>
   }
   var purify = createDOMPurify();
 
-  // renderer/js/editor.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/editor.js
   var import_editCommands = __toESM(require_editCommands());
   marked.setOptions({
     highlight: (code2, lang) => {
@@ -119101,7 +119101,7 @@ ${text6}</tr>
     return wordWrapEnabled;
   }
 
-  // renderer/js/fileManager.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/fileManager.js
   function initDragDrop(element2) {
     element2.addEventListener("dragover", (e) => {
       e.preventDefault();
@@ -119139,7 +119139,7 @@ ${text6}</tr>
     });
   }
 
-  // renderer/js/fileBrowser.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/fileBrowser.js
   var rootDir = null;
   var selectedPath = null;
   var contextMenu = null;
@@ -119494,7 +119494,7 @@ ${text6}</tr>
     refresh(dirPath);
   }
 
-  // renderer/js/outline.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/outline.js
   var currentActiveLine = -1;
   var selectedLine = -1;
   var selectedTimeout = null;
@@ -119684,7 +119684,7 @@ ${text6}</tr>
     allArrows.forEach((a2) => a2.classList.add("expanded"));
   }
 
-  // renderer/js/aiClient.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/aiClient.js
   var config2 = {
     baseUrl: "http://localhost:8080/v1",
     apiKey: "",
@@ -119744,7 +119744,7 @@ ${text6}</tr>
     "\u4E2D\u8BD1\u82F1": "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u7FFB\u8BD1\u3002\u8BF7\u5C06\u7528\u6237\u63D0\u4F9B\u7684\u4E2D\u6587\u5185\u5BB9\u7FFB\u8BD1\u4E3A\u6D41\u7545\u81EA\u7136\u7684\u82F1\u6587\u3002\u4FDD\u6301\u539F\u6587\u8BED\u4E49\u548C\u98CE\u683C\uFF0C\u76F4\u63A5\u8F93\u51FA\u8BD1\u6587\u3002"
   };
 
-  // renderer/js/settings.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/settings.js
   var defaults6 = {
     aiBaseUrl: "http://localhost:8080/v1",
     aiApiKey: "",
@@ -119883,7 +119883,7 @@ ${text6}</tr>
     await window.electronAPI.saveSettings(currentSettings);
   }
 
-  // renderer/js/i18n.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/i18n.js
   var zh = {
     file: "\u6587\u4EF6",
     edit: "\u7F16\u8F91",
@@ -120664,7 +120664,7 @@ ${text6}</tr>
     }).observe(document.body, { childList: true, subtree: true });
   }
 
-  // renderer/js/aiPanel.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/aiPanel.js
   var messages = [];
   var editingMsgId = null;
   var quotedText = null;
@@ -120751,16 +120751,22 @@ ${quotedText}
 \u3010\u7528\u6237\u6307\u4EE4\u3011\uFF1A
 ${text6}` : text6;
     quotedText = null;
+    const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content }));
+    const lastUserIdx = historyMsgs.length - 1 - [...historyMsgs].reverse().findIndex((m) => m.role === "user");
+    if (lastUserIdx >= 0) {
+      historyMsgs[lastUserIdx] = {
+        role: "user",
+        content: hasRef ? `\u8BF7\u6839\u636E\u3010\u7528\u6237\u6307\u4EE4\u3011\u5BF9\u3010\u5F15\u7528\u5185\u5BB9\u3011\u8FDB\u884C\u7EED\u5199\u3001\u6539\u5199\u6216\u4F18\u5316\uFF0C\u76F4\u63A5\u8F93\u51FA\u5904\u7406\u540E\u7684\u5185\u5BB9\uFF1A
+
+${effectiveText}` : text6
+      };
+    }
     const apiMessages = hasRef ? [
       { role: "system", content: "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u521B\u610F\u5199\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u63D0\u4F9B\u7684\u4E0A\u4E0B\u6587\uFF0C\u81EA\u7136\u5730\u7EED\u5199\u6216\u6539\u5199\u5185\u5BB9\u3002\u4FDD\u6301\u4E0E\u539F\u6587\u4E00\u81F4\u7684\u98CE\u683C\u3001\u8BED\u6C14\u548C\u8282\u594F\u3002\u7ED3\u5408\u7528\u6237\u7684\u5177\u4F53\u6307\u4EE4\u5B8C\u6210\u4EFB\u52A1\uFF0C\u76F4\u63A5\u8F93\u51FA\u5904\u7406\u540E\u7684\u5185\u5BB9\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002" },
-      { role: "user", content: `\u8BF7\u6839\u636E\u3010\u7528\u6237\u6307\u4EE4\u3011\u5BF9\u3010\u5F15\u7528\u5185\u5BB9\u3011\u8FDB\u884C\u7EED\u5199\u3001\u6539\u5199\u6216\u4F18\u5316\uFF0C\u76F4\u63A5\u8F93\u51FA\u5904\u7406\u540E\u7684\u5185\u5BB9\uFF1A
-
-${effectiveText}` }
+      ...historyMsgs
     ] : [
       { role: "system", content: "\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u521B\u610F\u5199\u624B\u3002\u8BF7\u6839\u636E\u7528\u6237\u7684\u5177\u4F53\u8981\u6C42\u6765\u5B8C\u6210\u4EFB\u52A1\u3002\u76F4\u63A5\u8F93\u51FA\u6240\u9700\u5185\u5BB9\uFF0C\u4E0D\u9700\u8981\u89E3\u91CA\u6216\u8BF4\u660E\u3002" },
-      { role: "user", content: `\u8BF7\u6309\u8981\u6C42\u5B8C\u6210\u4EFB\u52A1\uFF1A
-
-${text6}` }
+      ...historyMsgs
     ];
     const assistantMsg = {
       id: (Date.now() + 1).toString(),
@@ -120970,7 +120976,7 @@ ${text6}` }
     }, 50);
   }
 
-  // renderer/js/ctrlKPopup.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/ctrlKPopup.js
   var lastMode = "\u6DA6\u8272";
   var lastWordCount = 800;
   var ctrlKActive = false;
@@ -121068,7 +121074,7 @@ ${sel.text}`;
     }
   }
 
-  // renderer/js/searchReplace.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/searchReplace.js
   var matches = [];
   var currentIndex = -1;
   var searchVisible = false;
@@ -121314,7 +121320,7 @@ ${sel.text}`;
     return searchVisible;
   }
 
-  // renderer/js/menubar.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/menubar.js
   var activeMenu = null;
   var menuActions = {
     new: () => newFile(),
@@ -121539,7 +121545,7 @@ ${t2("restartMessage")}`);
     }
   }
 
-  // renderer/js/statusbar.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/statusbar.js
   var currentSaveState = false;
   function init10() {
     setSaveState(false);
@@ -121596,7 +121602,7 @@ ${t2("restartMessage")}`);
     }
   }
 
-  // renderer/js/keybindings.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/keybindings.js
   function init11() {
     document.addEventListener("keydown", handleKeydown);
     const editorArea = document.getElementById("editor-area");
@@ -121855,9 +121861,10 @@ ${t2("restartMessage")}`);
     }, { passive: false });
   }
 
-  // renderer/js/app.js
+  // D:/PY/program/rabbit/small-rabbit-editor/renderer/js/app.js
   var currentFilePath = null;
   var isModified = false;
+  var saveInFlight = false;
   function getCurrentFilePath() {
     return currentFilePath;
   }
@@ -121930,13 +121937,20 @@ ${t2("restartMessage")}`);
   }
   async function saveFile() {
     if (currentFilePath) {
-      const result = await window.electronAPI.writeFile(currentFilePath, getContent());
-      if (result.success) {
-        setIsModified(false);
-        return true;
+      if (saveInFlight) return false;
+      saveInFlight = true;
+      const snapshot = getContent();
+      try {
+        const result = await window.electronAPI.writeFile(currentFilePath, snapshot);
+        if (result.success) {
+          if (getContent() === snapshot) setIsModified(false);
+          return true;
+        }
+        alert(`\u4FDD\u5B58\u5931\u8D25\uFF1A${result.error}`);
+        return false;
+      } finally {
+        saveInFlight = false;
       }
-      alert(`\u4FDD\u5B58\u5931\u8D25\uFF1A${result.error}`);
-      return false;
     } else {
       return saveFileAs();
     }
@@ -121944,10 +121958,11 @@ ${t2("restartMessage")}`);
   async function saveFileAs() {
     const result = await window.electronAPI.saveDialog();
     if (!result.success) return false;
-    const writeResult = await window.electronAPI.writeFile(result.filePath, getContent());
+    const snapshot = getContent();
+    const writeResult = await window.electronAPI.writeFile(result.filePath, snapshot);
     if (writeResult.success) {
       setCurrentFilePath(result.filePath);
-      setIsModified(false);
+      if (getContent() === snapshot) setIsModified(false);
       await window.electronAPI.addRecentFile(result.filePath);
       updateRecentFiles(await window.electronAPI.getRecentFiles());
       return true;
@@ -122092,7 +122107,7 @@ ${t2("restartMessage")}`);
       await openFileByPath(filePath, filePath.endsWith(".md"));
     });
     window.addEventListener("settings:auto-save", () => {
-      if (isModified && currentFilePath) saveFile();
+      if (isModified && currentFilePath && !saveInFlight) saveFile();
     });
     updateTitle();
     window.__hasUnsavedChanges = false;

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -123,6 +123,19 @@ function createWindow() {
   }
 
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+
+  const isHttpUrl = (url) => typeof url === 'string' && (url.startsWith('https:') || url.startsWith('http:'));
+  const isAppPage = (url) => typeof url === 'string' && url.startsWith('file:') && url.includes('renderer/index.html');
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (isHttpUrl(url)) shell.openExternal(url);
+    return { action: 'deny' };
+  });
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    if (isAppPage(url)) return;
+    event.preventDefault();
+    if (isHttpUrl(url)) shell.openExternal(url);
+  });
+
 
   // 页面加载完成后恢复侧边栏状态
   mainWindow.webContents.on('did-finish-load', () => {
@@ -263,12 +276,26 @@ ipcMain.handle('file:write', async (_event, filePath, content) => {
         return { success: false, error: 'Refusing to overwrite existing file with empty content (data-loss prevention)' };
       }
     }
-    // Auto-backup: create .bak copy before overwriting
     if (fs.existsSync(safePath)) {
-      const bakPath = safePath.replace(/\.md$/, '') + '.bak.md';
-      try { fs.copyFileSync(safePath, bakPath); } catch (_) {}
+      const stem = safePath.replace(/\.md$/i, '');
+      let bakPath = stem + '.bak.md';
+      if (fs.existsSync(bakPath)) {
+        bakPath = stem + '.bak.' + Date.now() + '.md';
+      }
+      try {
+        fs.copyFileSync(safePath, bakPath);
+      } catch (bakErr) {
+        return { success: false, error: 'Backup failed: ' + bakErr.message };
+      }
     }
-    fs.writeFileSync(safePath, content, 'utf-8');
+    const tmpPath = safePath + '.' + process.pid + '.tmp';
+    fs.writeFileSync(tmpPath, content, 'utf-8');
+    try {
+      fs.renameSync(tmpPath, safePath);
+    } catch (_) {
+      fs.copyFileSync(tmpPath, safePath);
+      fs.unlinkSync(tmpPath);
+    }
     return { success: true };
   } catch (err) {
     return { success: false, error: err.message };

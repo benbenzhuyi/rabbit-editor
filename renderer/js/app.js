@@ -17,6 +17,7 @@ import * as I18n from './i18n.js';
 
 let currentFilePath = null;
 let isModified = false;
+let saveInFlight = false;
 
 // ── Public state accessors ──────────────────────────────
 
@@ -108,13 +109,20 @@ export async function openFile() {
 
 export async function saveFile() {
   if (currentFilePath) {
-    const result = await window.electronAPI.writeFile(currentFilePath, Editor.getContent());
+    if (saveInFlight) return false;
+    saveInFlight = true;
+    const snapshot = Editor.getContent();
+    try {
+    const result = await window.electronAPI.writeFile(currentFilePath, snapshot);
     if (result.success) {
-      setIsModified(false);
+      if (Editor.getContent() === snapshot) setIsModified(false);
       return true;
     }
     alert(`保存失败：${result.error}`);
     return false;
+    } finally {
+      saveInFlight = false;
+    }
   } else {
     return saveFileAs();
   }
@@ -123,10 +131,11 @@ export async function saveFile() {
 export async function saveFileAs() {
   const result = await window.electronAPI.saveDialog();
   if (!result.success) return false;
-  const writeResult = await window.electronAPI.writeFile(result.filePath, Editor.getContent());
+  const snapshot = Editor.getContent();
+  const writeResult = await window.electronAPI.writeFile(result.filePath, snapshot);
   if (writeResult.success) {
     setCurrentFilePath(result.filePath);
-    setIsModified(false);
+    if (Editor.getContent() === snapshot) setIsModified(false);
     await window.electronAPI.addRecentFile(result.filePath);
     MenuBar.updateRecentFiles(await window.electronAPI.getRecentFiles());
     return true;
@@ -315,7 +324,7 @@ async function init() {
 
   // Auto-save via settings timer
   window.addEventListener('settings:auto-save', () => {
-    if (isModified && currentFilePath) saveFile();
+    if (isModified && currentFilePath && !saveInFlight) saveFile();
   });
 
   updateTitle();
