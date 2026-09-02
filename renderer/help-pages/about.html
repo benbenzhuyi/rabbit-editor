@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>关于小野兔</title>
+  <link rel="stylesheet" href="../styles/main.css">
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--bg-primary, #1e1e1e);
+      color: var(--text-primary, #e0e0e0);
+    }
+    #wrap {
+      padding: 20px 28px 40px;
+      overflow: auto;
+      height: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrap" class="help-body">
+<div class="help-about">
+  <img class="help-about-icon" src="../assets/icon.png" alt="小野兔">
+  <div class="help-about-name">小野兔 Rabbit</div>
+  <div class="help-about-ver">版本 <span id="app-version">0.6.1</span></div>
+  <p class="help-about-tag">轻量、开源、本地优先的 AI 辅助 Markdown 编辑器</p>
+  <table class="help-about-meta">
+    <tr><td>产品</td><td>小野兔 Rabbit</td></tr>
+    <tr><td>版本</td><td id="app-version-2">0.6.1</td></tr>
+    <tr><td>许可</td><td>MIT License</td></tr>
+    <tr><td>运行环境</td><td>Windows · Electron 36 · CodeMirror 6</td></tr>
+    <tr><td>数据位置</td><td>全部保存在本机 userData，不依赖云账号</td></tr>
+    <tr><td>项目</td><td><a href="https://github.com/benbenzhuyi/rabbit-editor">github.com/benbenzhuyi/rabbit-editor</a></td></tr>
+    <tr><td>发布页</td><td><a href="https://github.com/benbenzhuyi/rabbit-editor/releases">Releases</a></td></tr>
+  </table>
+  <p class="help-about-note">预览中的外链会用系统浏览器打开，不会离开编辑器。API 密钥只写在本机 settings.json。</p>
+</div>
+</div>
+
+<script>
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" || e.code === "Escape") {
+    e.preventDefault();
+    window.close();
+  }
+});
+</script>
+</body>
+</html>

@@ -74,13 +74,23 @@ export async function init() {
 
 export function showPanel() {
   const overlay = document.getElementById('settings-overlay');
+  if (!overlay) return;
   overlay.classList.remove('hidden');
+  overlay.style.setProperty('display', 'flex', 'important');
+  overlay.style.setProperty('width', 'auto', 'important');
+  overlay.style.setProperty('visibility', 'visible', 'important');
+  overlay.style.zIndex = '100000';
   overlay.focus();
   populateForm();
 }
 
 function hidePanel() {
-  document.getElementById('settings-overlay').classList.add('hidden');
+  const overlay = document.getElementById('settings-overlay');
+  if (!overlay) return;
+  overlay.classList.add('hidden');
+  overlay.style.display = '';
+  overlay.style.width = '';
+  overlay.style.visibility = '';
 }
 
 function switchTab(tabName) {

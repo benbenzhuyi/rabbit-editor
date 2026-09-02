@@ -45,6 +45,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onShortcutSettings: (callback) => {
     ipcRenderer.on('shortcut:settings', () => callback());
   },
+  onShortcutHelp: (callback) => {
+    ipcRenderer.on('shortcut:help', (_event, kind) => callback(kind));
+  },
+  openHelpPage: (kind) => ipcRenderer.invoke('help:open-page', kind),
 
   // AI streaming
   aiRequest: (config) => ipcRenderer.invoke('ai:request', config),

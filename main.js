@@ -1,6 +1,61 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu, shell, globalShortcut } = require('electron');
 const path = require('path');
 const fs = require('fs');
+
+
+let helpWin = null;
+function openHelpPage(kind) {
+  const fileMap = { help: 'help.html', shortcuts: 'shortcuts.html', about: 'about.html' };
+  const file = fileMap[kind] || fileMap.help;
+  const wide = kind !== 'about';
+  if (helpWin && !helpWin.isDestroyed()) {
+    helpWin.close();
+  }
+  helpWin = new BrowserWindow({
+    parent: mainWindow,
+    modal: true,
+    width: wide ? 820 : 560,
+    height: 740,
+    minWidth: 480,
+    minHeight: 400,
+    backgroundColor: '#1e1e1e',
+    autoHideMenuBar: true,
+    icon: path.join(__dirname, 'renderer', 'assets', 'icon.png'),
+    webPreferences: {
+      sandbox: true,
+      contextIsolation: true,
+    },
+  });
+  helpWin.setMenu(null);
+  helpWin.webContents.on('before-input-event', (event, input) => {
+    if (input.type === 'keyDown' && (input.key === 'Escape' || input.code === 'Escape')) {
+      event.preventDefault();
+      if (helpWin && !helpWin.isDestroyed()) helpWin.close();
+    }
+  });
+  helpWin.loadFile(path.join(__dirname, 'renderer', 'help-pages', file));
+  helpWin.webContents.setWindowOpenHandler(({ url }) => {
+    if (typeof url === 'string' && (url.startsWith('https:') || url.startsWith('http:'))) {
+      shell.openExternal(url);
+    }
+    return { action: 'deny' };
+  });
+  helpWin.webContents.on('will-navigate', (event, url) => {
+    if (url.startsWith('file:')) return;
+    event.preventDefault();
+    if (url.startsWith('https:') || url.startsWith('http:')) shell.openExternal(url);
+  });
+  if (kind === 'about') {
+    helpWin.webContents.on('did-finish-load', () => {
+      const v = JSON.stringify(app.getVersion());
+      helpWin.webContents.executeJavaScript(
+        'document.getElementById("app-version") && (document.getElementById("app-version").textContent = ' + v + ');' +
+        'document.getElementById("app-version-2") && (document.getElementById("app-version-2").textContent = ' + v + ');'
+      );
+    });
+  }
+  helpWin.on('closed', () => { helpWin = null; });
+}
 
 let mainWindow = null;
 let windowMode = 1; // 1=normal, 2=fullscreen+menu, 3=fullscreen no menu
@@ -154,6 +209,7 @@ function createWindow() {
     if (openFilePath) {
       mainWindow.webContents.send('open-file', openFilePath);
     }
+  
   });
 
   // Restore window mode if saved
@@ -165,11 +221,44 @@ function createWindow() {
   // mainWindow.webContents.openDevTools({ mode: 'detach' });
 
   // Intercept Ctrl+, at Chromium level (before DOM sees it)
-  mainWindow.webContents.on('before-input-event', (event, input) => {
-    if ((input.control || input.meta) && !input.shift && input.code === 'Comma') {
-      event.preventDefault();
+  const isCommaKey = (input) =>
+    input.code === 'Comma' || input.key === ',' || input.key === '，';
+
+  const sendOpenSettings = () => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send('shortcut:settings');
     }
+  };
+
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.type !== 'keyDown') return;
+    if ((input.control || input.meta) && !input.shift && !input.alt && isCommaKey(input)) {
+      event.preventDefault();
+      sendOpenSettings();
+      return;
+    }
+    if (input.key === 'F1' || input.code === 'F1') {
+      event.preventDefault();
+      const kind = (input.control || input.meta) ? 'about' : (input.shift ? 'shortcuts' : 'help');
+      openHelpPage(kind);
+    }
+  });
+
+  const registerSettingsAccel = () => {
+    try { globalShortcut.unregister('CommandOrControl+,'); } catch (_) {}
+    globalShortcut.register('CommandOrControl+,', () => {
+      if (mainWindow && !mainWindow.isDestroyed() && mainWindow.isFocused()) {
+        sendOpenSettings();
+      }
+    });
+  };
+  registerSettingsAccel();
+  mainWindow.on('focus', registerSettingsAccel);
+  mainWindow.on('blur', () => {
+    try { globalShortcut.unregister('CommandOrControl+,'); } catch (_) {}
+  });
+  mainWindow.on('closed', () => {
+    try { globalShortcut.unregister('CommandOrControl+,'); } catch (_) {}
   });
 
   // Also register Ctrl+, as a native menu accelerator (most reliable)
@@ -192,6 +281,23 @@ function createWindow() {
       ],
     },
   ]);
+  appMenu.items[0].submenu.append(new (require('electron').MenuItem)({ type: 'separator' }));
+  const { MenuItem } = require('electron');
+  appMenu.items[0].submenu.append(new MenuItem({
+    label: 'Help',
+    accelerator: 'F1',
+    click: () => openHelpPage('help'),
+  }));
+  appMenu.items[0].submenu.append(new MenuItem({
+    label: 'Shortcuts',
+    accelerator: 'Shift+F1',
+    click: () => openHelpPage('shortcuts'),
+  }));
+  appMenu.items[0].submenu.append(new MenuItem({
+    label: 'About Rabbit',
+    accelerator: 'CmdOrCtrl+F1',
+    click: () => openHelpPage('about'),
+  }));
   Menu.setApplicationMenu(appMenu);
   // Hide native menu bar (we use custom HTML menu), but keep accelerators
   mainWindow.setMenuBarVisibility(false);
@@ -239,8 +345,7 @@ function createWindow() {
     })();
   });
 
-  // Remove native menu bar (we use custom HTML menu)
-  Menu.setApplicationMenu(null);
+  // Keep hidden native menu so F1 / Ctrl+, accelerators still fire
 }
 
 // Handle file association: already-running app gets new file via open-file event
@@ -255,6 +360,8 @@ app.on('open-file', (event, filePath) => {
 
 // ── IPC Handlers ──────────────────────────────────────────
 
+
+ipcMain.handle('help:open-page', (_event, kind) => { openHelpPage(kind || 'help'); return true; });
 ipcMain.handle('file:read', async (_event, filePath) => {
   try {
     const safePath = requireAllowedPath(filePath);

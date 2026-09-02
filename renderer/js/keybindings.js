@@ -56,7 +56,7 @@ export function init() {
   // in case the editor-area listener never fires (e.g. <body> focused)
   window.addEventListener('keydown', (e) => {
     const ctrl = e.ctrlKey || e.metaKey;
-    if (ctrl && !e.shiftKey && e.code === 'Comma') {
+    if (ctrl && !e.shiftKey && (e.code === 'Comma' || e.key === ',' || e.key === '，')) {
       e.preventDefault();
       Settings.showPanel();
     }
@@ -188,7 +188,7 @@ function handleKeydown(e) {
   }
 
   // Ctrl+, settings
-  if (ctrl && !shift && e.code === 'Comma') {
+  if (ctrl && !shift && (e.code === 'Comma' || e.key === ',' || e.key === '，')) {
     e.preventDefault();
     Settings.showPanel();
     return;

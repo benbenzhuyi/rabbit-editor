@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>快捷键一览</title>
+  <link rel="stylesheet" href="../styles/main.css">
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--bg-primary, #1e1e1e);
+      color: var(--text-primary, #e0e0e0);
+    }
+    #wrap {
+      padding: 20px 28px 40px;
+      overflow: auto;
+      height: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrap" class="help-body"><p class="help-lead">以下为当前版本实际生效的快捷键。菜单栏「帮助」也可用 Alt+H 打开。</p><h3>文件</h3><table class="help-shortcut-table"><tbody><tr><td class="help-kbd"><kbd>Ctrl+N</kbd></td><td>新建空白文档</td></tr><tr><td class="help-kbd"><kbd>Ctrl+O</kbd></td><td>打开本地文件</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+O</kbd></td><td>打开文件夹到左侧文件树</td></tr><tr><td class="help-kbd"><kbd>Ctrl+S</kbd></td><td>保存</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+S</kbd></td><td>另存为</td></tr><tr><td class="help-kbd"><kbd>Ctrl+W</kbd></td><td>关闭当前文件</td></tr></tbody></table><h3>编辑</h3><table class="help-shortcut-table"><tbody><tr><td class="help-kbd"><kbd>Ctrl+Z</kbd></td><td>撤销</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Y</kbd></td><td>重做</td></tr><tr><td class="help-kbd"><kbd>Ctrl+X / Ctrl+C / Ctrl+V</kbd></td><td>剪切 / 复制 / 粘贴</td></tr><tr><td class="help-kbd"><kbd>Ctrl+A</kbd></td><td>全选</td></tr><tr><td class="help-kbd"><kbd>Ctrl+D</kbd></td><td>复制当前行</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+K</kbd></td><td>删除当前行</td></tr><tr><td class="help-kbd"><kbd>Alt+↑ / Alt+↓</kbd></td><td>当前行上移 / 下移</td></tr><tr><td class="help-kbd"><kbd>Ctrl+,</kbd></td><td>打开设置</td></tr></tbody></table><h3>查找替换</h3><table class="help-shortcut-table"><tbody><tr><td class="help-kbd"><kbd>Ctrl+F</kbd></td><td>打开查找；有选区时用选中文字</td></tr><tr><td class="help-kbd"><kbd>Ctrl+H</kbd></td><td>打开查找替换</td></tr><tr><td class="help-kbd"><kbd>Enter</kbd></td><td>下一个匹配</td></tr><tr><td class="help-kbd"><kbd>Shift+Enter</kbd></td><td>上一个匹配</td></tr><tr><td class="help-kbd"><kbd>F3 / Shift+F3</kbd></td><td>查找下一个 / 上一个</td></tr><tr><td class="help-kbd"><kbd>Esc</kbd></td><td>关闭查找并清除高亮</td></tr></tbody></table><h3>AI 辅助</h3><table class="help-shortcut-table"><tbody><tr><td class="help-kbd"><kbd>Ctrl+K</kbd></td><td>选区 AI 处理（润色 / 续写 / 翻译 / 定制）</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Enter</kbd></td><td>在 Ctrl+K 窗口中确认执行</td></tr><tr><td class="help-kbd"><kbd>Ctrl+L</kbd></td><td>将选区或当前行引用到 AI 对话</td></tr><tr><td class="help-kbd"><kbd>Alt+L</kbd></td><td>显示右边栏并聚焦 AI 输入框</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+C</kbd></td><td>复制最近一次 AI 回复</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+T</kbd></td><td>用最近一次 AI 回复替换选区</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+I</kbd></td><td>将最近一次 AI 回复插入选区后方</td></tr><tr><td class="help-kbd"><kbd>Enter</kbd></td><td>在 AI 输入框中发送</td></tr><tr><td class="help-kbd"><kbd>Shift+Enter</kbd></td><td>在 AI 输入框中换行</td></tr><tr><td class="help-kbd"><kbd>Esc</kbd></td><td>取消消息编辑、关闭 Ctrl+K 或移出输入焦点</td></tr></tbody></table><h3>视图与布局</h3><table class="help-shortcut-table"><tbody><tr><td class="help-kbd"><kbd>Ctrl+Shift+P</kbd></td><td>源码 / 预览切换</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+W</kbd></td><td>自动换行</td></tr><tr><td class="help-kbd"><kbd>Ctrl+= / Ctrl+- / Ctrl+0</kbd></td><td>放大 / 缩小 / 重置缩放</td></tr><tr><td class="help-kbd"><kbd>Ctrl+鼠标滚轮</kbd></td><td>连续缩放源码和预览</td></tr><tr><td class="help-kbd"><kbd>Ctrl+B</kbd></td><td>显示或隐藏左边栏</td></tr><tr><td class="help-kbd"><kbd>Ctrl+J</kbd></td><td>显示或隐藏右边栏</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Alt+T</kbd></td><td>深色 / 浅色主题</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Alt+R</kbd></td><td>开关「退出保存窗口」</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+1</kbd></td><td>普通窗口</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+2</kbd></td><td>全屏，保留菜单</td></tr><tr><td class="help-kbd"><kbd>Ctrl+Shift+3</kbd></td><td>全屏，隐藏菜单</td></tr><tr><td class="help-kbd"><kbd>F11</kbd></td><td>循环切换三种窗口模式</td></tr></tbody></table><h3>大纲</h3><table class="help-shortcut-table"><tbody><tr><td class="help-kbd"><kbd>Alt+Shift+1～6</kbd></td><td>折叠到指定标题级别</td></tr><tr><td class="help-kbd"><kbd>Alt+Shift+9</kbd></td><td>展开全部标题</td></tr></tbody></table><h3>菜单与帮助</h3><table class="help-shortcut-table"><tbody><tr><td class="help-kbd"><kbd>Alt+F</kbd></td><td>打开文件菜单</td></tr><tr><td class="help-kbd"><kbd>Alt+E</kbd></td><td>打开编辑菜单</td></tr><tr><td class="help-kbd"><kbd>Alt+V</kbd></td><td>打开视图菜单</td></tr><tr><td class="help-kbd"><kbd>Alt+H</kbd></td><td>打开帮助菜单</td></tr><tr><td class="help-kbd"><kbd>F1</kbd></td><td>rabbit 帮助</td></tr><tr><td class="help-kbd"><kbd>Shift+F1</kbd></td><td>快捷键一览</td></tr><tr><td class="help-kbd"><kbd>Ctrl+F1</kbd></td><td>关于小野兔</td></tr></tbody></table></div>
+
+<script>
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" || e.code === "Escape") {
+    e.preventDefault();
+    window.close();
+  }
+});
+</script>
+</body>
+</html>

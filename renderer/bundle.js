@@ -119801,12 +119801,22 @@ ${text6}</tr>
   }
   function showPanel2() {
     const overlay = document.getElementById("settings-overlay");
+    if (!overlay) return;
     overlay.classList.remove("hidden");
+    overlay.style.setProperty("display", "flex", "important");
+    overlay.style.setProperty("width", "auto", "important");
+    overlay.style.setProperty("visibility", "visible", "important");
+    overlay.style.zIndex = "100000";
     overlay.focus();
     populateForm();
   }
   function hidePanel() {
-    document.getElementById("settings-overlay").classList.add("hidden");
+    const overlay = document.getElementById("settings-overlay");
+    if (!overlay) return;
+    overlay.classList.add("hidden");
+    overlay.style.display = "";
+    overlay.style.width = "";
+    overlay.style.visibility = "";
   }
   function switchTab(tabName) {
     document.querySelectorAll(".settings-tab").forEach((t3) => t3.classList.toggle("active", t3.dataset.tab === tabName));
@@ -121321,126 +121331,230 @@ ${sel.text}`;
   }
 
   // renderer/js/help.js
+  var ignoreHideUntil = 0;
   function init9() {
     const overlay = document.getElementById("help-overlay");
     if (!overlay) return;
-    document.getElementById("help-close")?.addEventListener("click", hide);
-    overlay.addEventListener("click", (e) => {
+    document.getElementById("help-close").addEventListener("click", hide);
+    overlay.addEventListener("click", function(e) {
       if (e.target === overlay) hide();
     });
-    overlay.addEventListener("keydown", (e) => {
+    overlay.addEventListener("keydown", function(e) {
       if (e.key === "Escape") {
         e.preventDefault();
         hide();
       }
     });
+    if (window.electronAPI && window.electronAPI.onShortcutHelp) {
+      window.electronAPI.onShortcutHelp(function(kind) {
+        if (kind === "shortcuts") showShortcuts();
+        else if (kind === "about") showAbout();
+        else showHelp();
+      });
+    }
   }
   function hide() {
-    document.getElementById("help-overlay")?.classList.add("hidden");
+    if (Date.now() < ignoreHideUntil) return;
+    var overlay = document.getElementById("help-overlay");
+    if (!overlay) return;
+    overlay.classList.add("hidden");
+    overlay.style.display = "";
   }
   function show(title, html4, wide) {
-    const overlay = document.getElementById("help-overlay");
-    const modal = document.getElementById("help-modal");
-    const titleEl = document.getElementById("help-title");
-    const body2 = document.getElementById("help-body");
-    if (!overlay || !modal || !titleEl || !body2) return;
+    var overlay = document.getElementById("help-overlay");
+    var modal = document.getElementById("help-modal");
+    var titleEl = document.getElementById("help-title");
+    var body2 = document.getElementById("help-body");
+    if (!overlay || !modal || !titleEl || !body2) {
+      console.error("help overlay missing", !!overlay, !!modal, !!titleEl, !!body2);
+      return;
+    }
     titleEl.textContent = title;
-    body2.innerHTML = html4;
+    body2.innerHTML = html4 || "";
     modal.classList.toggle("help-modal-wide", !!wide);
     overlay.classList.remove("hidden");
+    overlay.style.display = "flex";
+    overlay.style.zIndex = "100000";
+    overlay.style.visibility = "visible";
+    overlay.style.opacity = "1";
+    ignoreHideUntil = Date.now() + 400;
     overlay.focus();
+    body2.scrollTop = 0;
+  }
+  function showLater(title, html4, wide) {
+    setTimeout(function() {
+      show(title, html4, wide);
+    }, 50);
   }
   function showHelp() {
-    show("rabbit \u5E2E\u52A9", `
-    <div class="help-section">
-      <h3>\u8FD9\u662F\u4EC0\u4E48</h3>
-      <p>\u5C0F\u91CE\u5154 Rabbit \u662F\u672C\u5730\u4F18\u5148\u7684 Markdown \u7F16\u8F91\u5668\uFF0C\u652F\u6301 CodeMirror \u7F16\u8F91\u3001\u5B9E\u65F6\u9884\u89C8\uFF0C\u4EE5\u53CA\u672C\u5730 / \u4E91\u7AEF AI \u8F85\u52A9\u5199\u4F5C\u3002</p>
-    </div>
-    <div class="help-section">
-      <h3>\u6587\u4EF6</h3>
-      <p>\u7528\u300C\u6587\u4EF6\u300D\u83DC\u5355\u6253\u5F00\u3001\u4FDD\u5B58 Markdown\u3002<kbd>Ctrl+S</kbd> \u4FDD\u5B58\uFF0C<kbd>Ctrl+Shift+S</kbd> \u53E6\u5B58\u4E3A\u3002\u6253\u5F00\u67D0\u4E2A\u6587\u4EF6\u540E\uFF0C\u5DE6\u4FA7\u6587\u4EF6\u6811\u53EF\u4EE5\u4F7F\u7528\u8BE5\u6587\u4EF6\u6240\u5728\u76EE\u5F55\u3002</p>
-    </div>
-    <div class="help-section">
-      <h3>\u7F16\u8F91\u4E0E\u9884\u89C8</h3>
-      <p><kbd>Ctrl+Shift+P</kbd> \u5728\u6E90\u7801\u548C\u9884\u89C8\u4E4B\u95F4\u5207\u6362\u3002\u9884\u89C8\u91CC\u7684\u94FE\u63A5\u4F1A\u5728\u7CFB\u7EDF\u6D4F\u89C8\u5668\u4E2D\u6253\u5F00\uFF0C\u4E0D\u4F1A\u79BB\u5F00\u7F16\u8F91\u5668\u3002</p>
-    </div>
-    <div class="help-section">
-      <h3>AI</h3>
-      <p>\u53F3\u4FA7\u9762\u677F\u5BF9\u8BDD\uFF1B<kbd>Ctrl+K</kbd> \u5BF9\u9009\u533A\u5FEB\u901F\u6539\u5199\uFF1B<kbd>Ctrl+,</kbd> \u6253\u5F00\u8BBE\u7F6E\uFF0C\u586B\u5199 API \u5730\u5740\u3001\u6A21\u578B\u548C\u5BC6\u94A5\u3002\u672C\u5730 llama.cpp / Ollama \u4E0E OpenAI \u517C\u5BB9\u63A5\u53E3\u90FD\u53EF\u4EE5\u3002</p>
-    </div>
-    <div class="help-section">
-      <h3>\u66F4\u591A</h3>
-      <p>\u5B8C\u6574\u5FEB\u6377\u952E\u89C1\u300C\u5E2E\u52A9 \u2192 \u5FEB\u6377\u952E\u4E00\u89C8\u300D\uFF08<kbd>Shift+F1</kbd>\uFF09\u3002\u7248\u672C\u4E0E\u9879\u76EE\u5730\u5740\u89C1\u300C\u5173\u4E8E\u5C0F\u91CE\u5154\u300D\u3002</p>
-    </div>
-  `);
+    if (window.electronAPI && window.electronAPI.openHelpPage) {
+      window.electronAPI.openHelpPage("help");
+      return;
+    }
+    showLater("rabbit \u5E2E\u52A9", HELP_HTML, true);
   }
+  function showShortcuts() {
+    if (window.electronAPI && window.electronAPI.openHelpPage) {
+      window.electronAPI.openHelpPage("shortcuts");
+      return;
+    }
+    var html4 = '<p class="help-lead">\u4EE5\u4E0B\u4E3A\u5F53\u524D\u7248\u672C\u5B9E\u9645\u751F\u6548\u7684\u5FEB\u6377\u952E\u3002\u83DC\u5355\u680F\u300C\u5E2E\u52A9\u300D\u4E5F\u53EF\u7528 Alt+H \u6253\u5F00\u3002</p>';
+    for (var g = 0; g < SHORTCUT_GROUPS.length; g++) {
+      var group = SHORTCUT_GROUPS[g][0];
+      var rows = SHORTCUT_GROUPS[g][1];
+      html4 += "<h3>" + group + '</h3><table class="help-shortcut-table"><tbody>';
+      for (var i = 0; i < rows.length; i++) {
+        html4 += '<tr><td class="help-kbd"><kbd>' + rows[i][0] + "</kbd></td><td>" + rows[i][1] + "</td></tr>";
+      }
+      html4 += "</tbody></table>";
+    }
+    showLater("\u5FEB\u6377\u952E\u4E00\u89C8", html4, true);
+  }
+  function showAbout() {
+    if (window.electronAPI && window.electronAPI.openHelpPage) {
+      window.electronAPI.openHelpPage("about");
+      return;
+    }
+    var version = "0.6.1";
+    var name2 = "\u5C0F\u91CE\u5154 Rabbit";
+    var run = function() {
+      showLater(
+        "\u5173\u4E8E\u5C0F\u91CE\u5154",
+        '<div class="help-about"><img class="help-about-icon" src="assets/icon.png" alt="\u5C0F\u91CE\u5154"><div class="help-about-name">' + name2 + '</div><div class="help-about-ver">\u7248\u672C ' + version + '</div><p class="help-about-tag">\u8F7B\u91CF\u5316\u3001\u5F00\u6E90\u3001\u672C\u5730\u4F18\u5148\u7684 AI \u8F85\u52A9 Markdown \u7F16\u8F91\u5668</p><table class="help-about-meta"><tr><td>\u4EA7\u54C1</td><td>\u5C0F\u91CE\u5154 Rabbit</td></tr><tr><td>\u7248\u672C</td><td>' + version + '</td></tr><tr><td>\u8BB8\u53EF</td><td>MIT License</td></tr><tr><td>\u8FD0\u884C\u73AF\u5883</td><td>Windows \xB7 Electron 36 \xB7 CodeMirror 6</td></tr><tr><td>\u6570\u636E\u4F4D\u7F6E</td><td>\u5168\u90E8\u4FDD\u5B58\u5728\u672C\u673A userData\uFF0C\u65E0\u9700\u4E91\u7AEF\u8D26\u6237</td></tr><tr><td>\u9879\u76EE</td><td><a href="https://github.com/benbenzhuyi/rabbit-editor" target="_blank" rel="noreferrer">github.com/benbenzhuyi/rabbit-editor</a></td></tr><tr><td>\u53D1\u5E03\u9875</td><td><a href="https://github.com/benbenzhuyi/rabbit-editor/releases" target="_blank" rel="noreferrer">Releases</a></td></tr></table><p class="help-about-note">\u9884\u89C8\u4E2D\u7684\u94FE\u63A5\u4F1A\u5728\u7CFB\u7EDF\u6D4F\u89C8\u5668\u6253\u5F00\uFF0C\u4E0D\u4F1A\u79BB\u5F00\u7F16\u8F91\u5668\u3002API \u5BC6\u94A5\u53EA\u5199\u5728\u672C\u673A settings.json\u3002</p></div>'
+      );
+    };
+    if (window.electronAPI && window.electronAPI.getAppInfo) {
+      window.electronAPI.getAppInfo().then(function(info) {
+        if (info && info.version) version = info.version;
+        if (info && info.name) name2 = info.name;
+        run();
+      }).catch(run);
+    } else {
+      run();
+    }
+  }
+  var HELP_HTML = [
+    '<p class="help-lead">\u5C0F\u91CE\u5154\u628A Markdown \u6E90\u7801\u7F16\u8F91\u3001\u5B9E\u65F6\u9884\u89C8\u3001\u6587\u4EF6\u7BA1\u7406\u3001\u5927\u7EB2\u5BFC\u822A\u3001AI \u5BF9\u8BDD\u548C\u9009\u533A\u6539\u5199\u653E\u5728\u540C\u4E00\u4E2A\u684C\u9762\u5DE5\u4F5C\u53F0\u91CC\u3002\u4E0B\u9762\u6309\u754C\u9762\u533A\u57DF\u8BF4\u660E\u3002</p>',
+    '<div class="help-section"><h3>1. \u754C\u9762\u7EC4\u6210</h3><ul>',
+    "<li><strong>\u83DC\u5355\u680F</strong>\uFF1A\u6587\u4EF6\u3001\u7F16\u8F91\u3001\u89C6\u56FE\u3001\u5E2E\u52A9\u3002</li>",
+    "<li><strong>\u5DE6\u8FB9\u680F</strong>\uFF1A\u6587\u4EF6\u6D4F\u89C8\u5668 + \u5927\u7EB2\u5BFC\u822A\uFF0C\u53EF\u62D6\u52A8\u6539\u5BBD\u5EA6\uFF1B\u4E2D\u95F4\u5206\u9694\u7EBF\u53EF\u6539\u9AD8\u5EA6\u3002</li>",
+    "<li><strong>\u4E2D\u592E\u7F16\u8F91\u533A</strong>\uFF1AMarkdown \u6E90\u7801\uFF0C\u6216\u6E32\u67D3\u9884\u89C8\u3002</li>",
+    "<li><strong>\u53F3\u8FB9\u680F</strong>\uFF1AAI \u5BF9\u8BDD\u3001\u6A21\u578B\u4E0E\u6D88\u606F\u64CD\u4F5C\u3002</li>",
+    "<li><strong>\u72B6\u6001\u680F</strong>\uFF1A\u884C\u5217\u3001\u5B57\u6570\u3001\u9009\u533A\u5B57\u6570\u3001\u4FDD\u5B58\u72B6\u6001\u3001AI \u72B6\u6001\u3001\u6A21\u578B\u3001\u6E29\u5EA6\u3001\u6362\u884C\u3001\u6E90\u7801/\u9884\u89C8\u3001\u8BBE\u7F6E\u3002</li>",
+    "</ul></div>",
+    '<div class="help-section"><h3>2. \u6587\u4EF6\u4E0E\u5DE5\u4F5C\u533A</h3><ul>',
+    "<li>\u65B0\u5EFA / \u6253\u5F00 / \u4FDD\u5B58 / \u53E6\u5B58\u4E3A\uFF0C\u672A\u4FDD\u5B58\u65F6\u5207\u6362\u6216\u9000\u51FA\u4F1A\u5148\u786E\u8BA4\u3002</li>",
+    "<li>\u300C\u6253\u5F00\u6587\u4EF6\u5939\u300D\u628A\u76EE\u5F55\u8F7D\u5165\u5DE6\u4FA7\u6587\u4EF6\u6811\u3002\u5355\u51FB\u6587\u4EF6\u6253\u5F00\uFF1B\u4ECE\u6587\u4EF6\u6811\u6253\u5F00 Markdown \u4F1A\u8FDB\u9884\u89C8\u3002</li>",
+    "<li>\u652F\u6301 md / txt / html / json / js / css / py \u7B49\u6587\u672C\u3002\u53E6\u5B58\u4E3A\u9ED8\u8BA4 .md\u3002</li>",
+    "<li>\u6587\u4EF6\u53EF\u62D6\u8FDB\u7A97\u53E3\u6253\u5F00\u3002\u6700\u8FD1\u6587\u4EF6\u6700\u591A 5 \u6761\u3002</li>",
+    "<li>\u6587\u4EF6\u6811\uFF1A\u5355\u51FB\u6587\u4EF6\u5939\u5C55\u5F00\uFF0CShift+\u5355\u51FB\u7BAD\u5934\u5C55\u5F00\u5B50\u76EE\u5F55\uFF0C\u53CC\u51FB\u540D\u79F0\u91CD\u547D\u540D\uFF0C\u53F3\u952E\u53EF\u65B0\u5EFA/\u91CD\u547D\u540D/\u5220\u9664\u3002</li>",
+    "<li>\u8986\u76D6\u5DF2\u6709\u6587\u4EF6\u524D\u4F1A\u505A\u5907\u4EFD\uFF1B\u4E0D\u4F1A\u7528\u7A7A\u5185\u5BB9\u8986\u76D6\u975E\u7A7A\u6587\u4EF6\u3002</li>",
+    "</ul></div>",
+    '<div class="help-section"><h3>3. \u7F16\u8F91\u4E0E\u9884\u89C8</h3><ul>',
+    "<li>\u6E90\u7801\uFF1AMarkdown \u9AD8\u4EAE\u3001\u884C\u53F7\u3001\u5F53\u524D\u884C\u9AD8\u4EAE\u3001\u62EC\u53F7\u5339\u914D\u3002Ctrl+D \u590D\u5236\u884C\uFF0CCtrl+Shift+K \u5220\u9664\u884C\uFF0CAlt+\u2191 / Alt+\u2193 \u79FB\u52A8\u884C\u3002</li>",
+    "<li>Ctrl+Shift+P \u5728\u6E90\u7801\u548C\u9884\u89C8\u4E4B\u95F4\u5207\u6362\uFF0C\u5C3D\u91CF\u4FDD\u6301\u9605\u8BFB\u4F4D\u7F6E\uFF1B\u7F29\u653E\u4E24\u8FB9\u5171\u7528\u3002</li>",
+    "<li>\u9884\u89C8\u652F\u6301\u6807\u9898\u3001\u5217\u8868\u3001\u5F15\u7528\u3001\u94FE\u63A5\u3001\u8868\u683C\u3001\u56FE\u7247\u3001\u4EFB\u52A1\u5217\u8868\u3001\u4EE3\u7801\u9AD8\u4EAE\u3002\u94FE\u63A5\u5728\u7CFB\u7EDF\u6D4F\u89C8\u5668\u6253\u5F00\uFF0C\u4E0D\u4F1A\u628A\u7A97\u53E3\u5BFC\u822A\u8D70\u3002</li>",
+    "<li>Ctrl+F \u67E5\u627E\uFF0CCtrl+H \u66FF\u6362\u3002\u7A97\u53E3\u53EF\u62D6\u52A8\u3002Enter / Shift+Enter \u8DF3\u8F6C\u5339\u914D\uFF0CEsc \u5173\u95ED\u3002</li>",
+    "</ul></div>",
+    '<div class="help-section"><h3>4. \u5927\u7EB2</h3><ul>',
+    "<li>\u81EA\u52A8\u89E3\u6790 H1\u2013H6\uFF0C\u70B9\u51FB\u8DF3\u5230\u6E90\u7801\u6216\u9884\u89C8\u5BF9\u5E94\u4F4D\u7F6E\u3002</li>",
+    "<li>Alt+Shift+1\uFF5E6 \u6298\u53E0\u5230\u6307\u5B9A\u6807\u9898\u7EA7\u522B\uFF0CAlt+Shift+9 \u5168\u90E8\u5C55\u5F00\u3002</li>",
+    "</ul></div>",
+    '<div class="help-section"><h3>5. AI \u8F85\u52A9</h3>',
+    "<p>\u8D70 OpenAI \u517C\u5BB9\u63A5\u53E3\uFF0C\u53EF\u63A5 llama.cpp\u3001Ollama\u3001DeepSeek\u3001Claude \u517C\u5BB9\u670D\u52A1\u6216\u81EA\u5EFA\u63A5\u53E3\u3002\u5728\u300C\u7F16\u8F91 \u2192 \u8BBE\u7F6E\u300D\u6216 Ctrl+, \u91CC\u586B\u57FA\u7840\u5730\u5740\u3001API Key\u3001\u6A21\u578B\u3001\u6E29\u5EA6\u3001Tokens \u548C\u5404\u6A21\u5F0F\u63D0\u793A\u8BCD\u3002</p><ul>",
+    "<li><strong>Ctrl+K</strong>\uFF1A\u5BF9\u9009\u533A\uFF08\u65E0\u9009\u533A\u5219\u5F53\u524D\u884C\uFF09\u6DA6\u8272 / \u7EED\u5199 / \u5B9A\u5236 / \u7FFB\u8BD1\u3002\u6DA6\u8272\u548C\u7FFB\u8BD1\u4F1A\u66FF\u6362\u9009\u533A\uFF0C\u7EED\u5199\u63D2\u5165\u5230\u540E\u65B9\u3002Ctrl+Enter \u6267\u884C\uFF0CEsc \u5173\u95ED\u3002</li>",
+    "<li><strong>Ctrl+L</strong>\uFF1A\u628A\u9009\u533A\u6216\u5F53\u524D\u884C\u5F15\u7528\u5230\u53F3\u4FA7\u5BF9\u8BDD\uFF0C\u683C\u5F0F\u4E3A @\u6587\u4EF6\u540D \u884C\u53F7\u3002</li>",
+    "<li>\u53F3\u8FB9\u680F\uFF1AEnter \u53D1\u9001\uFF0CShift+Enter \u6362\u884C\u3002\u5BF9\u8BDD\u6309\u5F53\u524D\u6587\u4EF6\u5206\u522B\u4FDD\u5B58\u3002\u53EF\u590D\u5236\u3001\u66FF\u6362\u9009\u533A\u3001\u63D2\u5165\u5230\u9009\u533A\u540E\u3002</li>",
+    "<li>Ctrl+Shift+C / T / I\uFF1A\u590D\u5236\u3001\u66FF\u6362\u3001\u63D2\u5165\u6700\u8FD1\u4E00\u6B21 AI \u56DE\u590D\u3002Alt+L \u6253\u5F00\u53F3\u8FB9\u680F\u5E76\u805A\u7126\u8F93\u5165\u6846\u3002</li>",
+    "</ul></div>",
+    '<div class="help-section"><h3>6. \u89C6\u56FE\u3001\u4E3B\u9898\u4E0E\u7A97\u53E3</h3><ul>',
+    "<li>Ctrl+B / Ctrl+J \u5F00\u5173\u5DE6 / \u53F3\u8FB9\u680F\u3002Ctrl+Alt+T \u6DF1\u8272/\u6D45\u8272\u3002</li>",
+    "<li>Ctrl+= / - / 0 \u7F29\u653E\uFF0CCtrl+\u6EDA\u8F6E\u8FDE\u7EED\u7F29\u653E\u3002</li>",
+    "<li>\u4E09\u79CD\u7A97\u53E3\uFF1A\u666E\u901A\uFF08Ctrl+Shift+1\uFF09\u3001\u5168\u5C4F\u6709\u83DC\u5355\uFF082\uFF09\u3001\u5168\u5C4F\u65E0\u83DC\u5355\uFF083\uFF09\u3002F11 \u5FAA\u73AF\u3002</li>",
+    "<li>\u300C\u9000\u51FA\u4FDD\u5B58\u7A97\u53E3\u300D\uFF08Ctrl+Alt+R\uFF09\u4F1A\u8BB0\u4F4F\u4F4D\u7F6E\u3001\u5927\u5C0F\u3001\u6A21\u5F0F\u548C\u4FA7\u680F\uFF0C\u4E0B\u6B21\u542F\u52A8\u6062\u590D\u3002</li>",
+    "<li>\u300C\u89C6\u56FE \u2192 \u8BED\u8A00\u300D\u53EF\u9009\u4E2D/\u82F1/\u6CD5/\u4FC4/\u897F/\u8461/\u5FB7/\u610F/\u65E5/\u671D\u9C9C\u8BED\uFF0C\u91CD\u542F\u540E\u751F\u6548\u3002</li>",
+    "</ul></div>",
+    '<div class="help-section"><h3>7. \u8BBE\u7F6E\u5B58\u5728\u54EA</h3>',
+    "<p>\u90FD\u5728\u672C\u673A Electron userData \u76EE\u5F55\uFF0C\u4E0D\u7ECF\u8FC7\u4E91\u7AEF\u8D26\u6237\uFF1A</p><ul>",
+    "<li><code>settings.json</code>\uFF1AAI \u53C2\u6570\u3001\u8BED\u8A00\u3001\u7A97\u53E3\u6062\u590D\uFF08\u542B API Key\uFF09</li>",
+    "<li><code>recent_files.json</code>\uFF1A\u6700\u8FD1\u6587\u4EF6</li>",
+    "<li><code>window-state.json</code>\uFF1A\u7A97\u53E3\u5E03\u5C40</li>",
+    "<li><code>conversations/</code>\uFF1A\u6309\u6587\u4EF6\u4FDD\u5B58\u7684 AI \u5BF9\u8BDD</li>",
+    "</ul></div>",
+    '<div class="help-section"><h3>8. \u9700\u8981\u77E5\u9053\u7684\u8FB9\u754C</h3><ul>',
+    "<li>\u8BED\u8A00\u5207\u6362\u8981\u91CD\u542F\u3002</li>",
+    "<li>AI \u5FC5\u987B\u662F OpenAI \u517C\u5BB9\u63A5\u53E3\u3002</li>",
+    "<li>\u9884\u89C8\u91CC\u505A\u66FF\u6362\uFF0C\u6700\u7EC8\u6539\u7684\u4ECD\u662F\u6E90\u7801\u3002</li>",
+    "<li>\u5B8C\u6574\u5FEB\u6377\u952E\u89C1\u300C\u5E2E\u52A9 \u2192 \u5FEB\u6377\u952E\u4E00\u89C8\u300D\uFF08Shift+F1\uFF09\u3002\u7248\u672C\u4FE1\u606F\u89C1\u300C\u5173\u4E8E\u5C0F\u91CE\u5154\u300D\uFF08Ctrl+F1\uFF09\u3002</li>",
+    "</ul></div>"
+  ].join("");
   var SHORTCUT_GROUPS = [
     ["\u6587\u4EF6", [
-      ["Ctrl+N", "\u65B0\u5EFA"],
-      ["Ctrl+O", "\u6253\u5F00"],
+      ["Ctrl+N", "\u65B0\u5EFA\u7A7A\u767D\u6587\u6863"],
+      ["Ctrl+O", "\u6253\u5F00\u672C\u5730\u6587\u4EF6"],
+      ["Ctrl+Shift+O", "\u6253\u5F00\u6587\u4EF6\u5939\u5230\u5DE6\u4FA7\u6587\u4EF6\u6811"],
       ["Ctrl+S", "\u4FDD\u5B58"],
       ["Ctrl+Shift+S", "\u53E6\u5B58\u4E3A"],
-      ["Ctrl+Shift+O", "\u6253\u5F00\u6587\u4EF6\u5939"],
-      ["Ctrl+W", "\u5173\u95ED\u6587\u4EF6"]
+      ["Ctrl+W", "\u5173\u95ED\u5F53\u524D\u6587\u4EF6"]
     ]],
     ["\u7F16\u8F91", [
-      ["Ctrl+Z / Ctrl+Y", "\u64A4\u9500 / \u91CD\u505A"],
-      ["Ctrl+X / C / V", "\u526A\u5207 / \u590D\u5236 / \u7C98\u8D34"],
+      ["Ctrl+Z", "\u64A4\u9500"],
+      ["Ctrl+Y", "\u91CD\u505A"],
+      ["Ctrl+X / Ctrl+C / Ctrl+V", "\u526A\u5207 / \u590D\u5236 / \u7C98\u8D34"],
       ["Ctrl+A", "\u5168\u9009"],
-      ["Ctrl+F / Ctrl+H", "\u67E5\u627E / \u66FF\u6362"],
-      ["Ctrl+D", "\u590D\u5236\u884C"],
-      ["Ctrl+Shift+K", "\u5220\u9664\u884C"],
-      ["Ctrl+,", "\u8BBE\u7F6E"]
+      ["Ctrl+D", "\u590D\u5236\u5F53\u524D\u884C"],
+      ["Ctrl+Shift+K", "\u5220\u9664\u5F53\u524D\u884C"],
+      ["Alt+\u2191 / Alt+\u2193", "\u5F53\u524D\u884C\u4E0A\u79FB / \u4E0B\u79FB"],
+      ["Ctrl+,", "\u6253\u5F00\u8BBE\u7F6E"]
     ]],
-    ["\u89C6\u56FE", [
-      ["Ctrl+Shift+P", "\u9884\u89C8\u5207\u6362"],
+    ["\u67E5\u627E\u66FF\u6362", [
+      ["Ctrl+F", "\u6253\u5F00\u67E5\u627E\uFF1B\u6709\u9009\u533A\u65F6\u7528\u9009\u4E2D\u6587\u5B57"],
+      ["Ctrl+H", "\u6253\u5F00\u67E5\u627E\u66FF\u6362"],
+      ["Enter", "\u4E0B\u4E00\u4E2A\u5339\u914D"],
+      ["Shift+Enter", "\u4E0A\u4E00\u4E2A\u5339\u914D"],
+      ["F3 / Shift+F3", "\u67E5\u627E\u4E0B\u4E00\u4E2A / \u4E0A\u4E00\u4E2A"],
+      ["Esc", "\u5173\u95ED\u67E5\u627E\u5E76\u6E05\u9664\u9AD8\u4EAE"]
+    ]],
+    ["AI \u8F85\u52A9", [
+      ["Ctrl+K", "\u9009\u533A AI \u5904\u7406\uFF08\u6DA6\u8272 / \u7EED\u5199 / \u7FFB\u8BD1 / \u5B9A\u5236\uFF09"],
+      ["Ctrl+Enter", "\u5728 Ctrl+K \u7A97\u53E3\u4E2D\u786E\u8BA4\u6267\u884C"],
+      ["Ctrl+L", "\u5C06\u9009\u533A\u6216\u5F53\u524D\u884C\u5F15\u7528\u5230 AI \u5BF9\u8BDD"],
+      ["Alt+L", "\u663E\u793A\u53F3\u8FB9\u680F\u5E76\u805A\u7126 AI \u8F93\u5165\u6846"],
+      ["Ctrl+Shift+C", "\u590D\u5236\u6700\u8FD1\u4E00\u6B21 AI \u56DE\u590D"],
+      ["Ctrl+Shift+T", "\u7528\u6700\u8FD1\u4E00\u6B21 AI \u56DE\u590D\u66FF\u6362\u9009\u533A"],
+      ["Ctrl+Shift+I", "\u5C06\u6700\u8FD1\u4E00\u6B21 AI \u56DE\u590D\u63D2\u5165\u9009\u533A\u540E\u65B9"],
+      ["Enter", "\u5728 AI \u8F93\u5165\u6846\u4E2D\u53D1\u9001"],
+      ["Shift+Enter", "\u5728 AI \u8F93\u5165\u6846\u4E2D\u6362\u884C"],
+      ["Esc", "\u53D6\u6D88\u6D88\u606F\u7F16\u8F91\u3001\u5173\u95ED Ctrl+K \u6216\u79FB\u51FA\u8F93\u5165\u7126\u70B9"]
+    ]],
+    ["\u89C6\u56FE\u4E0E\u5E03\u5C40", [
+      ["Ctrl+Shift+P", "\u6E90\u7801 / \u9884\u89C8\u5207\u6362"],
       ["Ctrl+Shift+W", "\u81EA\u52A8\u6362\u884C"],
-      ["Ctrl+= / - / 0", "\u653E\u5927 / \u7F29\u5C0F / \u91CD\u7F6E\u7F29\u653E"],
-      ["Ctrl+B / Ctrl+J", "\u5DE6 / \u53F3\u8FB9\u680F"],
-      ["F11", "\u7A97\u53E3\u6A21\u5F0F\u8F6E\u6362"]
+      ["Ctrl+= / Ctrl+- / Ctrl+0", "\u653E\u5927 / \u7F29\u5C0F / \u91CD\u7F6E\u7F29\u653E"],
+      ["Ctrl+\u9F20\u6807\u6EDA\u8F6E", "\u8FDE\u7EED\u7F29\u653E\u6E90\u7801\u548C\u9884\u89C8"],
+      ["Ctrl+B", "\u663E\u793A\u6216\u9690\u85CF\u5DE6\u8FB9\u680F"],
+      ["Ctrl+J", "\u663E\u793A\u6216\u9690\u85CF\u53F3\u8FB9\u680F"],
+      ["Ctrl+Alt+T", "\u6DF1\u8272 / \u6D45\u8272\u4E3B\u9898"],
+      ["Ctrl+Alt+R", "\u5F00\u5173\u300C\u9000\u51FA\u4FDD\u5B58\u7A97\u53E3\u300D"],
+      ["Ctrl+Shift+1", "\u666E\u901A\u7A97\u53E3"],
+      ["Ctrl+Shift+2", "\u5168\u5C4F\uFF0C\u4FDD\u7559\u83DC\u5355"],
+      ["Ctrl+Shift+3", "\u5168\u5C4F\uFF0C\u9690\u85CF\u83DC\u5355"],
+      ["F11", "\u5FAA\u73AF\u5207\u6362\u4E09\u79CD\u7A97\u53E3\u6A21\u5F0F"]
     ]],
-    ["AI", [
-      ["Ctrl+K", "\u9009\u533A\u5F39\u7A97\u7F16\u8F91"],
-      ["Ctrl+L", "\u9009\u533A\u5F15\u7528 AI"],
-      ["Alt+L", "\u805A\u7126 AI \u8F93\u5165"],
-      ["Ctrl+Shift+T", "AI \u56DE\u590D\u66FF\u6362\u9009\u533A"],
-      ["Ctrl+Shift+I", "AI \u56DE\u590D\u63D2\u5165\u9009\u533A"],
-      ["Ctrl+Shift+C", "\u590D\u5236 AI \u56DE\u590D"]
+    ["\u5927\u7EB2", [
+      ["Alt+Shift+1\uFF5E6", "\u6298\u53E0\u5230\u6307\u5B9A\u6807\u9898\u7EA7\u522B"],
+      ["Alt+Shift+9", "\u5C55\u5F00\u5168\u90E8\u6807\u9898"]
     ]],
-    ["\u5E2E\u52A9", [
+    ["\u83DC\u5355\u4E0E\u5E2E\u52A9", [
+      ["Alt+F", "\u6253\u5F00\u6587\u4EF6\u83DC\u5355"],
+      ["Alt+E", "\u6253\u5F00\u7F16\u8F91\u83DC\u5355"],
+      ["Alt+V", "\u6253\u5F00\u89C6\u56FE\u83DC\u5355"],
+      ["Alt+H", "\u6253\u5F00\u5E2E\u52A9\u83DC\u5355"],
       ["F1", "rabbit \u5E2E\u52A9"],
       ["Shift+F1", "\u5FEB\u6377\u952E\u4E00\u89C8"],
-      ["Ctrl+F1", "\u5173\u4E8E\u5C0F\u91CE\u5154"],
-      ["Alt+H", "\u6253\u5F00\u5E2E\u52A9\u83DC\u5355"]
+      ["Ctrl+F1", "\u5173\u4E8E\u5C0F\u91CE\u5154"]
     ]]
   ];
-  function showShortcuts() {
-    const tables = SHORTCUT_GROUPS.map(([group, rows]) => {
-      const body2 = rows.map(
-        ([k, d3]) => `<tr><td class="help-kbd"><kbd>${k}</kbd></td><td>${d3}</td></tr>`
-      ).join("");
-      return `<h3>${group}</h3><table class="help-shortcut-table">${body2}</table>`;
-    }).join("");
-    show("\u5FEB\u6377\u952E\u4E00\u89C8", tables, true);
-  }
-  async function showAbout() {
-    let version = "";
-    try {
-      const info = await window.electronAPI.getAppInfo();
-      version = info?.version || "";
-    } catch (_) {
-    }
-    const verLine = version ? `\u7248\u672C ${version}` : "";
-    show("\u5173\u4E8E\u5C0F\u91CE\u5154", `
-    <div class="help-about">
-      <img class="help-about-icon" src="assets/icon.png" alt="\u5C0F\u91CE\u5154">
-      <div class="help-about-name">\u5C0F\u91CE\u5154 Rabbit</div>
-      <div class="help-about-ver">${verLine}</div>
-      <p>\u672C\u5730\u4F18\u5148\u7684 AI \u8F85\u52A9 Markdown \u7F16\u8F91\u5668\u3002</p>
-      <p><a href="https://github.com/benbenzhuyi/rabbit-editor" target="_blank" rel="noreferrer">github.com/benbenzhuyi/rabbit-editor</a></p>
-    </div>
-  `);
-  }
 
   // renderer/js/menubar.js
   var activeMenu = null;
@@ -121764,7 +121878,7 @@ ${t2("restartMessage")}`);
     }
     window.addEventListener("keydown", (e) => {
       const ctrl = e.ctrlKey || e.metaKey;
-      if (ctrl && !e.shiftKey && e.code === "Comma") {
+      if (ctrl && !e.shiftKey && (e.code === "Comma" || e.key === "," || e.key === "\uFF0C")) {
         e.preventDefault();
         showPanel2();
       }
@@ -121863,7 +121977,7 @@ ${t2("restartMessage")}`);
       zoomReset();
       return;
     }
-    if (ctrl && !shift2 && e.code === "Comma") {
+    if (ctrl && !shift2 && (e.code === "Comma" || e.key === "," || e.key === "\uFF0C")) {
       e.preventDefault();
       showPanel2();
       return;
