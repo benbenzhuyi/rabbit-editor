@@ -10,6 +10,7 @@ import * as I18n from './i18n.js';
 import * as AiPanel from './aiPanel.js';
 import * as CtrlKPopup from './ctrlKPopup.js';
 import * as SearchReplace from './searchReplace.js';
+import * as Help from './help.js';
 
 // ── State ────────────────────────────────────────────────
 
@@ -97,6 +98,10 @@ const menuActions = {
     const newMode = (settings.startupMode || 'default') === 'default' ? 'last' : 'default';
     Settings.setStartupMode(newMode);
   },
+  rabbitHelp: () => Help.showHelp(),
+  shortcutList: () => Help.showShortcuts(),
+  aboutRabbit: () => Help.showAbout(),
+
   setLanguage: async (language) => {
     if (!language || language === Settings.getSettings().language) return;
     await Settings.setLanguage(language);
@@ -253,7 +258,7 @@ export function updateRecentFiles(recentFiles) {
     .join('');
 }
 
-// ── Keyboard menu access (Alt+F, Alt+E, Alt+V, Alt+A, Alt+S) ──
+// ── Keyboard menu access (Alt+F, Alt+E, Alt+V, Alt+A, Alt+S, Alt+H) ──
 
 export function openMenuByKey(key) {
   const map = {
@@ -262,6 +267,7 @@ export function openMenuByKey(key) {
     v: 'view',
     a: 'ai',
     s: 'settings',
+    h: 'help',
   };
   const menuName = map[key.toLowerCase()];
   if (!menuName) return;

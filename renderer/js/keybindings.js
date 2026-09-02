@@ -11,6 +11,7 @@ import * as FileBrowser from './fileBrowser.js';
 import * as SearchReplace from './searchReplace.js';
 import * as Settings from './settings.js';
 import * as MenuBar from './menubar.js';
+import * as Help from './help.js';
 
 // ── Init ─────────────────────────────────────────────────
 
@@ -193,10 +194,12 @@ function handleKeydown(e) {
     return;
   }
 
-  // F1: help (placeholder)
+  // F1 / Shift+F1 / Ctrl+F1: help family
   if (e.key === 'F1') {
     e.preventDefault();
-    // Help not implemented in Phase 1
+    if (ctrl) Help.showAbout();
+    else if (shift) Help.showShortcuts();
+    else Help.showHelp();
     return;
   }
 
@@ -249,7 +252,7 @@ function handleKeydown(e) {
 
   // Alt+F/E/V/A/S: open menus
   if (alt && !ctrl && !shift) {
-    const menuKeys = ['f', 'e', 'v', 'a', 's'];
+    const menuKeys = ['f', 'e', 'v', 'a', 's', 'h'];
     if (menuKeys.includes(e.key.toLowerCase())) {
       e.preventDefault();
       MenuBar.openMenuByKey(e.key);

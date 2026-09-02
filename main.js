@@ -444,6 +444,13 @@ ipcMain.handle('app:get-paths', async () => {
   };
 });
 
+ipcMain.handle('app:get-info', async () => {
+  return {
+    name: app.getName(),
+    version: app.getVersion(),
+  };
+});
+
 // Handle close-confirm dialog from renderer
 ipcMain.handle('dialog:confirm-close', async () => {
   const result = await dialog.showMessageBox(mainWindow, {

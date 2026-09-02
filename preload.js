@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // App paths
   getPaths: () => ipcRenderer.invoke('app:get-paths'),
+  getAppInfo: () => ipcRenderer.invoke('app:get-info'),
 
   // Window mode
   setWindowMode: (mode) => ipcRenderer.invoke('window:set-mode', mode),

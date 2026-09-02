@@ -100,6 +100,15 @@
         </div>
       </div>
     </div>
+    <div class="menu-item" data-menu="help">
+      <span class="menu-label">帮助(<u>H</u>)</span>
+      <div class="menu-dropdown" id="menu-help">
+        <div class="menu-dropdown-item" data-action="rabbitHelp">rabbit 帮助 <span class="shortcut">F1</span></div>
+        <div class="menu-dropdown-item" data-action="shortcutList">快捷键一览 <span class="shortcut">Shift+F1</span></div>
+        <div class="menu-separator"></div>
+        <div class="menu-dropdown-item" data-action="aboutRabbit">关于小野兔… <span class="shortcut">Ctrl+F1</span></div>
+      </div>
+    </div>
     <!-- Search Bar -->
     <!-- Search Bar (draggable floating) -->
     <div id="search-bar" class="search-bar hidden">
@@ -264,6 +273,18 @@
         <button id="settings-cancel" class="settings-footer-btn secondary">取消</button>
         <button id="settings-save" class="settings-footer-btn primary">保存</button>
       </div>
+    </div>
+  </div>
+
+
+  <!-- Help / About Modal -->
+  <div id="help-overlay" class="settings-overlay hidden" tabindex="-1">
+    <div id="help-modal" class="settings-modal help-modal">
+      <div class="settings-header">
+        <span id="help-title" class="settings-title"></span>
+        <button type="button" id="help-close" class="settings-close-btn">×</button>
+      </div>
+      <div id="help-body" class="settings-body help-body"></div>
     </div>
   </div>
 

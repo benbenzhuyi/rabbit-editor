@@ -824,3 +824,89 @@ body.no-menubar #menubar {
 .setting-prompt-textarea:focus {
   border-color: var(--accent);
 }
+
+/* ── Help / About Modal ───────────────────────────── */
+
+.help-modal {
+  width: 560px;
+}
+
+.help-modal.help-modal-wide {
+  width: 640px;
+}
+
+.help-body {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.help-section {
+  margin-bottom: 16px;
+}
+
+.help-body h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.help-body p {
+  margin: 0 0 8px;
+}
+
+.help-body kbd,
+.help-kbd kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-tertiary);
+  font-size: 12px;
+  color: var(--text-primary);
+  font-family: inherit;
+}
+
+.help-shortcut-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+}
+
+.help-shortcut-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: top;
+}
+
+.help-shortcut-table td.help-kbd {
+  width: 42%;
+  white-space: nowrap;
+}
+
+.help-about {
+  text-align: center;
+  padding: 12px 8px 4px;
+}
+
+.help-about-icon {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 10px;
+}
+
+.help-about-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.help-about-ver {
+  margin: 6px 0 12px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.help-about a {
+  color: var(--accent);
+}

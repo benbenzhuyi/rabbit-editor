@@ -14,6 +14,7 @@ import * as CtrlKPopup from './ctrlKPopup.js';
 import * as Settings from './settings.js';
 import * as SearchReplace from './searchReplace.js';
 import * as I18n from './i18n.js';
+import * as Help from './help.js';
 
 let currentFilePath = null;
 let isModified = false;
@@ -222,6 +223,7 @@ async function init() {
   CtrlKPopup.init();
   SearchReplace.init();
   await Settings.init();
+  Help.init();
   await I18n.init();
   MenuBar.init();
   StatusBar.init();
